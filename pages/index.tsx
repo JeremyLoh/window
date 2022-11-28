@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import Emoji from "../components/emoji"
 
 export default function Home() {
   return (
@@ -15,6 +16,17 @@ export default function Home() {
         <h1 className={styles.title}>
           Window
         </h1>
+
+        <div className={styles.grid}>
+          <section className={styles.card}>
+            <h2>
+              Wallet {" "}
+              <Emoji symbol="💵" label="money"/>
+              {" "} &rarr;
+            </h2>
+            <p>Track your cash flow!</p>
+          </section>
+        </div>
       </main>
 
       <footer className={styles.footer}>

@@ -1,10 +1,18 @@
-import { test, expect } from "vitest"
-import { render, within, screen } from "@testing-library/react"
+import { test, expect, describe } from "vitest"
+import { render, screen } from '@testing-library/react'
 import Home from "../pages"
 
-test("index", () => {
-  render(<Home />)
-  const main = within(screen.getByRole("main"))
-  expect(main.getByRole("heading", { level: 1, name: /window/i }))
-    .toBeDefined()
+describe("index", () => {
+  test("app name is present", () => {
+    render(<Home />)
+    expect(screen.getByRole("heading", { name: /^window/i }))
+      .toBeDefined()
+  })
+
+  test("wallet feature is described", () => {
+    render(<Home />)
+    const walletFeatureDescription = screen.getByText(/^track your cash flow/i)
+    expect(walletFeatureDescription)
+      .toBeDefined()
+  })
 })
