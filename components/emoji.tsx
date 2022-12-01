@@ -16,4 +16,4 @@ const Emoji:FC<Data> = (props) => (
   </span>
 )
 
-export default Emoji;
+export default Emoji
