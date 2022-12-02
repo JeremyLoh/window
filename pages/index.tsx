@@ -3,6 +3,8 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Emoji from "../components/emoji"
 
+import Clock from "../components/clock"
+
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -13,9 +15,12 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Window
-        </h1>
+        <div>
+          <h1 className={styles.title}>
+            Window
+          </h1>
+          <Clock />
+        </div>
 
         <div className={styles.grid}>
           <section className={styles.card}>
