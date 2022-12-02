@@ -2,12 +2,9 @@ import React, { FC, useEffect, useState } from "react"
 import styles from '../styles/components/Clock.module.css'
 import Emoji from "./emoji"
 
-const clock:FC<any> = () => {
+const Clock:FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
-
-  function isDayTime(): boolean {
-    return date.toLocaleTimeString().endsWith("am")
-  }
+  const [isDayTime, setIsDayTime] = useState<boolean>()
 
   function updateClock(): void {
     setDate(new Date())
@@ -16,6 +13,7 @@ const clock:FC<any> = () => {
   useEffect(() => {
     const intervalId: ReturnType<typeof setInterval> = setInterval(() => {
       updateClock()
+      setIsDayTime(date.toLocaleTimeString().endsWith("am"))
     }, 1000)
     return () => {
       clearInterval(intervalId)
@@ -25,7 +23,7 @@ const clock:FC<any> = () => {
   return (
     <div className={styles.clock}>
       <h2>
-        <Emoji symbol={isDayTime() ? "🌞" : "🌙"}/>
+        <Emoji symbol={isDayTime ? "🌞" : "🌙"}/>
         {" "}
         <span>{date.toLocaleTimeString()}</span>
       </h2>
@@ -33,4 +31,4 @@ const clock:FC<any> = () => {
   )
 }
 
-export default clock
+export default Clock
