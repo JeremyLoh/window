@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
+import styles from '../styles/components/Clock.module.css'
 import Emoji from "./emoji"
 
 const clock:FC<any> = () => {
@@ -22,10 +23,12 @@ const clock:FC<any> = () => {
   }, [])
 
   return (
-    <div>
-      <Emoji symbol={isDayTime() ? "🌞" : "🌙"}/>
-      {" "}
-      <span>{date.toLocaleTimeString()}</span>
+    <div className={styles.clock}>
+      <h2>
+        <Emoji symbol={isDayTime() ? "🌞" : "🌙"}/>
+        {" "}
+        <span>{date.toLocaleTimeString()}</span>
+      </h2>
     </div>
   )
 }
