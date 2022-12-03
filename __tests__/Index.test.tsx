@@ -15,4 +15,10 @@ describe("index", () => {
     expect(walletFeatureDescription)
       .toBeDefined()
   })
+
+  test("wallet feature should have link to wallet page", () => {
+    render(<Home />)
+    const walletFeature = screen.getByRole("button", { name: /wallet-feature/i })
+    expect(walletFeature).toHaveAttribute("href", "/wallet")
+  })
 })
