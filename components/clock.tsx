@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import styles from '../styles/components/Clock.module.css'
 import Emoji from "./emoji"
 
@@ -31,4 +32,4 @@ const Clock:FC<any> = () => {
   )
 }
 
-export default Clock
+export default dynamic(() => Promise.resolve(Clock), { ssr: false })
