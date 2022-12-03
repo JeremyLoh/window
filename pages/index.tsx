@@ -1,10 +1,9 @@
 import Head from "next/head"
 import Image from "next/image"
-import Link from "next/link"
 import styles from "../styles/Home.module.css"
 import Emoji from "../components/emoji"
 import Clock from "../components/clock"
-import Card from "../components/card"
+import CardLink from "../components/cardLink"
 
 export default function Home() {
   return (
@@ -25,14 +24,14 @@ export default function Home() {
 
         <div className={styles.grid}>
           <section>
-            <Card href="/wallet" ariaLabel="wallet-feature">
+            <CardLink href="/wallet" ariaLabel="wallet-feature">
               <h2>
                 Wallet {" "}
                 <Emoji symbol="💵" label="money"/>
                 {" "} &rarr;
               </h2>
               <p>Track your cash flow!</p>
-            </Card>
+            </CardLink>
           </section>
         </div>
       </main>
