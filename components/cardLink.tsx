@@ -2,13 +2,13 @@ import Link from "next/link"
 import React, { FC } from "react"
 import styles from "../styles/components/CardLink.module.css"
 
-interface CardProps {
+interface CardLinkProps {
   ariaLabel?: string,
   href: string,
   children: any
 }
 
-const Card:FC<CardProps> = (props) => {
+const CardLink:FC<CardLinkProps> = (props) => {
   return (
     <Link href={props.href} passHref>
       <button className={styles.card} aria-label={props.ariaLabel}>
@@ -18,4 +18,4 @@ const Card:FC<CardProps> = (props) => {
   )
 }
 
-export default Card
+export default CardLink
