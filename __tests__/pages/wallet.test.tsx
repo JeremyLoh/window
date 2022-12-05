@@ -18,13 +18,14 @@ describe("wallet", () => {
       expect(screen.getByText(calendarHeader)).toBeInTheDocument()
     })
 
-    test("should show current day wallet statistics", () => {
+    test("should show current day wallet transaction date", () => {
       render(<Wallet />)
       const currentDate: Date = new Date()
       const walletTransactionDate = screen.getByLabelText("wallet-transaction-date")
       expect(walletTransactionDate).toBeInTheDocument()
+      expect(walletTransactionDate).toHaveTextContent("Transaction Date")
       expect(walletTransactionDate)
-        .toHaveTextContent(`${currentDate.getDate()}`)
+        .toHaveTextContent(`${currentDate.toDateString()}`)
     })
   })
 })
