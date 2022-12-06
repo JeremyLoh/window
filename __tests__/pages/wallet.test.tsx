@@ -14,18 +14,35 @@ describe("wallet", () => {
     test("should show calendar with current month and year", () => {
       render(<Wallet />)
       const currentDate: Date = new Date()
-      const calendarHeader = `${getMonth(currentDate)} ${currentDate.getFullYear()}`
+      const calendarHeader: string = `${getMonth(currentDate)} ${currentDate.getFullYear()}`
       expect(screen.getByText(calendarHeader)).toBeInTheDocument()
     })
 
     test("should show current day wallet transaction date", () => {
       render(<Wallet />)
       const currentDate: Date = new Date()
-      const walletTransactionDate = screen.getByLabelText("wallet-transaction-date")
+      const walletTransactionDate: HTMLElement = screen.getByLabelText("wallet-transaction-date")
       expect(walletTransactionDate).toBeInTheDocument()
       expect(walletTransactionDate).toHaveTextContent("Transaction Date")
       expect(walletTransactionDate)
         .toHaveTextContent(`${currentDate.toDateString()}`)
+    })
+
+    test("should show zero expense and zero income", () => {
+      render(<Wallet />)
+      const walletTransactions: HTMLElement = screen.getByLabelText("wallet-transactions")
+      expect(walletTransactions).toBeInTheDocument()
+      expect(walletTransactions).toHaveTextContent("Zero Transactions")
+      expect(screen.getByLabelText("wallet-expenses"))
+        .toHaveTextContent("Expenses$0")
+      expect(screen.getByLabelText("wallet-income")).toHaveTextContent("Income$0")
+    })
+
+    test("should show button to add transaction", () => {
+      render(<Wallet />)
+      const addTransaction: HTMLElement = screen.getByLabelText("wallet-add-transaction")
+      expect(addTransaction).toBeInTheDocument()
+      expect(addTransaction).toHaveTextContent("Add Transaction")
     })
   })
 })

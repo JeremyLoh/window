@@ -19,6 +19,22 @@ const Wallet:FC<any> = () => {
         </div>
         <Calendar onChange={setDate} value={date} />
       </div>
+      <div className={styles.transactions} aria-label="wallet-transactions">
+        <h1>Zero Transactions</h1>
+        <button aria-label="wallet-add-transaction">
+          Add Transaction
+        </button>
+        <div className={styles.walletSummary}>
+          <CardInfo ariaLabel="wallet-expenses">
+            <h2>Expenses</h2>
+            <p className={styles.warning}>$0</p>
+          </CardInfo>
+          <CardInfo ariaLabel="wallet-income">
+            <h2>Income</h2>
+            <p>$0</p>
+          </CardInfo>
+        </div>
+      </div>
     </div>
   )
 }
