@@ -26,8 +26,12 @@
 .warning {
   color: var(--monokai-red);
 }
+.addTransactionBtn {
+  padding: 1em;
+  margin-top: 1rem;
+}
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .transactionInfo {
     flex-direction: column;
     align-items: center;

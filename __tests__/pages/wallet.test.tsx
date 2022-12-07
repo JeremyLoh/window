@@ -1,5 +1,7 @@
 import { test, expect, describe } from "vitest"
-import { render, screen } from '@testing-library/react'
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup"
 import Wallet from "../../pages/wallet"
 
 function getMonth(date: Date) {
@@ -43,6 +45,25 @@ describe("wallet", () => {
       const addTransaction: HTMLElement = screen.getByLabelText("wallet-add-transaction")
       expect(addTransaction).toBeInTheDocument()
       expect(addTransaction).toHaveTextContent("Add Transaction")
+    })
+  })
+
+  describe("add transaction", () => {
+    test("should not show form to add transaction at page load", () => {
+      render(<Wallet />)
+      expect(screen.queryByLabelText("add-transaction-form")).not
+        .toBeInTheDocument()
+    })
+
+    test("should show form to add transaction when button is clicked", async () => {
+      const user: UserEvent = userEvent.setup()
+      render(<Wallet />)
+      const addTransaction: HTMLElement = screen.getByRole("button", 
+        { name: /wallet-add-transaction/i })
+      expect(screen.queryByLabelText("add-transaction-form")).toBeNull()
+      await user.click(addTransaction)
+      expect(screen.queryByLabelText("add-transaction-form"))
+        .toBeInTheDocument()
     })
   })
 })
