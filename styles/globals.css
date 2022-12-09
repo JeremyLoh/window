@@ -1,3 +1,12 @@
+:root {
+  --monokai-cyan: #56C2D6;
+  --monokai-green: #82B414;
+  --monokai-purple: #8C54FE;
+  --monokai-red: #F92672;
+  --monokai-yellow: #FD971F;
+  --monokai-brightBlack: #505354;
+}
+
 html,
 body {
   padding: 0;
@@ -23,4 +32,110 @@ a {
     color: white;
     background: black;
   }
+}
+
+/* React-Calendar styles */
+.react-calendar {
+  width: 100%;
+  max-width: max(800px, 50%);
+  background-color: var(--monokai-brightBlack);
+  color: white;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  line-height: 1.125em;
+}
+
+.react-calendar__navigation {
+  display: flex;
+}
+
+.react-calendar__navigation button {
+  color: white;
+  min-width: 48px;
+  background: none;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  border: none;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #404040;
+}
+.react-calendar__navigation button[disabled] {
+  background-color: var(--monokai-green);
+}
+abbr[title] {
+  text-decoration: none;
+}
+
+.react-calendar__month-view {
+  text-align: center;
+}
+.react-calendar__month-view__weekdays__weekday {
+  padding-bottom: 0.4rem;
+}
+.react-calendar__month-view__days__day--weekend {
+  color: var(--monokai-red);
+}
+
+.react-calendar__tile {
+  font-size: 1rem;
+  padding: 0.4em;
+  border: none;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #404040;
+  color: var(--monokai-cyan);
+}
+
+.react-calendar__tile--now {
+  background: var(--monokai-purple);
+  font-weight: bold;
+  color: black;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: var(--monokai-cyan);
+  font-weight: bold;
+  color: black;
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #f8f8fa;
+}
+
+.react-calendar__tile--active {
+  background: var(--monokai-cyan);
+  font-weight: bold;
+  color: black;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: var(--monokai-cyan);
+  color: black;
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #f8f8fa;
+}
+
+.react-calendar__tile--range {
+  background: #878787;
+  color: var(--monokai-cyan);
+  border-radius: 0;
+}
+
+.react-calendar__tile--rangeStart {
+  background: var(--monokai-cyan);
+  color: black;
+}
+
+.react-calendar__tile--rangeEnd {
+  background: var(--monokai-cyan);
+  color: black;
 }
