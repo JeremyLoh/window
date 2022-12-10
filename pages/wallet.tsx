@@ -1,16 +1,17 @@
 import React, { FC, useState } from "react"
 import Calendar from "react-calendar"
-import styles from "../styles/pages/Wallet.module.css"
+import WalletForm, { Transaction } from "../components/wallet/walletAddTransactionForm"
 import CardInfo from "../components/cardInfo"
+import styles from "../styles/pages/Wallet.module.css"
 
 //https://www.copycat.dev/blog/react-calendar/
 
 const Wallet:FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
-  const [isEditing, setIsEditing] = useState<boolean>(false)
 
-  function showTransactionForm() {
-    setIsEditing(!isEditing)
+  function displayNewTransaction(transaction: Transaction) {
+    console.log(JSON.stringify(transaction))
+    // TODO Display Transaction
   }
 
   return (
@@ -24,7 +25,11 @@ const Wallet:FC<any> = () => {
             <p>{date.toDateString()}</p>
           </CardInfo>
         </div>
-        <Calendar onChange={setDate} value={date} />
+        <Calendar
+          navigationAriaLabel="wallet-calendar-date-selection"
+          onChange={setDate}
+          value={date}
+        />
       </div>
 
       <div className={styles.transactions} aria-label="wallet-transactions">
@@ -39,21 +44,12 @@ const Wallet:FC<any> = () => {
             <p>$0</p>
           </CardInfo>
         </div>
-
-        <button 
-          className={styles.addTransactionBtn} 
-          aria-label="wallet-add-transaction"
-          onClick={showTransactionForm}
-        >
-          Add Transaction
-        </button>
-        {
-          isEditing && (
-            <div aria-label="add-transaction-form">
-              <h1>FORM</h1>
-            </div>
-          )
-        }        
+        <div className={styles.walletTransactionHistory}>
+          <CardInfo ariaLabel="add-transaction-form">
+            <WalletForm handleNewTransaction={displayNewTransaction}/>
+          </CardInfo>
+          {/* TODO Show transaction history here */}
+        </div>
       </div>
     </div>
   )
