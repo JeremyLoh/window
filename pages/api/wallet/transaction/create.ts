@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
+import { nanoid } from "nanoid"
 
 type Data = {
+  id?: string,
   name?: string,
   amount?: number,
   transactionDate?: Date,
@@ -18,14 +20,14 @@ export default function handler(
   const requestMethod = req.method
   if (requestMethod === "POST") {
     const {name, amount, transactionDate}: {name: string, amount: number, transactionDate: Date} = req.body
-    console.log(req.body)
     if (isInvalidName(name)) {
       return res.status(400).json({ error: "Invalid name" })
     }
     if (isInvalidAmount(amount)) {
       return res.status(400).json({ error: "Invalid amount" })
     }
-    res.status(200).json({ 
+    res.status(200).json({
+      id: nanoid(),
       name,
       amount,
       transactionDate

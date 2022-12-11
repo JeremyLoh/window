@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import styles from "../../styles/components/wallet/WalletAddTransactionForm.module.css"
 
 export interface Transaction {
+  id: string,
   name: string,
   amount: number,
   transactionDate: Date
@@ -32,7 +33,10 @@ const WalletForm:FC<WalletFormProps> = (props) => {
       }
     })
     const transaction = await response.json()
-    props.handleNewTransaction(transaction)
+    props.handleNewTransaction({
+      ...transaction,
+      transactionDate: new Date(transaction.transactionDate)
+    })
   }
 
   return (
