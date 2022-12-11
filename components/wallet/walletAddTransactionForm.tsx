@@ -2,6 +2,7 @@ import React, { FC, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import styles from "../../styles/components/wallet/WalletAddTransactionForm.module.css"
+import axios from "axios";
 
 export interface Transaction {
   id: string,
@@ -25,14 +26,8 @@ const WalletForm:FC<WalletFormProps> = (props) => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const body = getRequestBody(event, newTransactionDate)
-    const response = await fetch("/api/wallet/transaction/create", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    const transaction = await response.json()
+    const response = await axios.post("/api/wallet/transaction/create", body)
+    const transaction = response.data
     props.handleNewTransaction({
       ...transaction,
       transactionDate: new Date(transaction.transactionDate)
