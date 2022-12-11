@@ -42,7 +42,9 @@ describe("wallet", () => {
     })
   })
 
-  describe("add transaction", () => {
+  describe("transactions", () => {
+    const user: UserEvent = userEvent.setup()
+
     function getForm(): HTMLElement {
       return screen.getByLabelText("add-transaction-form")
     }
@@ -64,58 +66,73 @@ describe("wallet", () => {
       return within(form).getByRole("button", { name: "Submit" })
     }
 
-    test("should show form to add transaction by default", async () => {
-      render(<Wallet />)
-      expect(screen.getByLabelText("add-transaction-form"))
-        .toBeInTheDocument()
-    })
-
-    test("should allow name input", async () => {
-      const user: UserEvent = userEvent.setup()
-      render(<Wallet />)
-      const nameInput: HTMLInputElement = getNameInput()
-      expect(nameInput).toBeInTheDocument()
-      expect(nameInput.value).toBe("")
-      await user.type(nameInput, "Test N@me3")
-      expect(nameInput.value).toBe("Test N@me3")
-    })
-
-    test("should allow amount input", async () => {
-      const user: UserEvent = userEvent.setup()
-      render(<Wallet />)
-      const amountInput: HTMLInputElement = getAmountInput()
-      expect(amountInput).toBeInTheDocument()
-      expect(amountInput.value).toBe("")
-      await user.type(amountInput, "3.21")
-      expect(amountInput.value).toBe("3.21")
-    })
-
-    test("should not allow negative amount", async () => {
-      const user: UserEvent = userEvent.setup()
-      render(<Wallet />)
+    async function submitTransaction(name: string, amount: string) {
       const nameInput: HTMLInputElement = getNameInput()
       const amountInput: HTMLInputElement = getAmountInput()
       const submitButton: HTMLButtonElement = getSubmitButton()
-      expect(amountInput).toBeInTheDocument()
-      expect(amountInput.value).toBe("")
-      await user.type(nameInput, "test name")
-      await user.type(amountInput, "-23.21")
+      await user.type(nameInput, name)
+      await user.type(amountInput, amount)
       await user.click(submitButton)
-      expect(amountInput).toBeInvalid()
+    }
+
+    describe("add transaction", () => {
+      test("should show form to add transaction by default", async () => {
+        render(<Wallet />)
+        expect(screen.getByLabelText("add-transaction-form"))
+          .toBeInTheDocument()
+      })
+
+      test("should allow name input", async () => {
+        render(<Wallet />)
+        const nameInput: HTMLInputElement = getNameInput()
+        expect(nameInput).toBeInTheDocument()
+        expect(nameInput.value).toBe("")
+        await user.type(nameInput, "Test N@me3")
+        expect(nameInput.value).toBe("Test N@me3")
+      })
+
+      test("should allow amount input", async () => {
+        render(<Wallet />)
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await user.type(amountInput, "3.21")
+        expect(amountInput.value).toBe("3.21")
+      })
+
+      test("should not allow negative amount", async () => {
+        render(<Wallet />)
+        const name: string = "test name"
+        const amount: string = "-23.21"
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await submitTransaction(name, amount)
+        expect(amountInput).toBeInvalid()
+      })
+
+      test("should not allow 3dp amount", async () => {
+        render(<Wallet />)
+        const name: string = "test name"
+        const amount: string = "23.231"
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await submitTransaction(name, amount)
+        expect(amountInput).toBeInvalid()
+      })
     })
 
-    test("should not allow 3dp amount", async () => {
-      const user: UserEvent = userEvent.setup()
-      render(<Wallet />)
-      const nameInput: HTMLInputElement = getNameInput()
-      const amountInput: HTMLInputElement = getAmountInput()
-      const submitButton: HTMLButtonElement = getSubmitButton()
-      expect(amountInput).toBeInTheDocument()
-      expect(amountInput.value).toBe("")
-      await user.type(nameInput, "test name")
-      await user.type(amountInput, "23.231")
-      await user.click(submitButton)
-      expect(amountInput).toBeInvalid()
+    describe("transaction history", () => {
+      function getTransactionHistory(): HTMLElement {
+        return screen.getByLabelText("wallet-transaction-history")
+      }
+      
+      test("should show transaction history", async () => {
+        render(<Wallet />)
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        expect(transactionHistory).toBeInTheDocument()
+      })
     })
   })
 })
