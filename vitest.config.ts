@@ -7,5 +7,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: "./__tests__/setup.js",
+    reporters: "verbose",
+    testTimeout: 5000
   },
 })
