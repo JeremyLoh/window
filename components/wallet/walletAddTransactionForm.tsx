@@ -43,7 +43,7 @@ const WalletForm:FC<WalletFormProps> = (props) => {
       <label htmlFor="name">Name</label>
       <input type="text" id="name" name="name" required />
       <label htmlFor="amount">Amount</label>
-      <input type="number" min="0" step="0.01" id="amount" name="amount" required />
+      <input type="number" min="0.01" max="9999999999" step="0.01" id="amount" name="amount" required />
       <div />
       <label htmlFor="transactionDate">Transaction Date</label>
       <input type="text"
