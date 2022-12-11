@@ -1,0 +1,10 @@
+.walletSummary {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.warning {
+  color: var(--monokai-red);
+}
