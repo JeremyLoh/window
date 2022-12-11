@@ -44,6 +44,7 @@ describe("wallet", () => {
 
   describe("transactions", () => {
     const user: UserEvent = userEvent.setup()
+    const VALID_NAME: string = "test name"
 
     function getForm(): HTMLElement {
       return screen.getByLabelText("add-transaction-form")
@@ -93,32 +94,74 @@ describe("wallet", () => {
 
       test("should allow amount input", async () => {
         render(<Wallet />)
+        const amount: string = "99999.99"
         const amountInput: HTMLInputElement = getAmountInput()
         expect(amountInput).toBeInTheDocument()
         expect(amountInput.value).toBe("")
-        await user.type(amountInput, "3.21")
-        expect(amountInput.value).toBe("3.21")
+        await user.type(amountInput, amount)
+        expect(amountInput.value).toBe(amount)
       })
 
       test("should not allow negative amount", async () => {
         render(<Wallet />)
-        const name: string = "test name"
-        const amount: string = "-23.21"
+        const amount: string = "-0.01"
         const amountInput: HTMLInputElement = getAmountInput()
         expect(amountInput).toBeInTheDocument()
         expect(amountInput.value).toBe("")
-        await submitTransaction(name, amount)
+        await submitTransaction(VALID_NAME, amount)
         expect(amountInput).toBeInvalid()
       })
 
-      test("should not allow 3dp amount", async () => {
+      test("should not allow 3 decimal place amount", async () => {
         render(<Wallet />)
-        const name: string = "test name"
         const amount: string = "23.231"
         const amountInput: HTMLInputElement = getAmountInput()
         expect(amountInput).toBeInTheDocument()
         expect(amountInput.value).toBe("")
-        await submitTransaction(name, amount)
+        await submitTransaction(VALID_NAME, amount)
+        expect(amountInput).toBeInvalid()
+      })
+
+      test("should allow 2 decimal place amount", async () => {
+        render(<Wallet />)
+        const amount: string = "2.01"
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await submitTransaction(VALID_NAME, amount)
+        expect(amountInput).not.toBeInvalid()
+      })
+
+      test("should not allow zero amount", async() => {
+        render(<Wallet />)
+        const amount: string = "0.00"
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await submitTransaction(VALID_NAME, amount)
+        expect(amountInput).toBeInvalid()
+      })
+
+      test("should allow 1 cent amount", async () => {
+        render(<Wallet />)
+        const amount: string = "0.01"
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await submitTransaction(VALID_NAME, amount)
+        expect(amountInput).not.toBeInvalid()
+      })
+
+      test("should allow max amount of $9,999,999,999", async () => {
+        render(<Wallet />)
+        const amount: string = "9999999999"
+        const amountInput: HTMLInputElement = getAmountInput()
+        expect(amountInput).toBeInTheDocument()
+        expect(amountInput.value).toBe("")
+        await submitTransaction(VALID_NAME, amount)
+        expect(amountInput).not.toBeInvalid()
+
+        await submitTransaction(VALID_NAME, amount + ".01")
         expect(amountInput).toBeInvalid()
       })
     })
