@@ -1,16 +1,20 @@
 import React, { FC, useState } from "react"
 import Calendar from "react-calendar"
-import styles from "../styles/pages/Wallet.module.css"
+import WalletForm, { Transaction } from "../components/wallet/walletAddTransactionForm"
+import { WalletSummary } from "../components/wallet/walletSummary"
+import TransactionHistory from "../components/wallet/transactionHistory"
 import CardInfo from "../components/cardInfo"
+import styles from "../styles/pages/Wallet.module.css"
 
 //https://www.copycat.dev/blog/react-calendar/
 
 const Wallet:FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
-  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const [transactions, setTransactions] = useState<Array<Transaction>>([])
 
-  function showTransactionForm() {
-    setIsEditing(!isEditing)
+  function displayNewTransaction(transaction: Transaction) {
+    console.log(JSON.stringify(transaction))
+    setTransactions([transaction, ...transactions])
   }
 
   return (
@@ -24,36 +28,22 @@ const Wallet:FC<any> = () => {
             <p>{date.toDateString()}</p>
           </CardInfo>
         </div>
-        <Calendar onChange={setDate} value={date} />
+        <Calendar
+          navigationAriaLabel="wallet-calendar-date-selection"
+          onChange={setDate}
+          value={date}
+        />
       </div>
 
       <div className={styles.transactions} aria-label="wallet-transactions">
         <h1>Zero Transactions</h1>
-        <div className={styles.walletSummary}>
-          <CardInfo ariaLabel="wallet-expenses">
-            <h2>Expenses</h2>
-            <p className={styles.warning}>$0</p>
+        <WalletSummary />
+        <div className={styles.walletTransactionHistory}>
+          <CardInfo ariaLabel="add-transaction-form">
+            <WalletForm handleNewTransaction={displayNewTransaction}/>
           </CardInfo>
-          <CardInfo ariaLabel="wallet-income">
-            <h2>Income</h2>
-            <p>$0</p>
-          </CardInfo>
+          <TransactionHistory transactions={transactions} />
         </div>
-
-        <button 
-          className={styles.addTransactionBtn} 
-          aria-label="wallet-add-transaction"
-          onClick={showTransactionForm}
-        >
-          Add Transaction
-        </button>
-        {
-          isEditing && (
-            <div aria-label="add-transaction-form">
-              <h1>FORM</h1>
-            </div>
-          )
-        }        
       </div>
     </div>
   )
