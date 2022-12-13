@@ -45,6 +45,7 @@ describe("wallet", () => {
   describe("transactions", () => {
     const user: UserEvent = userEvent.setup()
     const VALID_NAME: string = "test name"
+    const VALID_AMOUNT: string = "3.00"
 
     function getForm(): HTMLElement {
       return screen.getByLabelText("add-transaction-form")
@@ -171,10 +172,21 @@ describe("wallet", () => {
         return screen.getByLabelText("wallet-transaction-history")
       }
       
-      test("should show transaction history", async () => {
+      test("should show empty transaction history element", async () => {
         render(<Wallet />)
         const transactionHistory: HTMLElement = getTransactionHistory()
         expect(transactionHistory).toBeInTheDocument()
+        expect(transactionHistory.textContent).toBe("")
+      })
+
+      test("should show added transaction", async () => {
+        render(<Wallet />)
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        expect(transactionHistory).toBeInTheDocument()
+        expect(transactionHistory).toHaveTextContent("")
+        await submitTransaction(VALID_NAME, VALID_AMOUNT)
+        expect(transactionHistory.textContent).toContain(VALID_NAME)
+        expect(transactionHistory.textContent).toContain(VALID_AMOUNT)
       })
     })
   })
