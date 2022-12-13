@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  gap: 1rem;
+  padding: 0 2em;
+  background: var(--monokai-brightBlack);
+  border-radius: 1rem;
+}
+
+.container:hover {
+  filter: brightness(95%);
+}

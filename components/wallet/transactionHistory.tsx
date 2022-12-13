@@ -1,4 +1,6 @@
 import React, { FC } from "react"
+import TransactionInfo from "./transactionInfo"
+import styles from "../../styles/components/wallet/TransactionHistory.module.css"
 
 export interface Transaction {
   id: string,
@@ -13,16 +15,13 @@ interface TransactionHistoryProps {
 
 const TransactionHistory:FC<TransactionHistoryProps> = (props) => {
   return (
-    <div aria-label="wallet-transaction-history">
-      {/* TODO Create component for each transaction */}
+    <div aria-label="wallet-transaction-history" className={styles.container}>
       { props.transactions &&
         props.transactions.map((transaction: Transaction) => {
           return (
-            <div key={transaction.id}>
-              {transaction.name}
-              {transaction.amount}
-              {transaction.transactionDate.toLocaleDateString()}
-            </div>
+            <TransactionInfo key={transaction.id}
+                             transaction={transaction}
+            />
           )
         })
       }
