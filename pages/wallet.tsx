@@ -44,7 +44,7 @@ const Wallet:FC<any> = () => {
               <WalletForm handleNewTransaction={displayNewTransaction}/>
             </CardInfo>
           </div>
-          <div className={styles["transactionHistory-transaction-history"]}>
+          <div className={styles["transactionHistory-transactions"]}>
             <TransactionHistory transactions={transactions} />
           </div>
         </div>
