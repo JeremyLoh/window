@@ -38,11 +38,15 @@ const Wallet:FC<any> = () => {
       <div className={styles.transactions} aria-label="wallet-transactions">
         <h1>Zero Transactions</h1>
         <WalletSummary />
-        <div className={styles.walletTransactionHistory}>
-          <CardInfo ariaLabel="add-transaction-form">
-            <WalletForm handleNewTransaction={displayNewTransaction}/>
-          </CardInfo>
-          <TransactionHistory transactions={transactions} />
+        <div className={styles.transactionHistory}>
+          <div className={styles["transactionHistory-add-form"]}>
+            <CardInfo ariaLabel="add-transaction-form">
+              <WalletForm handleNewTransaction={displayNewTransaction}/>
+            </CardInfo>
+          </div>
+          <div className={styles["transactionHistory-transaction-history"]}>
+            <TransactionHistory transactions={transactions} />
+          </div>
         </div>
       </div>
     </div>

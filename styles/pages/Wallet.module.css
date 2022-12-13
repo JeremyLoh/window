@@ -18,12 +18,18 @@
   align-items: center;
 }
 
-.walletTransactionHistory {
+.transactionHistory {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 1rem;
   width: 80%;
+}
+.transactionHistory-add-form {
+  flex-grow: 1;
+}
+.transactionHistory-transaction-history {
+  flex-grow: 3;
 }
 
 @media (max-width: 500px) {
@@ -34,7 +40,7 @@
     padding: 0 1rem;
   }
 
-  .walletTransactionHistory {
+  .transactionHistory {
     flex-direction: column;
     row-gap: 1rem;
   }

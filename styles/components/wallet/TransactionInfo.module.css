@@ -12,3 +12,14 @@
 .container:hover {
   filter: brightness(95%);
 }
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    gap: 0;
+    font-size: smaller;
+  }
+}
