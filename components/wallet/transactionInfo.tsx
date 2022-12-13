@@ -10,7 +10,7 @@ const TransactionInfo:FC<TransactionInfoProps> = (props) => {
     <div className={styles.container}>
       <h1>{props.transaction.name}</h1>
       <div>
-        <h2>{props.transaction.amount.toFixed(2)}</h2>
+        <h2>${props.transaction.amount.toFixed(2)}</h2>
         <h3>{props.transaction.transactionDate.toLocaleDateString()}</h3>
       </div>
     </div>

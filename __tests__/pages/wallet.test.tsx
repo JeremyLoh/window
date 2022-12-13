@@ -186,7 +186,7 @@ describe("wallet", () => {
         expect(transactionHistory).toHaveTextContent("")
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
         expect(transactionHistory.textContent).toContain(VALID_NAME)
-        expect(transactionHistory.textContent).toContain(VALID_AMOUNT)
+        expect(transactionHistory.textContent).toContain("$" + VALID_AMOUNT)
       })
     })
   })
