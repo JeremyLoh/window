@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  gap: 1rem;
+  padding: 0 2em;
+  background: var(--monokai-brightBlack);
+  border-radius: 1rem;
+}
+
+.container:hover {
+  filter: brightness(95%);
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    gap: 0;
+    font-size: smaller;
+  }
+}
