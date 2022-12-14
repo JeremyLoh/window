@@ -58,9 +58,7 @@ describe("wallet", () => {
 
     function getAmountInput(): HTMLInputElement {
       const form: HTMLElement = getForm()
-      return within(form).getByRole("spinbutton", {
-        name: "Amount"
-      })
+      return within(form).getByRole("spinbutton", { name: "Amount" })
     }
 
     function getSubmitButton(): HTMLButtonElement {
@@ -187,6 +185,17 @@ describe("wallet", () => {
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
         expect(transactionHistory.textContent).toContain(VALID_NAME)
         expect(transactionHistory.textContent).toContain("$" + VALID_AMOUNT)
+      })
+
+      test("should show delete button in added transaction", async () => {
+        render(<Wallet />)
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        expect(transactionHistory).toBeInTheDocument()
+        expect(transactionHistory).toHaveTextContent("")
+        await submitTransaction(VALID_NAME, VALID_AMOUNT)
+        const transactionDeleteButton: HTMLElement = within(transactionHistory)
+          .getAllByRole("button", { name: "delete-transaction" })[0]
+        expect(transactionDeleteButton).toBeInTheDocument()
       })
     })
   })
