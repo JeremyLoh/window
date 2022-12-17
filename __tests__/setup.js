@@ -1,9 +1,23 @@
-import { expect, beforeAll, afterEach, afterAll } from "vitest"
+import { expect, beforeAll, afterEach, afterAll, vi } from "vitest"
 import { cleanup } from "@testing-library/react"
 import matchers from "@testing-library/jest-dom/matchers"
 import { rest } from "msw"
 import { setupServer } from "msw/node"
 import {nanoid} from "nanoid"
+
+function mockNextFont() {
+  vi.mock("@next/font/google", () => {
+    return {
+      Special_Elite: vi.fn(() => {
+        return {
+          className: "className",
+          variable: "variable",
+          style: { fontFamily: "fontFamily" },
+        }
+      })
+    }
+  })
+}
 
 function getTransaction(name, amount, transactionDate) {
   return {
@@ -27,7 +41,10 @@ const server = setupServer(...restHandlers)
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
 
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: "error" })
+  mockNextFont()
+})
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
@@ -36,4 +53,7 @@ afterEach(() => {
   server.resetHandlers()
 })
 
-afterAll(() => server.close())
+afterAll(() => {
+  server.close()
+  vi.restoreAllMocks()
+})
