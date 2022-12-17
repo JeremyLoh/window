@@ -197,6 +197,20 @@ describe("wallet", () => {
           .getAllByRole("button", { name: "delete-transaction" })[0]
         expect(transactionDeleteButton).toBeInTheDocument()
       })
+
+      test("should delete transaction when delete button is clicked", async () => {
+        render(<Wallet />)
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        expect(transactionHistory).toHaveTextContent("")
+        await submitTransaction(VALID_NAME, VALID_AMOUNT)
+        expect(transactionHistory.textContent).toContain(VALID_NAME)
+        expect(transactionHistory.textContent).toContain("$" + VALID_AMOUNT)
+        const transactionDeleteButton: HTMLElement = within(transactionHistory)
+          .getAllByRole("button", { name: "delete-transaction" })[0]
+        await user.click(transactionDeleteButton)
+        expect(transactionHistory.textContent).not.toContain(VALID_NAME)
+        expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
+      })
     })
   })
 })
