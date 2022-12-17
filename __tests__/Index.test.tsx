@@ -18,7 +18,8 @@ describe("index", () => {
 
   test("wallet feature should have link to wallet page", () => {
     render(<Home />)
-    const walletFeature = screen.getByRole("button", { name: /wallet-feature/i })
-    expect(walletFeature).toHaveAttribute("href", "/wallet")
+    expect(screen.getByRole("button", { name: /wallet-feature/i })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /track your cash flow!/i }))
+      .toHaveAttribute("href", "/wallet")
   })
 })
