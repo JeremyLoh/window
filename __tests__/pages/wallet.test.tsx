@@ -75,6 +75,11 @@ describe("wallet", () => {
       await user.click(submitButton)
     }
 
+    function assertEmptyInput(input: HTMLInputElement): void {
+      expect(input).toBeInTheDocument()
+      expect(input.value).toBe("")
+    }
+
     describe("add transaction", () => {
       test("should show form to add transaction by default", async () => {
         render(<Wallet />)
@@ -85,8 +90,7 @@ describe("wallet", () => {
       test("should allow name input", async () => {
         render(<Wallet />)
         const nameInput: HTMLInputElement = getNameInput()
-        expect(nameInput).toBeInTheDocument()
-        expect(nameInput.value).toBe("")
+        assertEmptyInput(nameInput)
         await user.type(nameInput, "Test N@me3")
         expect(nameInput.value).toBe("Test N@me3")
       })
@@ -95,8 +99,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "99999.99"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await user.type(amountInput, amount)
         expect(amountInput.value).toBe(amount)
       })
@@ -105,8 +108,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "-0.01"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await submitTransaction(VALID_NAME, amount)
         expect(amountInput).toBeInvalid()
       })
@@ -115,8 +117,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "23.231"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await submitTransaction(VALID_NAME, amount)
         expect(amountInput).toBeInvalid()
       })
@@ -125,8 +126,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "2.01"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await submitTransaction(VALID_NAME, amount)
         expect(amountInput).not.toBeInvalid()
       })
@@ -135,8 +135,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "0.00"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await submitTransaction(VALID_NAME, amount)
         expect(amountInput).toBeInvalid()
       })
@@ -145,8 +144,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "0.01"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await submitTransaction(VALID_NAME, amount)
         expect(amountInput).not.toBeInvalid()
       })
@@ -155,8 +153,7 @@ describe("wallet", () => {
         render(<Wallet />)
         const amount: string = "9999999999"
         const amountInput: HTMLInputElement = getAmountInput()
-        expect(amountInput).toBeInTheDocument()
-        expect(amountInput.value).toBe("")
+        assertEmptyInput(amountInput)
         await submitTransaction(VALID_NAME, amount)
         expect(amountInput).not.toBeInvalid()
 
@@ -166,6 +163,18 @@ describe("wallet", () => {
     })
 
     describe("transaction history", () => {
+      function assertEmptyTransactionHistory(transactionHistory: HTMLElement): void {
+        expect(transactionHistory).toBeInTheDocument()
+        expect(transactionHistory).toHaveTextContent("")
+      }
+
+      function assertTransactionHistoryContains(transactionHistory: HTMLElement,
+                                                name: string,
+                                                amount: string): void {
+        expect(transactionHistory.textContent).toContain(name)
+        expect(transactionHistory.textContent).toContain("$" + amount)
+      }
+
       function getTransactionHistory(): HTMLElement {
         return screen.getByLabelText("wallet-transaction-history")
       }
@@ -173,25 +182,21 @@ describe("wallet", () => {
       test("should show empty transaction history element", async () => {
         render(<Wallet />)
         const transactionHistory: HTMLElement = getTransactionHistory()
-        expect(transactionHistory).toBeInTheDocument()
-        expect(transactionHistory.textContent).toBe("")
+        assertEmptyTransactionHistory(transactionHistory)
       })
 
       test("should show added transaction", async () => {
         render(<Wallet />)
         const transactionHistory: HTMLElement = getTransactionHistory()
-        expect(transactionHistory).toBeInTheDocument()
-        expect(transactionHistory).toHaveTextContent("")
+        assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
-        expect(transactionHistory.textContent).toContain(VALID_NAME)
-        expect(transactionHistory.textContent).toContain("$" + VALID_AMOUNT)
+        assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
       })
 
       test("should show delete button in added transaction", async () => {
         render(<Wallet />)
         const transactionHistory: HTMLElement = getTransactionHistory()
-        expect(transactionHistory).toBeInTheDocument()
-        expect(transactionHistory).toHaveTextContent("")
+        assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
         const transactionDeleteButton: HTMLElement = within(transactionHistory)
           .getAllByRole("button", { name: "delete-transaction" })[0]
@@ -201,10 +206,9 @@ describe("wallet", () => {
       test("should delete transaction when delete button is clicked", async () => {
         render(<Wallet />)
         const transactionHistory: HTMLElement = getTransactionHistory()
-        expect(transactionHistory).toHaveTextContent("")
+        assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
-        expect(transactionHistory.textContent).toContain(VALID_NAME)
-        expect(transactionHistory.textContent).toContain("$" + VALID_AMOUNT)
+        assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
         const transactionDeleteButton: HTMLElement = within(transactionHistory)
           .getAllByRole("button", { name: "delete-transaction" })[0]
         await user.click(transactionDeleteButton)
