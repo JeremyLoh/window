@@ -1,20 +1,36 @@
-import React, { FC, useState } from "react"
+import React, { createContext, FC, useState } from "react"
 import Calendar from "react-calendar"
-import WalletForm, { Transaction } from "../components/wallet/walletAddTransactionForm"
+import WalletForm from "../components/wallet/walletAddTransactionForm"
 import { WalletSummary } from "../components/wallet/walletSummary"
 import TransactionHistory from "../components/wallet/transactionHistory"
 import CardInfo from "../components/cardInfo"
 import styles from "../styles/pages/Wallet.module.css"
 
-//https://www.copycat.dev/blog/react-calendar/
+export interface Transaction {
+  id: string,
+  name: string,
+  amount: number,
+  transactionDate: Date
+}
+
+export interface DeleteTransactionType {
+  (transactionId: string): void
+}
+
+export const TransactionContext = createContext<Array<Transaction>>([])
+export const DeleteTransactionContext = createContext<DeleteTransactionType>(() => {})
 
 const Wallet:FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
 
-  function displayNewTransaction(transaction: Transaction) {
-    console.log(JSON.stringify(transaction))
+  function displayNewTransaction(transaction: Transaction): void {
     setTransactions([transaction, ...transactions])
+  }
+
+  function deleteTransaction(transactionId: string): void {
+    setTransactions(transactions.filter((transaction: Transaction) =>
+      transaction.id !== transactionId))
   }
 
   return (
@@ -35,20 +51,24 @@ const Wallet:FC<any> = () => {
         />
       </div>
 
-      <div className={styles.transactions} aria-label="wallet-transactions">
-        <h1>Zero Transactions</h1>
-        <WalletSummary />
-        <div className={styles.transactionHistory}>
-          <div className={styles["transactionHistory-add-form"]}>
-            <CardInfo ariaLabel="add-transaction-form">
-              <WalletForm handleNewTransaction={displayNewTransaction}/>
-            </CardInfo>
-          </div>
-          <div className={styles["transactionHistory-transactions"]}>
-            <TransactionHistory transactions={transactions} />
+      <TransactionContext.Provider value={transactions}>
+        <div className={styles.transactions} aria-label="wallet-transactions">
+          <h1>Zero Transactions</h1>
+          <WalletSummary />
+          <div className={styles.transactionHistory}>
+            <div className={styles["transactionHistory-add-form"]}>
+              <CardInfo ariaLabel="add-transaction-form">
+                <WalletForm handleNewTransaction={displayNewTransaction}/>
+              </CardInfo>
+            </div>
+            <DeleteTransactionContext.Provider value={deleteTransaction}>
+              <div className={styles["transactionHistory-transactions"]}>
+                  <TransactionHistory />
+              </div>
+            </DeleteTransactionContext.Provider>
           </div>
         </div>
-      </div>
+      </TransactionContext.Provider>
     </div>
   )
 }
