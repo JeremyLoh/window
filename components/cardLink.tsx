@@ -1,12 +1,7 @@
 import Link from "next/link"
 import React, { FC } from "react"
 import styles from "../styles/components/CardLink.module.css"
-import { Special_Elite } from "@next/font/google"
-
-const specialElite = Special_Elite({
-  subsets: ["latin"],
-  weight: "400"
-})
+import {specialElite} from "../pages/_app"
 
 interface CardLinkProps {
   ariaLabel?: string,
