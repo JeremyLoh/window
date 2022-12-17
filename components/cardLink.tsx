@@ -1,6 +1,12 @@
 import Link from "next/link"
 import React, { FC } from "react"
 import styles from "../styles/components/CardLink.module.css"
+import { Special_Elite } from "@next/font/google"
+
+const specialElite = Special_Elite({
+  subsets: ["latin"],
+  weight: "400"
+})
 
 interface CardLinkProps {
   ariaLabel?: string,
@@ -11,7 +17,9 @@ interface CardLinkProps {
 const CardLink:FC<CardLinkProps> = (props) => {
   return (
     <Link href={props.href} passHref>
-      <button className={styles.card} aria-label={props.ariaLabel}>
+      <button className={`${styles.card} ${specialElite.className}`}
+              aria-label={props.ariaLabel}
+      >
         {props.children}
       </button>
     </Link>
