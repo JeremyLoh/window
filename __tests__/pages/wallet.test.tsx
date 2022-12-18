@@ -296,6 +296,46 @@ describe("wallet", () => {
           expect(getExpenseTotalElement()).toHaveTextContent("$0.00")
         })
       })
+
+      describe("income", () => {
+        function getIncomeTotalElement(): HTMLElement {
+          return screen.getByLabelText("wallet-income")
+        }
+
+        test("should update total income when an income transaction is added", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getIncomeInput())
+          await submitTransaction(VALID_NAME, amount)
+          expect(getIncomeTotalElement()).toHaveTextContent("$3.20")
+        })
+
+        test("should update total income for multiple income transactions", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getIncomeInput())
+          await submitTransaction(VALID_NAME, amount)
+          await submitTransaction(VALID_NAME, amount)
+          expect(getIncomeTotalElement()).toHaveTextContent("$6.40")
+        })
+
+        test("should reduce total income when income transaction is deleted", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getIncomeInput())
+          await submitTransaction(VALID_NAME, amount)
+          const incomeTotalElement = getIncomeTotalElement()
+          expect(incomeTotalElement).toHaveTextContent("$3.20")
+          await user.click(getFirstTransactionDeleteButton())
+          expect(incomeTotalElement).toHaveTextContent("$0.00")
+        })
+      })
     })
   })
 })
