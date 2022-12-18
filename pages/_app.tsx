@@ -2,9 +2,10 @@ import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import { Special_Elite } from "@next/font/google"
 
-const specialElite = Special_Elite({
+export const specialElite = Special_Elite({
   subsets: ["latin"],
-  weight: "400"
+  weight: "400",
+  preload: true,
 })
 
 export default function App({ Component, pageProps }: AppProps) {

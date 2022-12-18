@@ -1,20 +1,31 @@
 import React, { FC, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import styles from '../styles/components/Clock.module.css'
+import styles from "../styles/components/Clock.module.css"
 import Emoji from "./emoji"
 
 const Clock:FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
-  const [isDayTime, setIsDayTime] = useState<boolean>()
 
   function updateClock(): void {
     setDate(new Date())
   }
 
+  function getCurrentTimeEmoji(): string {
+    const now = new Date(date)
+    const evening = new Date(now.setHours(18, 0, 0, 0))
+    const afternoon = new Date(now.setHours(12, 0, 0, 0))
+    if (date >= evening) {
+      return "🌙"
+    } else if (date >= afternoon) {
+      return "🌞"
+    } else {
+      return "🌄"
+    }
+  }
+
   useEffect(() => {
     const intervalId: ReturnType<typeof setInterval> = setInterval(() => {
       updateClock()
-      setIsDayTime(date.toLocaleTimeString().endsWith("am"))
     }, 1000)
     return () => {
       clearInterval(intervalId)
@@ -23,8 +34,8 @@ const Clock:FC<any> = () => {
 
   return (
     <div className={styles.clock}>
-      <h2>
-        <Emoji symbol={isDayTime ? "🌞" : "🌙"}/>
+      <h2 aria-label="current-clock-time">
+        <Emoji symbol={getCurrentTimeEmoji()} />
         {" "}
         <span>{date.toLocaleTimeString()}</span>
       </h2>
