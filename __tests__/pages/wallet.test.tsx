@@ -61,6 +61,14 @@ describe("wallet", () => {
       return within(form).getByRole("spinbutton", { name: "Amount" })
     }
 
+    function getIncomeInput(): HTMLElement {
+      return within(getForm()).getByRole("radio", { name: "Income" })
+    }
+
+    function getExpenseInput(): HTMLElement {
+      return within(getForm()).getByRole("radio", { name: "Expense" })
+    }
+
     function getSubmitButton(): HTMLButtonElement {
       const form: HTMLElement = getForm()
       return within(form).getByRole("button", { name: "Submit" })
@@ -80,11 +88,41 @@ describe("wallet", () => {
       expect(input.value).toBe("")
     }
 
+    function assertExpenseInputSelected(expenseInput: HTMLElement, incomeInput: HTMLElement) {
+      expect(expenseInput).toBeChecked()
+      expect(incomeInput).not.toBeChecked()
+    }
+
+    function assertIncomeInputSelected(expenseInput: HTMLElement, incomeInput: HTMLElement) {
+      expect(expenseInput).not.toBeChecked()
+      expect(incomeInput).toBeChecked()
+    }
+
     describe("add transaction", () => {
       test("should show form to add transaction by default", async () => {
         render(<Wallet />)
         expect(screen.getByLabelText("add-transaction-form"))
           .toBeInTheDocument()
+      })
+
+      test("should show expense radio input as checked input", async () => {
+        render(<Wallet />)
+        const expenseInput: HTMLElement = getExpenseInput()
+        const incomeInput: HTMLElement = getIncomeInput()
+        expect(expenseInput).toBeInTheDocument()
+        expect(incomeInput).toBeInTheDocument()
+        assertExpenseInputSelected(expenseInput, incomeInput)
+      })
+
+      test("should allow change between expense and income radio input", async () => {
+        render(<Wallet />)
+        const expenseInput: HTMLElement = getExpenseInput()
+        const incomeInput: HTMLElement = getIncomeInput()
+        assertExpenseInputSelected(expenseInput, incomeInput)
+        await user.click(incomeInput)
+        assertIncomeInputSelected(expenseInput, incomeInput)
+        await user.click(expenseInput)
+        assertExpenseInputSelected(expenseInput, incomeInput)
       })
 
       test("should allow name input", async () => {
