@@ -37,8 +37,8 @@ describe("wallet", () => {
       expect(walletTransactions).toBeInTheDocument()
       expect(walletTransactions).toHaveTextContent("Zero Transactions")
       expect(screen.getByLabelText("wallet-expenses"))
-        .toHaveTextContent("Expenses$0")
-      expect(screen.getByLabelText("wallet-income")).toHaveTextContent("Income$0")
+        .toHaveTextContent("Expenses$0.00")
+      expect(screen.getByLabelText("wallet-income")).toHaveTextContent("Income$0.00")
     })
   })
 
@@ -78,7 +78,9 @@ describe("wallet", () => {
       const nameInput: HTMLInputElement = getNameInput()
       const amountInput: HTMLInputElement = getAmountInput()
       const submitButton: HTMLButtonElement = getSubmitButton()
+      await user.clear(nameInput)
       await user.type(nameInput, name)
+      await user.clear(amountInput)
       await user.type(amountInput, amount)
       await user.click(submitButton)
     }
@@ -216,6 +218,12 @@ describe("wallet", () => {
       function getTransactionHistory(): HTMLElement {
         return screen.getByLabelText("wallet-transaction-history")
       }
+
+      function getFirstTransactionDeleteButton() {
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        return within(transactionHistory)
+          .getAllByRole("button", {name: "delete-transaction"})[0];
+      }
       
       test("should show empty transaction history element", async () => {
         render(<Wallet />)
@@ -236,8 +244,7 @@ describe("wallet", () => {
         const transactionHistory: HTMLElement = getTransactionHistory()
         assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
-        const transactionDeleteButton: HTMLElement = within(transactionHistory)
-          .getAllByRole("button", { name: "delete-transaction" })[0]
+        const transactionDeleteButton: HTMLElement = getFirstTransactionDeleteButton()
         expect(transactionDeleteButton).toBeInTheDocument()
       })
 
@@ -247,11 +254,47 @@ describe("wallet", () => {
         assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
         assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
-        const transactionDeleteButton: HTMLElement = within(transactionHistory)
-          .getAllByRole("button", { name: "delete-transaction" })[0]
+        const transactionDeleteButton: HTMLElement = getFirstTransactionDeleteButton()
         await user.click(transactionDeleteButton)
         expect(transactionHistory.textContent).not.toContain(VALID_NAME)
         expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
+      })
+
+      describe("expense", () => {
+        function getExpenseTotalElement(): HTMLElement {
+          return screen.getByLabelText("wallet-expenses")
+        }
+
+        test("should update total expense when an expense transaction is added", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          assertEmptyInput(getAmountInput())
+          await user.click(getExpenseInput())
+          await submitTransaction(VALID_NAME, amount)
+          expect(getExpenseTotalElement()).toHaveTextContent("$3.20")
+        })
+
+        test("should update total expense when multiple expense transactions are added", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getExpenseInput())
+          await submitTransaction(VALID_NAME, amount)
+          await submitTransaction(VALID_NAME, amount)
+          expect(getExpenseTotalElement()).toHaveTextContent("$6.40")
+        })
+
+        test("should reduce total expense when expense transaction is deleted", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          assertEmptyInput(getAmountInput())
+          await user.click(getExpenseInput())
+          await submitTransaction(VALID_NAME, amount)
+          expect(getExpenseTotalElement()).toHaveTextContent("$3.20")
+          await user.click(getFirstTransactionDeleteButton())
+          expect(getExpenseTotalElement()).toHaveTextContent("$0.00")
+        })
       })
     })
   })
