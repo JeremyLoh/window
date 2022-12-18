@@ -1,15 +1,9 @@
 import React, { FC, useState } from "react"
+import axios from "axios"
+import {Transaction} from "../../pages/wallet"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import styles from "../../styles/components/wallet/WalletAddTransactionForm.module.css"
-import axios from "axios";
-
-export interface Transaction {
-  id: string,
-  name: string,
-  amount: number,
-  transactionDate: Date
-}
 
 interface handleNewTransaction {
   (transaction: Transaction): void
@@ -22,6 +16,7 @@ interface WalletFormProps {
 
 const WalletForm:FC<WalletFormProps> = (props) => {
   const [newTransactionDate, setNewTransactionDate] = useState<Date>(new Date())
+  const [isExpense, setIsExpense] = useState<boolean>(true)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -42,6 +37,22 @@ const WalletForm:FC<WalletFormProps> = (props) => {
     >
       <label htmlFor="name">Name</label>
       <input type="text" id="name" name="name" required />
+      <div className={styles.expenseOrIncomeContainer}>
+        <label htmlFor="expense">Expense</label>
+        <input type="radio"
+               id="expense"
+               name="expense"
+               value="expense"
+               checked={isExpense}
+               onChange={() => setIsExpense(true)} />
+        <label htmlFor="income">Income</label>
+        <input type="radio"
+               id="income"
+               name="income"
+               value="income"
+               checked={!isExpense}
+               onChange={() => setIsExpense(false)} />
+      </div>
       <label htmlFor="amount">Amount</label>
       <input type="number" min="0.01" max="9999999999" step="0.01" id="amount" name="amount" required />
       <div />
@@ -64,9 +75,11 @@ const WalletForm:FC<WalletFormProps> = (props) => {
 function getRequestBody(event: React.FormEvent<HTMLFormElement>, newTransactionDate: Date) {
   const name: string = (event.currentTarget.elements.namedItem("name") as HTMLInputElement).value
   const amount: number = Number((event.currentTarget.elements.namedItem("amount") as HTMLInputElement).value)
+  const isExpense: boolean = (event.currentTarget.elements.namedItem("expense") as HTMLInputElement).checked
   return {
     name,
     amount,
+    isExpense,
     transactionDate: newTransactionDate
   }
 }

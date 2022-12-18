@@ -30,6 +30,8 @@
 }
 .transactionHistory-transactions {
   flex-grow: 3;
+  background: #222;
+  padding: 1rem;
 }
 
 @media (max-width: 500px) {

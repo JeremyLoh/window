@@ -7,6 +7,15 @@
   padding: 0 1.4em;
   background: var(--monokai-brightBlack);
   border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.expense {
+  background: darkred;
+}
+
+.income {
+  background: darkgreen;
 }
 
 .name {
@@ -25,8 +34,7 @@
   aspect-ratio : 1 / 1;
   height: 50%;
   border-radius: 50%;
-  background: var(--monokai-red);
-  color: black;
+  background: var(--monokai-brightBlack);
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
@@ -34,7 +42,7 @@
   padding: 0.5em;
 }
 .deleteBtn:hover {
-  filter: brightness(95%);
+  filter: brightness(80%);
 }
 
 @media (max-width: 600px) {

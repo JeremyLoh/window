@@ -5,6 +5,7 @@ type Data = {
   id?: string,
   name?: string,
   amount?: number,
+  isExpense?: boolean,
   transactionDate?: Date,
   error?: string
 }
@@ -19,7 +20,9 @@ export default function handler(
 ) {
   const requestMethod = req.method
   if (requestMethod === "POST") {
-    const {name, amount, transactionDate}: {name: string, amount: number, transactionDate: Date} = req.body
+    const {name, amount, isExpense, transactionDate}:
+      {name: string, amount: number, isExpense: boolean, transactionDate: Date}
+      = req.body
     if (isInvalidName(name)) {
       return res.status(400).json({ error: "Invalid name" })
     }
@@ -30,6 +33,7 @@ export default function handler(
       id: nanoid(),
       name,
       amount,
+      isExpense,
       transactionDate
     })
   }

@@ -19,19 +19,20 @@ function mockNextFont() {
   })
 }
 
-function getTransaction(name, amount, transactionDate) {
+function getTransaction(name, amount, isExpense, transactionDate) {
   return {
     id: nanoid(),
     name,
     amount,
+    isExpense,
     transactionDate
   }
 }
 
 export const restHandlers = [
     rest.post("/api/wallet/transaction/create", async (req, res, ctx) => {
-      const { name, amount, transactionDate } = await req.json()
-      const transaction = getTransaction(name, amount, transactionDate)
+      const { name, amount, isExpense, transactionDate } = await req.json()
+      const transaction = getTransaction(name, amount, isExpense, transactionDate)
       return res(ctx.status(200), ctx.json(transaction))
     })
 ]

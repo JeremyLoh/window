@@ -37,8 +37,8 @@ describe("wallet", () => {
       expect(walletTransactions).toBeInTheDocument()
       expect(walletTransactions).toHaveTextContent("Zero Transactions")
       expect(screen.getByLabelText("wallet-expenses"))
-        .toHaveTextContent("Expenses$0")
-      expect(screen.getByLabelText("wallet-income")).toHaveTextContent("Income$0")
+        .toHaveTextContent("Expenses$0.00")
+      expect(screen.getByLabelText("wallet-income")).toHaveTextContent("Income$0.00")
     })
   })
 
@@ -61,6 +61,14 @@ describe("wallet", () => {
       return within(form).getByRole("spinbutton", { name: "Amount" })
     }
 
+    function getIncomeInput(): HTMLElement {
+      return within(getForm()).getByRole("radio", { name: "Income" })
+    }
+
+    function getExpenseInput(): HTMLElement {
+      return within(getForm()).getByRole("radio", { name: "Expense" })
+    }
+
     function getSubmitButton(): HTMLButtonElement {
       const form: HTMLElement = getForm()
       return within(form).getByRole("button", { name: "Submit" })
@@ -70,7 +78,9 @@ describe("wallet", () => {
       const nameInput: HTMLInputElement = getNameInput()
       const amountInput: HTMLInputElement = getAmountInput()
       const submitButton: HTMLButtonElement = getSubmitButton()
+      await user.clear(nameInput)
       await user.type(nameInput, name)
+      await user.clear(amountInput)
       await user.type(amountInput, amount)
       await user.click(submitButton)
     }
@@ -80,11 +90,41 @@ describe("wallet", () => {
       expect(input.value).toBe("")
     }
 
+    function assertExpenseInputSelected(expenseInput: HTMLElement, incomeInput: HTMLElement) {
+      expect(expenseInput).toBeChecked()
+      expect(incomeInput).not.toBeChecked()
+    }
+
+    function assertIncomeInputSelected(expenseInput: HTMLElement, incomeInput: HTMLElement) {
+      expect(expenseInput).not.toBeChecked()
+      expect(incomeInput).toBeChecked()
+    }
+
     describe("add transaction", () => {
       test("should show form to add transaction by default", async () => {
         render(<Wallet />)
         expect(screen.getByLabelText("add-transaction-form"))
           .toBeInTheDocument()
+      })
+
+      test("should show expense radio input as checked input", async () => {
+        render(<Wallet />)
+        const expenseInput: HTMLElement = getExpenseInput()
+        const incomeInput: HTMLElement = getIncomeInput()
+        expect(expenseInput).toBeInTheDocument()
+        expect(incomeInput).toBeInTheDocument()
+        assertExpenseInputSelected(expenseInput, incomeInput)
+      })
+
+      test("should allow change between expense and income radio input", async () => {
+        render(<Wallet />)
+        const expenseInput: HTMLElement = getExpenseInput()
+        const incomeInput: HTMLElement = getIncomeInput()
+        assertExpenseInputSelected(expenseInput, incomeInput)
+        await user.click(incomeInput)
+        assertIncomeInputSelected(expenseInput, incomeInput)
+        await user.click(expenseInput)
+        assertExpenseInputSelected(expenseInput, incomeInput)
       })
 
       test("should allow name input", async () => {
@@ -178,6 +218,12 @@ describe("wallet", () => {
       function getTransactionHistory(): HTMLElement {
         return screen.getByLabelText("wallet-transaction-history")
       }
+
+      function getFirstTransactionDeleteButton() {
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        return within(transactionHistory)
+          .getAllByRole("button", {name: "delete-transaction"})[0];
+      }
       
       test("should show empty transaction history element", async () => {
         render(<Wallet />)
@@ -198,8 +244,7 @@ describe("wallet", () => {
         const transactionHistory: HTMLElement = getTransactionHistory()
         assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
-        const transactionDeleteButton: HTMLElement = within(transactionHistory)
-          .getAllByRole("button", { name: "delete-transaction" })[0]
+        const transactionDeleteButton: HTMLElement = getFirstTransactionDeleteButton()
         expect(transactionDeleteButton).toBeInTheDocument()
       })
 
@@ -209,11 +254,87 @@ describe("wallet", () => {
         assertEmptyTransactionHistory(transactionHistory)
         await submitTransaction(VALID_NAME, VALID_AMOUNT)
         assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
-        const transactionDeleteButton: HTMLElement = within(transactionHistory)
-          .getAllByRole("button", { name: "delete-transaction" })[0]
+        const transactionDeleteButton: HTMLElement = getFirstTransactionDeleteButton()
         await user.click(transactionDeleteButton)
         expect(transactionHistory.textContent).not.toContain(VALID_NAME)
         expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
+      })
+
+      describe("total expense", () => {
+        function getExpenseTotalElement(): HTMLElement {
+          return screen.getByLabelText("wallet-expenses")
+        }
+
+        test("should update total expense when an expense transaction is added", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          assertEmptyInput(getAmountInput())
+          await user.click(getExpenseInput())
+          await submitTransaction(VALID_NAME, amount)
+          expect(getExpenseTotalElement()).toHaveTextContent("$3.20")
+        })
+
+        test("should update total expense when multiple expense transactions are added", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getExpenseInput())
+          await submitTransaction(VALID_NAME, amount)
+          await submitTransaction(VALID_NAME, amount)
+          expect(getExpenseTotalElement()).toHaveTextContent("$6.40")
+        })
+
+        test("should reduce total expense when expense transaction is deleted", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          assertEmptyInput(getAmountInput())
+          await user.click(getExpenseInput())
+          await submitTransaction(VALID_NAME, amount)
+          expect(getExpenseTotalElement()).toHaveTextContent("$3.20")
+          await user.click(getFirstTransactionDeleteButton())
+          expect(getExpenseTotalElement()).toHaveTextContent("$0.00")
+        })
+      })
+
+      describe("total income", () => {
+        function getIncomeTotalElement(): HTMLElement {
+          return screen.getByLabelText("wallet-income")
+        }
+
+        test("should update total income when an income transaction is added", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getIncomeInput())
+          await submitTransaction(VALID_NAME, amount)
+          expect(getIncomeTotalElement()).toHaveTextContent("$3.20")
+        })
+
+        test("should update total income for multiple income transactions", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getIncomeInput())
+          await submitTransaction(VALID_NAME, amount)
+          await submitTransaction(VALID_NAME, amount)
+          expect(getIncomeTotalElement()).toHaveTextContent("$6.40")
+        })
+
+        test("should reduce total income when income transaction is deleted", async () => {
+          render(<Wallet />)
+          const amount: string = "3.20"
+          const amountInput: HTMLInputElement = getAmountInput()
+          assertEmptyInput(amountInput)
+          await user.click(getIncomeInput())
+          await submitTransaction(VALID_NAME, amount)
+          const incomeTotalElement = getIncomeTotalElement()
+          expect(incomeTotalElement).toHaveTextContent("$3.20")
+          await user.click(getFirstTransactionDeleteButton())
+          expect(incomeTotalElement).toHaveTextContent("$0.00")
+        })
       })
     })
   })
