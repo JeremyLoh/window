@@ -6,12 +6,20 @@ import { Transaction, TransactionContext } from "../../pages/wallet"
 export function WalletSummary({}) {
   const transactions: Array<Transaction> = useContext(TransactionContext)
 
+  function getTotalAmount(transactions: Array<Transaction>): number {
+    return transactions.reduce((accumulator, transaction) =>
+      accumulator + transaction.amount, 0)
+  }
+
   function getTotalExpense(): string {
-    const total: number = transactions
-      .filter((transaction) => transaction.isExpense)
-      .reduce((accumulator, transaction) =>
-        accumulator + transaction.amount
-      , 0)
+    const expenseTransactions = transactions.filter((transaction) => transaction.isExpense)
+    const total: number = getTotalAmount(expenseTransactions)
+    return total.toFixed(2)
+  }
+
+  function getTotalIncome(): string {
+    const incomeTransactions = transactions.filter((transaction) => !transaction.isExpense)
+    const total: number = getTotalAmount(incomeTransactions)
     return total.toFixed(2)
   }
 
@@ -23,7 +31,7 @@ export function WalletSummary({}) {
       </CardInfo>
       <CardInfo ariaLabel="wallet-income">
         <h2>Income</h2>
-        <p>$0.00</p>
+        <p>${getTotalIncome()}</p>
       </CardInfo>
     </div>
   )
