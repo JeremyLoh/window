@@ -260,7 +260,7 @@ describe("wallet", () => {
         expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
       })
 
-      describe("expense", () => {
+      describe("total expense", () => {
         function getExpenseTotalElement(): HTMLElement {
           return screen.getByLabelText("wallet-expenses")
         }
@@ -297,7 +297,7 @@ describe("wallet", () => {
         })
       })
 
-      describe("income", () => {
+      describe("total income", () => {
         function getIncomeTotalElement(): HTMLElement {
           return screen.getByLabelText("wallet-income")
         }
