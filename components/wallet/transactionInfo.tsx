@@ -12,9 +12,11 @@ interface TransactionInfoProps {
 
 const TransactionInfo:FC<TransactionInfoProps> = (props) => {
   const deleteTransaction: DeleteTransactionType = useContext(DeleteTransactionContext)
+  const transactionType: string = props.transaction.isExpense ? styles.expense
+    : styles.income
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${transactionType}`}>
       <h1 className={styles.name}>{props.transaction.name}</h1>
       <div className={styles.info}>
         <h2>${props.transaction.amount.toFixed(2)}</h2>
