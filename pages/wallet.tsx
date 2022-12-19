@@ -59,7 +59,7 @@ const Wallet:FC<any> = () => {
           <div className={styles.transactionHistory}>
             <div className={styles["transactionHistory-add-form"]}>
               <CardInfo ariaLabel="add-transaction-form">
-                <WalletForm handleNewTransaction={displayNewTransaction}/>
+                <WalletForm handleNewTransaction={displayNewTransaction} transactionDate={date}/>
               </CardInfo>
             </div>
             <DeleteTransactionContext.Provider value={deleteTransaction}>
