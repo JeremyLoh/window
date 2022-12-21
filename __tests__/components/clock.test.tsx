@@ -2,6 +2,17 @@ import { test, expect, describe, beforeEach, vi, afterEach } from "vitest"
 import { render, screen, waitFor } from "@testing-library/react"
 import Clock from "../../components/clock"
 
+beforeEach(() => {
+  // Temporarily alter timezone calculation for testing
+  Date.prototype.getTimezoneOffset = vi.fn(() => 0)
+})
+
+describe("Timezones", () => {
+  test("should always be UTC", () => {
+    expect(new Date().getTimezoneOffset()).toBe(0)
+  })
+})
+
 describe("clock", () => {
   beforeEach(() => {
     vi.useFakeTimers()
