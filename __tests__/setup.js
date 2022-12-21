@@ -3,7 +3,8 @@ import { cleanup } from "@testing-library/react"
 import matchers from "@testing-library/jest-dom/matchers"
 import { rest } from "msw"
 import { setupServer } from "msw/node"
-import {nanoid} from "nanoid"
+import { nanoid } from "nanoid"
+import { enableAllPlugins } from "immer"
 
 function mockNextFont() {
   vi.mock("@next/font/google", () => {
@@ -45,6 +46,7 @@ expect.extend(matchers)
 beforeAll(() => {
   server.listen({ onUnhandledRequest: "error" })
   mockNextFont()
+  enableAllPlugins()
 })
 
 // runs a cleanup after each test case (e.g. clearing jsdom)

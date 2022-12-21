@@ -1,6 +1,9 @@
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
+import { enableAllPlugins } from "immer"
 import { Special_Elite } from "@next/font/google"
+
+enableAllPlugins()
 
 export const specialElite = Special_Elite({
   subsets: ["latin"],
