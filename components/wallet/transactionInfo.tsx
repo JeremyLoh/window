@@ -12,11 +12,11 @@ interface TransactionInfoProps {
 
 const TransactionInfo:FC<TransactionInfoProps> = (props) => {
   const deleteTransaction: DeleteTransactionType = useContext(DeleteTransactionContext)
-  const transactionType: string = props.transaction.isExpense ? styles.expense
+  const transactionTypeStyle: string = props.transaction.isExpense ? styles.expense
     : styles.income
 
   return (
-    <div className={`${styles.container} ${transactionType}`}>
+    <div className={`${styles.container} ${transactionTypeStyle}`}>
       <h1 className={styles.name}>{props.transaction.name}</h1>
       <div className={styles.info}>
         <h2>${props.transaction.amount.toFixed(2)}</h2>
@@ -24,7 +24,8 @@ const TransactionInfo:FC<TransactionInfoProps> = (props) => {
       </div>
       <button className={styles.deleteBtn}
               aria-label="delete-transaction"
-              onClick={() => deleteTransaction(props.transaction.id)}
+              onClick={() => deleteTransaction(props.transaction.id,
+                props.transaction.transactionDate)}
       >
         X
       </button>
