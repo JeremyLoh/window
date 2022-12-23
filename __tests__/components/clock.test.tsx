@@ -1,6 +1,14 @@
 import { test, expect, describe, beforeEach, vi, afterEach } from "vitest"
 import { render, screen, waitFor } from "@testing-library/react"
 import Clock from "../../components/clock"
+import timezone_mock from "timezone-mock"
+
+beforeEach(() => {
+  timezone_mock.register("UTC")
+})
+afterEach(() => {
+  timezone_mock.unregister()
+})
 
 describe("clock", () => {
   beforeEach(() => {
