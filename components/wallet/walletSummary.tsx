@@ -24,15 +24,21 @@ export function WalletSummary({}) {
   }
 
   return (
-    <div className={styles.walletSummary}>
-      <CardInfo ariaLabel="wallet-expenses">
-        <h2>Expenses</h2>
-        <p className={styles.warning}>${getTotalExpense()}</p>
-      </CardInfo>
-      <CardInfo ariaLabel="wallet-income">
-        <h2>Income</h2>
-        <p>${getTotalIncome()}</p>
-      </CardInfo>
+    <div>
+      <h1 aria-label="wallet-transaction-day-count">
+        { transactions.length === 0 ? "Zero Transactions"
+          : `Transaction Count: ${transactions.length}` }
+      </h1>
+      <div className={styles.walletSummary}>
+        <CardInfo ariaLabel="wallet-expenses">
+          <h2>Expenses</h2>
+          <p className={styles.warning}>${getTotalExpense()}</p>
+        </CardInfo>
+        <CardInfo ariaLabel="wallet-income">
+          <h2>Income</h2>
+          <p>${getTotalIncome()}</p>
+        </CardInfo>
+      </div>
     </div>
   )
 }
