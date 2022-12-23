@@ -73,7 +73,6 @@ const Wallet:FC<any> = () => {
 
       <TransactionContext.Provider value={transactionsByDate.get(formatDate(date)) || []}>
         <div className={styles.transactions} aria-label="wallet-transactions">
-          <h1>Zero Transactions</h1>
           <WalletSummary />
           <div className={styles.transactionHistory}>
             <div className={styles["transactionHistory-add-form"]}>
