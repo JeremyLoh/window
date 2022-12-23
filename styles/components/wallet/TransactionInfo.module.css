@@ -16,6 +16,7 @@
 
 .income {
   background: darkgreen;
+  word-break: break-all;
 }
 
 .name {
