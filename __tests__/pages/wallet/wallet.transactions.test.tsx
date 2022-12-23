@@ -230,6 +230,51 @@ describe("transactions", () => {
       expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
     })
 
+    describe("transaction count", () => {
+      describe("day", () => {
+        function getTransactionDayCount(): HTMLElement {
+          return screen.getByLabelText("wallet-transaction-day-count");
+        }
+
+        function assertZeroTransactionCount(): void {
+          expect(getTransactionDayCount().textContent).toBe("Zero Transactions")
+        }
+
+        function assertTransactionCount(expectedCount: number): void {
+          expect(getTransactionDayCount().textContent).toBe(`Transaction Count: ${expectedCount}`)
+        }
+
+        test("should start with zero transactions", async () => {
+          render(<Wallet />)
+          assertZeroTransactionCount()
+        })
+
+        test("should show one transaction count", async () => {
+          render(<Wallet />)
+          assertZeroTransactionCount()
+          await submitTransaction(VALID_NAME, VALID_AMOUNT)
+          assertTransactionCount(1)
+        })
+
+        test("should show multiple transaction count", async () => {
+          render(<Wallet />)
+          assertZeroTransactionCount()
+          await submitTransaction(VALID_NAME, VALID_AMOUNT)
+          await submitTransaction(VALID_NAME, VALID_AMOUNT)
+          assertTransactionCount(2)
+        })
+
+        test("should reduce transaction count when transaction is deleted", async () => {
+          render(<Wallet />)
+          assertZeroTransactionCount()
+          await submitTransaction(VALID_NAME, VALID_AMOUNT)
+          assertTransactionCount(1)
+          await user.click(getFirstTransactionDeleteButton())
+          assertZeroTransactionCount()
+        })
+      })
+    })
+
     describe("total expense", () => {
       function getExpenseTotalElement(): HTMLElement {
         return screen.getByLabelText("wallet-expenses")
