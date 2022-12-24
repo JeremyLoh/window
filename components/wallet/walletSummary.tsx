@@ -1,37 +1,36 @@
 import React, { useContext } from "react"
 import CardInfo from "../../components/cardInfo"
-import styles from "../../styles/components/wallet/WalletSummary.module.css"
 import { Transaction, TransactionContext } from "../../pages/wallet"
+import Currency from "../currency"
+import styles from "../../styles/components/wallet/WalletSummary.module.css"
 
 export function WalletSummary({}) {
   const transactions: Array<Transaction> = useContext(TransactionContext)
-  const totalExpense: string = getTotalExpense()
-  const totalIncome: string = getTotalIncome()
+  const totalExpense: Currency = getTotalExpense()
+  const totalIncome: Currency = getTotalIncome()
   const cashFlow: string = getCashFlow()
 
-  function getTotalAmount(transactions: Array<Transaction>): number {
+  function getTotalAmount(transactions: Array<Transaction>): Currency {
     return transactions.reduce((accumulator, transaction) =>
-      accumulator + transaction.amount, 0)
+      accumulator.add(transaction.amount), new Currency(0))
   }
 
-  function getTotalExpense(): string {
+  function getTotalExpense(): Currency {
     const expenseTransactions = transactions.filter((transaction) => transaction.isExpense)
-    const total: number = getTotalAmount(expenseTransactions)
-    return total.toFixed(2)
+    return getTotalAmount(expenseTransactions)
   }
 
-  function getTotalIncome(): string {
+  function getTotalIncome(): Currency {
     const incomeTransactions = transactions.filter((transaction) => !transaction.isExpense)
-    const total: number = getTotalAmount(incomeTransactions)
-    return total.toFixed(2)
+    return getTotalAmount(incomeTransactions)
   }
 
   function getCashFlow(): string {
-    const cashFlow: string = Math.abs(Number(totalIncome) - Number(totalExpense)).toFixed(2)
-    if (Number(totalIncome) < Number(totalExpense)) {
-      return "-$" + cashFlow
+    if (totalIncome.greaterThan(totalExpense)) {
+      return totalIncome.subtract(totalExpense).format()
+    } else {
+      return totalIncome.subtract(totalExpense).formatNegative()
     }
-    return "$" + cashFlow
   }
 
   return (
@@ -45,11 +44,11 @@ export function WalletSummary({}) {
       <div className={styles.walletSummary}>
         <CardInfo ariaLabel="wallet-expenses">
           <h2>Expenses</h2>
-          <p className={styles.warning}>${totalExpense}</p>
+          <p className={styles.warning}>{totalExpense.format()}</p>
         </CardInfo>
         <CardInfo ariaLabel="wallet-income">
           <h2>Income</h2>
-          <p>${totalIncome}</p>
+          <p>{totalIncome.format()}</p>
         </CardInfo>
         <CardInfo ariaLabel="wallet-cash-flow">
           <h2>Cash Flow</h2>

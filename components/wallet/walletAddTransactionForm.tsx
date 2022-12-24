@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react"
 import axios from "axios"
-import {Transaction} from "../../pages/wallet"
+import { Transaction } from "../../pages/wallet"
+import Currency from "../currency"
 import styles from "../../styles/components/wallet/WalletAddTransactionForm.module.css"
 
 interface handleNewTransaction {
@@ -23,6 +24,7 @@ const WalletForm:FC<WalletFormProps> = (props) => {
     const transaction = response.data
     props.handleNewTransaction({
       ...transaction,
+      amount: new Currency(transaction.amount),
       transactionDate: new Date(transaction.transactionDate)
     })
   }
@@ -69,11 +71,12 @@ const WalletForm:FC<WalletFormProps> = (props) => {
 
 function getRequestBody(event: React.FormEvent<HTMLFormElement>, transactionDate: Date) {
   const name: string = (event.currentTarget.elements.namedItem("name") as HTMLInputElement).value
-  const amount: number = Number((event.currentTarget.elements.namedItem("amount") as HTMLInputElement).value)
+  const amountInCents: number = Number((event.currentTarget.elements.namedItem("amount")as HTMLInputElement)
+      .value) * 100
   const isExpense: boolean = (event.currentTarget.elements.namedItem("expense") as HTMLInputElement).checked
   return {
     name,
-    amount,
+    amount: amountInCents,
     isExpense,
     transactionDate,
   }

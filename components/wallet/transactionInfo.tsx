@@ -19,7 +19,7 @@ const TransactionInfo:FC<TransactionInfoProps> = (props) => {
     <div className={`${styles.container} ${transactionTypeStyle}`}>
       <h1 className={styles.name}>{props.transaction.name}</h1>
       <div className={styles.info}>
-        <h2>${props.transaction.amount.toFixed(2)}</h2>
+        <h2>{props.transaction.amount.format()}</h2>
         <h3>{props.transaction.transactionDate.toLocaleDateString()}</h3>
       </div>
       <button className={styles.deleteBtn}
