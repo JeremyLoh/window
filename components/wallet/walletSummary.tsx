@@ -36,7 +36,9 @@ export function WalletSummary({}) {
 
   return (
     <div>
-      <h1 aria-label="wallet-transaction-day-count">
+      <h1 className={styles.transactionCount}
+        aria-label="wallet-transaction-day-count"
+      >
         { transactions.length === 0 ? "Zero Transactions"
           : `Transaction Count: ${transactions.length}` }
       </h1>
