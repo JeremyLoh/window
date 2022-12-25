@@ -1,6 +1,6 @@
 import { test, expect, describe } from "vitest"
 import { render, screen } from "@testing-library/react"
-import Wallet from "../../pages/wallet"
+import Wallet from "../../../pages/wallet"
 
 function getMonth(date: Date) {
   const monthNames = ["January", "February", "March", "April", "May", "June",
