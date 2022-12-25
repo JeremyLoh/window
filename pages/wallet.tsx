@@ -6,12 +6,13 @@ import WalletForm from "../components/wallet/walletAddTransactionForm"
 import { WalletSummary } from "../components/wallet/walletSummary"
 import TransactionHistory from "../components/wallet/transactionHistory"
 import CardInfo from "../components/cardInfo"
+import Currency from "../components/currency"
 import styles from "../styles/pages/Wallet.module.css"
 
 export interface Transaction {
   id: string,
   name: string,
-  amount: number,
+  amount: Currency,
   isExpense: boolean,
   transactionDate: Date
 }
@@ -47,8 +48,8 @@ const Wallet:FC<any> = () => {
   function deleteTransaction(transactionId: string, date: Date): void {
     setTransactionsByDate(produce((draft) => {
       const key = formatDate(date)
-      const updatedTransactions: Array<Transaction> = draft.get(key)
-        ?.filter((transaction: Transaction) => transaction.id !== transactionId) || []
+      const updatedTransactions = draft.get(key)
+        ?.filter((transaction) => transaction.id !== transactionId) || []
       draft.set(key, updatedTransactions)
     }))
   }
