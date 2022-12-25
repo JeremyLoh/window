@@ -16,7 +16,9 @@ const TransactionInfo:FC<TransactionInfoProps> = (props) => {
     : styles.income
 
   return (
-    <div className={`${styles.container} ${transactionTypeStyle}`}>
+    <div className={`${styles.container} ${transactionTypeStyle}`}
+         aria-label="transaction"
+    >
       <h1 className={styles.name}>{props.transaction.name}</h1>
       <div className={styles.info}>
         <h2>{props.transaction.amount.format()}</h2>

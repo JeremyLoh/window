@@ -5,11 +5,11 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup"
 import Wallet from "../../../pages/wallet"
 import format from "date-fns/format"
 
-describe("transactions", () => {
-  const user: UserEvent = userEvent.setup()
-  const VALID_NAME: string = "test name"
-  const VALID_AMOUNT: string = "3.00"
+const VALID_NAME: string = "test name"
+const VALID_AMOUNT: string = "3.00"
+const user: UserEvent = userEvent.setup()
 
+describe("transactions", () => {
   function getForm(): HTMLElement {
     return screen.getByLabelText("add-transaction-form")
   }
@@ -179,7 +179,8 @@ describe("transactions", () => {
   describe("transaction history", () => {
     function assertEmptyTransactionHistory(transactionHistory: HTMLElement): void {
       expect(transactionHistory).toBeInTheDocument()
-      expect(transactionHistory).toHaveTextContent("")
+      expect(within(transactionHistory).getByLabelText("transactions-container"))
+        .toBeEmptyDOMElement()
     }
 
     function assertTransactionHistoryContains(transactionHistory: HTMLElement,
@@ -203,7 +204,7 @@ describe("transactions", () => {
     function getFirstTransactionDeleteButton() {
       const transactionHistory: HTMLElement = getTransactionHistory()
       return within(transactionHistory)
-        .getAllByRole("button", {name: "delete-transaction"})[0];
+        .getAllByRole("button", { name: "delete-transaction" })[0]
     }
 
     test("should show empty transaction history element", async () => {
@@ -239,6 +240,98 @@ describe("transactions", () => {
       await user.click(transactionDeleteButton)
       expect(transactionHistory.textContent).not.toContain(VALID_NAME)
       expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
+    })
+
+    describe("pagination", () => {
+      const transactionsPerPage: number = 10
+
+      function getAllTransactionOnPage(): HTMLElement[] {
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        return within(transactionHistory)
+          .getAllByRole("generic", { name: "transaction" })
+      }
+
+      function getPreviousPaginationButton(): HTMLButtonElement {
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        return within(transactionHistory).getByRole("button", { name: "previous-transaction-history" })
+      }
+
+      function getNextPaginationButton(): HTMLButtonElement {
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        return within(transactionHistory).getByRole("button", { name: "next-transaction-history" })
+      }
+
+      function getCurrentPageNumber(): HTMLElement {
+        const transactionHistory: HTMLElement = getTransactionHistory()
+        return within(transactionHistory).getByRole("button",
+          { name: "current-transaction-history-page" })
+      }
+
+      describe("current page number", () => {
+        test("should start page number as 1", async () => {
+          render(<Wallet />)
+          expect(getCurrentPageNumber().textContent).toBe("1")
+        })
+
+        test("should show page number as 2 when next page is viewed", async () => {
+          render(<Wallet />)
+          expect(getCurrentPageNumber().textContent).toBe("1")
+          for (let i = 0; i < transactionsPerPage + 1; i++) {
+            await submitExpenseTransaction(VALID_NAME, VALID_AMOUNT)
+          }
+          await user.click(getNextPaginationButton())
+          expect(getCurrentPageNumber().textContent).toBe("2")
+        })
+      })
+
+      describe("pagination buttons", () => {
+        test("should show pagination buttons", async () => {
+          render(<Wallet />)
+          expect(getPreviousPaginationButton()).toBeInTheDocument()
+          expect(getNextPaginationButton()).toBeInTheDocument()
+        })
+
+        test("should have previous pagination button disabled for first page", async () => {
+          render(<Wallet />)
+          expect(getPreviousPaginationButton()).toBeDisabled()
+        })
+
+        test("should have next pagination button disabled for zero transactions", async () => {
+          render(<Wallet />)
+          expect(getNextPaginationButton()).toBeDisabled()
+        })
+
+        test("should have next pagination button disabled for last page", async () => {
+          render(<Wallet />)
+          for (let i = 0; i < transactionsPerPage + 1; i++) {
+            await submitExpenseTransaction(VALID_NAME, VALID_AMOUNT)
+          }
+          const nextPage: HTMLButtonElement = getNextPaginationButton()
+          expect(nextPage).not.toBeDisabled()
+          await user.click(nextPage)
+          expect(nextPage).toBeDisabled()
+        })
+
+        test("should have next pagination button disabled for first 10 transactions", async () => {
+          render(<Wallet />)
+          const nextPage: HTMLButtonElement = getNextPaginationButton()
+          expect(nextPage).toBeDisabled()
+          for (let i = 0; i < transactionsPerPage; i++) {
+            await submitExpenseTransaction(VALID_NAME, VALID_AMOUNT)
+          }
+          expect(nextPage).toBeDisabled()
+        })
+      })
+
+      test("should show 10 transactions per page", async () => {
+        render(<Wallet />)
+        for (let i = 0; i < transactionsPerPage + 1; i++) {
+          await submitExpenseTransaction(VALID_NAME, VALID_AMOUNT)
+        }
+        expect(getAllTransactionOnPage().length).toEqual(10)
+        await user.click(getNextPaginationButton())
+        expect(getAllTransactionOnPage().length).toEqual(1)
+      })
     })
 
     describe("transaction count", () => {
