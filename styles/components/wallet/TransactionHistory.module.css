@@ -4,3 +4,14 @@
   justify-content: flex-start;
   width: 100%;
 }
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1em;
+  gap: 1em;
+}
+
+.pagination button {
+  padding: 0.4em 1em;
+}
