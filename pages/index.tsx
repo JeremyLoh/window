@@ -33,6 +33,16 @@ export default function Home() {
               <p>Track your cash flow!</p>
             </CardLink>
           </section>
+          <section>
+            <CardLink href="/exchange" ariaLabel="exchange-rate-feature">
+              <h2>
+                Exchange Rates {" "}
+                <Emoji symbol="💱" label="currency-exchange"/>
+                {" "} &rarr;
+              </h2>
+              <p>Check currency exchange rates</p>
+            </CardLink>
+          </section>
         </div>
       </main>
 
