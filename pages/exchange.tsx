@@ -45,6 +45,25 @@ export default function Exchange() {
                value={String(amount.getAmountInDollars())}
                onChange={handleChangeAmount}
         />
+
+        <label htmlFor="from-currency-select">From</label>
+        <select required defaultValue="" aria-label="from-currency-select">
+          <option value="" aria-label="default-from-currency" disabled hidden>
+            -- select an option --
+          </option>
+          <option value="SGD" aria-label="from-SGD">SGD - Singapore Dollar</option>
+          <option value="USD" aria-label="from-USD">USD - United States Dollar</option>
+        </select>
+
+        <label htmlFor="to-currency-select">To</label>
+        <select required defaultValue="" aria-label="to-currency-select">
+          <option value="" aria-label="default-to-currency" disabled hidden>
+            -- select an option --
+          </option>
+          <option value="SGD" aria-label="to-SGD">SGD - Singapore Dollar</option>
+          <option value="USD" aria-label="to-USD">USD - United States Dollar</option>
+        </select>
+
         <button type="submit">Submit</button>
       </form>
     </div>
