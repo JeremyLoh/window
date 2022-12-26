@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    setupFiles: "./__tests__/setup.js",
+    setupFiles: "./__tests__/setup.ts",
     reporters: "verbose",
     testTimeout: 5000
   },

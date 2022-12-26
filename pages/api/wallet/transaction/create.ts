@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { nanoid } from "nanoid"
 
-type Data = {
+export type Data = {
   id?: string,
   name?: string,
   amount?: number,

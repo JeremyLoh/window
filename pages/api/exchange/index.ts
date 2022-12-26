@@ -7,7 +7,7 @@ export type RequestData = {
   amount: number,
 }
 
-type Data = {
+export type Data = {
   date?: Date,
   rate?: number,
   result?: number,
@@ -40,6 +40,7 @@ export default async function handler(
     const url: string = "https://api.exchangerate.host/convert"
     try {
       const response: AxiosResponse = await getCurrencyExchange(url, params)
+      console.log(JSON.stringify(response.data))
       const output: Data = parseCurrencyExchangeResponse(response.data)
       res.status(200).json(output)
     } catch (error) {
