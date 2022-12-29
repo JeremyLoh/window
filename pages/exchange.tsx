@@ -8,17 +8,28 @@ import styles from "../styles/pages/Exchange.module.css"
 
 export default function Exchange() {
   const [amount, setAmount] = useState<Currency>(new Currency(0))
+  const [fromCurrency, setFromCurrency] = useState<string>("")
+  const [toCurrency, setToCurrency] = useState<string>("")
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    console.log(fromCurrency, toCurrency, amount.getAmountInDollars())
     const body: RequestData = {
-      fromCurrencyCode: "USD", // TODO CHANGE TO USER FORM INPUT VALUE
-      toCurrencyCode: "SGD", // TODO CHANGE TO USER FORM INPUT VALUE
+      fromCurrencyCode: fromCurrency,
+      toCurrencyCode: toCurrency,
       amount: amount.getAmountInDollars(),
     }
     const response = await axios.post("/api/exchange", body)
     console.log(JSON.stringify(response.data))
     // TODO Display results
+  }
+
+  function handleFromCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setFromCurrency(event.target.value)
+  }
+
+  function handleToCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setToCurrency(event.target.value)
   }
 
   function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -42,6 +53,7 @@ export default function Exchange() {
             method="post"
             onSubmit={handleSubmit}
             className={styles.currencyForm}
+            aria-label="exchange-currency-form"
       >
         <div className={styles.currencyFormInput}>
           <label htmlFor="conversion-amount">Conversion Amount</label>
@@ -59,7 +71,8 @@ export default function Exchange() {
         <div className={styles.currencyFormInput}>
           <label htmlFor="from-currency-select">From</label>
           <select required
-                  defaultValue=""
+                  value={fromCurrency}
+                  onChange={handleFromCurrencyChange}
                   aria-label="from-currency-select"
                   className={styles.input}
           >
@@ -73,7 +86,8 @@ export default function Exchange() {
         <div className={styles.currencyFormInput}>
           <label htmlFor="to-currency-select">To</label>
           <select required
-                  defaultValue=""
+                  value={toCurrency}
+                  onChange={handleToCurrencyChange}
                   aria-label="to-currency-select"
                   className={styles.input}
           >
@@ -85,7 +99,7 @@ export default function Exchange() {
           </select>
         </div>
         <button type="submit" className={styles.currencyFormButton}>
-          Submit
+          Convert
         </button>
       </form>
     </div>
