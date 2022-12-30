@@ -114,6 +114,14 @@ describe("exchange rate", () => {
       expect(axiosSpy).not.toHaveBeenCalled()
     })
 
+    test("should not submit exchange request for negative amount", async () => {
+      render(<Exchange />)
+      await expect(
+        submitCurrencyConvert("-2", "SGD", "SGD"),
+      ).resolves.not.toThrowError()
+      expect(axiosSpy).not.toHaveBeenCalled()
+    })
+
     test("should not submit exchange request for same currency conversion", async () => {
       render(<Exchange />)
       await submitCurrencyConvert("10", "SGD", "SGD");
