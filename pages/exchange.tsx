@@ -50,7 +50,12 @@ export default function Exchange() {
   }
 
   function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>): void {
-    const amountInCents: number = parseFloat(event.target.value) * 100
+    const input: string = event.target.value
+    if (input.trim() === "") {
+      setAmount(new Currency(0))
+      return
+    }
+    const amountInCents: number = parseFloat(input) * 100
     setAmount(new Currency(amountInCents))
   }
 
