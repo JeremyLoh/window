@@ -1,4 +1,5 @@
 import axios from "axios"
+import Swal from "sweetalert2"
 import { test, expect, describe, vi, afterEach } from "vitest"
 import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
@@ -83,6 +84,7 @@ describe("exchange rate", () => {
 
   describe("convert currency", () => {
     const axiosSpy = vi.spyOn(axios, "post")
+    const alertSpy = vi.spyOn(Swal, "fire")
 
     afterEach(() => {
       vi.restoreAllMocks()
@@ -110,6 +112,13 @@ describe("exchange rate", () => {
       render(<Exchange />)
       await submitCurrencyConvert("0", "SGD", "USD");
       expect(axiosSpy).not.toHaveBeenCalled()
+    })
+
+    test("should not submit exchange request for same currency conversion", async () => {
+      render(<Exchange />)
+      await submitCurrencyConvert("10", "SGD", "SGD");
+      expect(axiosSpy).not.toHaveBeenCalled()
+      expect(alertSpy).toHaveBeenCalledTimes(1)
     })
   })
 })
