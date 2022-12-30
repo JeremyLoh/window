@@ -1,4 +1,5 @@
-import { test, expect, describe } from "vitest"
+import axios from "axios"
+import { test, expect, describe, vi, afterEach } from "vitest"
 import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
@@ -21,6 +22,11 @@ describe("exchange rate", () => {
 
   function getOption(selectElement: HTMLSelectElement, optionLabelText: string): HTMLOptionElement {
     return within(selectElement).getByLabelText(optionLabelText)
+  }
+
+  function getSubmitButton(): HTMLButtonElement {
+    const form: HTMLElement = screen.getByLabelText("exchange-currency-form")
+    return within(form).getByRole("button", { name: "Convert" })
   }
 
   test("should show amount to convert input element", () => {
@@ -72,6 +78,38 @@ describe("exchange rate", () => {
       expect(toSgdOption.selected).toBeFalsy()
       await user.selectOptions(toCurrencyDropdown, toSgdOption)
       expect(toSgdOption.selected).toBeTruthy()
+    })
+  })
+
+  describe("convert currency", () => {
+    const axiosSpy = vi.spyOn(axios, "post")
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    async function submitCurrencyConvert(amount: string, fromCurrency: string, toCurrency: string) {
+      await user.type(getConversionAmountInput(), amount)
+      await user.selectOptions(getFromCurrencyDropdown(), fromCurrency)
+      await user.selectOptions(getToCurrencyDropdown(), toCurrency)
+      await user.click(getSubmitButton())
+    }
+
+    test("should submit valid exchange request", async () => {
+      render(<Exchange />)
+      await submitCurrencyConvert("0.01", "SGD", "USD");
+      expect(axiosSpy).toHaveBeenCalledOnce()
+      expect(axiosSpy).toHaveBeenCalledWith("/api/exchange", {
+        fromCurrencyCode: "SGD",
+        toCurrencyCode: "USD",
+        amount: 0.01,
+      })
+    })
+
+    test("should not submit exchange request for invalid zero amount", async () => {
+      render(<Exchange />)
+      await submitCurrencyConvert("0", "SGD", "USD");
+      expect(axiosSpy).not.toHaveBeenCalled()
     })
   })
 })
