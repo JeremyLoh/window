@@ -11,36 +11,7 @@ import {
   RequestData as exchangeRequestData
 } from "../pages/api/exchange/index"
 
-function mockNextFont() {
-  vi.mock("@next/font/google", () => {
-    return {
-      Special_Elite: vi.fn(() => {
-        return {
-          className: "className",
-          variable: "variable",
-          style: { fontFamily: "fontFamily" },
-        }
-      })
-    }
-  })
-}
-
-function getTransaction(data: createTransactionResponseData) {
-  const { name, amount, isExpense, transactionDate }: createTransactionResponseData = data
-  return {
-    id: nanoid(),
-    name,
-    amount,
-    isExpense,
-    transactionDate
-  }
-}
-
 export const mockExchangeRate: number = 1.352
-
-function getExchangeResult(amount: number) {
-  return Number((amount * mockExchangeRate).toFixed(3));
-}
 
 export const restHandlers = [
   rest.post("/api/wallet/transaction/create", async (req, res, ctx) => {
@@ -76,6 +47,12 @@ const server = setupServer(...restHandlers)
 expect.extend(matchers)
 
 beforeAll(() => {
+  console.error = (error) => {
+    throw new Error(error)
+  }
+  console.warn = (warning) => {
+    throw new Error(warning)
+  }
   server.listen({ onUnhandledRequest: "error" })
   mockNextFont()
   enableAllPlugins()
@@ -92,3 +69,32 @@ afterAll(() => {
   server.close()
   vi.restoreAllMocks()
 })
+
+function mockNextFont() {
+  vi.mock("@next/font/google", () => {
+    return {
+      Special_Elite: vi.fn(() => {
+        return {
+          className: "className",
+          variable: "variable",
+          style: { fontFamily: "fontFamily" },
+        }
+      })
+    }
+  })
+}
+
+function getTransaction(data: createTransactionResponseData) {
+  const { name, amount, isExpense, transactionDate }: createTransactionResponseData = data
+  return {
+    id: nanoid(),
+    name,
+    amount,
+    isExpense,
+    transactionDate
+  }
+}
+
+function getExchangeResult(amount: number) {
+  return Number((amount * mockExchangeRate).toFixed(3));
+}
