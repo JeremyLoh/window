@@ -6,7 +6,10 @@ import { setupServer } from "msw/node"
 import { nanoid } from "nanoid"
 import { enableAllPlugins } from "immer"
 import { Data as createTransactionResponseData } from "../pages/api/wallet/transaction/create"
-import { Data as exchangeResponseData } from "../pages/api/exchange/index"
+import {
+  Data as exchangeResponseData,
+  RequestData as exchangeRequestData
+} from "../pages/api/exchange/index"
 
 function mockNextFont() {
   vi.mock("@next/font/google", () => {
@@ -33,6 +36,12 @@ function getTransaction(data: createTransactionResponseData) {
   }
 }
 
+export const mockExchangeRate: number = 1.352
+
+function getExchangeResult(amount: number) {
+  return Number((amount * mockExchangeRate).toFixed(3));
+}
+
 export const restHandlers = [
   rest.post("/api/wallet/transaction/create", async (req, res, ctx) => {
     const requestData: createTransactionResponseData = await req.json()
@@ -41,10 +50,21 @@ export const restHandlers = [
   }),
   rest.get("/api/exchange", async (req, res, ctx) => {
     // https://api.exchangerate.host/convert
+    const requestData: exchangeRequestData = await req.json()
     const mockResponse: exchangeResponseData = {
       date: new Date("2022-12-26"),
-      rate: 1.352,
-      result: 4.057,
+      rate: mockExchangeRate,
+      result: getExchangeResult(requestData.amount),
+    }
+    return res(ctx.status(200), ctx.json(mockResponse))
+  }),
+  rest.post("/api/exchange", async (req, res, ctx) => {
+    // https://api.exchangerate.host/convert
+    const requestData: exchangeRequestData = await req.json()
+    const mockResponse: exchangeResponseData = {
+      date: new Date("2022-12-30"),
+      rate: mockExchangeRate,
+      result: getExchangeResult(requestData.amount),
     }
     return res(ctx.status(200), ctx.json(mockResponse))
   })
