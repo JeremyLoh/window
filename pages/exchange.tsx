@@ -1,10 +1,21 @@
 import Head from "next/head"
 import React, { useState } from "react"
 import axios from "axios"
+import Swal from "sweetalert2"
 import Currency from "../components/currency"
 import Emoji from "../components/emoji"
 import { RequestData } from "./api/exchange"
 import styles from "../styles/pages/Exchange.module.css"
+
+const ErrorToast = Swal.mixin({
+  icon: "error",
+  toast: true,
+  position: "center",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  width: "42em",
+})
 
 export default function Exchange() {
   const [amount, setAmount] = useState<Currency>(new Currency(0))
@@ -13,7 +24,13 @@ export default function Exchange() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    console.log(fromCurrency, toCurrency, amount.getAmountInDollars())
+    if (fromCurrency === toCurrency) {
+      await ErrorToast.fire({
+        title: "Invalid currency chosen",
+        text: "Currency chosen for conversion should be different",
+      })
+      return
+    }
     const body: RequestData = {
       fromCurrencyCode: fromCurrency,
       toCurrencyCode: toCurrency,
