@@ -18,7 +18,7 @@ interface CurrencyConvertFormProps {
 }
 
 const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
-  const [amount, setAmount] = useState<Currency>(new Currency(0))
+  const [amount, setAmount] = useState<string>("")
   const [fromCurrency, setFromCurrency] = useState<string>("")
   const [toCurrency, setToCurrency] = useState<string>("")
 
@@ -31,7 +31,7 @@ const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
       })
       return
     }
-    props.handleSubmit(fromCurrency, toCurrency, amount)
+    props.handleSubmit(fromCurrency, toCurrency, new Currency(parseFloat(amount) * 100))
   }
 
   function handleFromCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -43,13 +43,7 @@ const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
   }
 
   function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>): void {
-    const input: string = event.target.value
-    if (input.trim() === "") {
-      setAmount(new Currency(0))
-      return
-    }
-    const amountInCents: number = parseFloat(input) * 100
-    setAmount(new Currency(amountInCents))
+    setAmount(event.target.value)
   }
 
   return (
@@ -68,7 +62,7 @@ const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
                  min="0.01"
                  max="99999999"
                  step="0.01"
-                 value={String(amount.getAmountInDollars())}
+                 value={amount}
                  onChange={handleChangeAmount}
                  className={styles.input}
           />
