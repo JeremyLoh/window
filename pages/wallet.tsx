@@ -1,4 +1,5 @@
 import React, { createContext, FC, useState } from "react"
+import Head from "next/head"
 import format from "date-fns/format"
 import produce from "immer"
 import Calendar from "react-calendar"
@@ -56,6 +57,11 @@ const Wallet:FC<any> = () => {
 
   return (
     <div>
+      <Head>
+        <title>Window</title>
+        <meta name="description" content="Manage your Wallet" />
+      </Head>
+
       <h1 className={styles.pageTitle}>Wallet</h1>
 
       <div className={styles.transactionInfo}>

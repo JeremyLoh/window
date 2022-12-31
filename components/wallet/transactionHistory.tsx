@@ -4,7 +4,7 @@ import styles from "../../styles/components/wallet/TransactionHistory.module.css
 import { Transaction, TransactionContext } from "../../pages/wallet"
 
 const TransactionHistory:FC<any> = () => {
-  const [pageIndex, setPageIndex] = useState(1)
+  const [pageIndex, setPageIndex] = useState<number>(1)
   const transactions: Array<Transaction> = useContext(TransactionContext)
 
   function getPaginatedTransactions(transactions: Array<Transaction>) {

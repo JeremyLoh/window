@@ -22,4 +22,11 @@ describe("index", () => {
     expect(screen.getByRole("link", { name: /track your cash flow!/i }))
       .toHaveAttribute("href", "/wallet")
   })
+
+  test("exchange rate feature should have link to exchange rate page", () => {
+    render(<Home />)
+    expect(screen.getByRole("button", { name: /exchange-rate-feature/i })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /check currency exchange rates/i }))
+      .toHaveAttribute("href", "/exchange")
+  })
 })

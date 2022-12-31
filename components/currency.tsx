@@ -14,6 +14,10 @@ class Currency {
     return this.amount.getAmount()
   }
 
+  public getAmountInDollars(): number {
+    return this.amount.toUnit()
+  }
+
   public getCurrency(): string {
     return this.amount.getCurrency()
   }
