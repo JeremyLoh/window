@@ -6,7 +6,24 @@
   padding: 1em;
 }
 
+.currencyConvertContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1em;
+  padding: 1em 0;
+  width: 80%;
+}
+
 .pageTitle {
   text-align: end;
   width: 80%;
+}
+
+@media (max-width: 600px) {
+  .currencyConvertContainer {
+    align-items: center;
+    width: 90%;
+  }
 }

@@ -5,6 +5,7 @@ import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
 import Exchange from "../../../pages/exchange"
+import { mockExchangeRate } from "../../setup"
 
 describe("exchange rate", () => {
   const user: UserEvent = userEvent.setup()
@@ -90,6 +91,10 @@ describe("exchange rate", () => {
       vi.restoreAllMocks()
     })
 
+    function getCurrencyExchangeResult(): HTMLElement {
+      return screen.getByLabelText(/currency-exchange-result/i)
+    }
+
     async function submitCurrencyConvert(amount: string, fromCurrency: string, toCurrency: string) {
       await user.type(getConversionAmountInput(), amount)
       await user.selectOptions(getFromCurrencyDropdown(), fromCurrency)
@@ -99,7 +104,7 @@ describe("exchange rate", () => {
 
     test("should submit valid exchange request", async () => {
       render(<Exchange />)
-      await submitCurrencyConvert("0.01", "SGD", "USD");
+      await submitCurrencyConvert("0.01", "SGD", "USD")
       expect(axiosSpy).toHaveBeenCalledOnce()
       expect(axiosSpy).toHaveBeenCalledWith("/api/exchange", {
         fromCurrencyCode: "SGD",
@@ -110,7 +115,7 @@ describe("exchange rate", () => {
 
     test("should not submit exchange request for invalid zero amount", async () => {
       render(<Exchange />)
-      await submitCurrencyConvert("0", "SGD", "USD");
+      await submitCurrencyConvert("0", "SGD", "USD")
       expect(axiosSpy).not.toHaveBeenCalled()
     })
 
@@ -124,9 +129,18 @@ describe("exchange rate", () => {
 
     test("should not submit exchange request for same currency conversion", async () => {
       render(<Exchange />)
-      await submitCurrencyConvert("10", "SGD", "SGD");
+      await submitCurrencyConvert("10", "SGD", "SGD")
       expect(axiosSpy).not.toHaveBeenCalled()
       expect(alertSpy).toHaveBeenCalledTimes(1)
+    })
+
+    test("should display exchange result", async () => {
+      render(<Exchange />)
+      await submitCurrencyConvert("2", "SGD", "USD")
+      const currencyExchangeResult: HTMLElement = getCurrencyExchangeResult()
+      const expectedExchangeAmount: string = (mockExchangeRate * 2).toFixed(3)
+      expect(currencyExchangeResult).toHaveTextContent(`2 SGD = ${expectedExchangeAmount} USD`)
+      expect(currencyExchangeResult).toHaveTextContent(`Exchange Rate: ${mockExchangeRate}`)
     })
   })
 })

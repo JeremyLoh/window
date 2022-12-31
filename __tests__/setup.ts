@@ -7,7 +7,7 @@ import { nanoid } from "nanoid"
 import { enableAllPlugins } from "immer"
 import { Data as createTransactionResponseData } from "../pages/api/wallet/transaction/create"
 import {
-  Data as exchangeResponseData,
+  CurrencyConvertResponse as exchangeResponseData,
   RequestData as exchangeRequestData
 } from "../pages/api/exchange/index"
 

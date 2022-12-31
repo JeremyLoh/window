@@ -1,7 +1,5 @@
 import React, { FC, useState } from "react"
-import axios from "axios"
 import Swal from "sweetalert2"
-import { RequestData } from "../../pages/api/exchange"
 import Currency from "../currency"
 import styles from "../../styles/components/exchange/CurrencyConvertForm.module.css"
 
@@ -15,7 +13,11 @@ const ErrorToast = Swal.mixin({
   width: "42em",
 })
 
-const CurrencyConvertForm:FC = () => {
+interface CurrencyConvertFormProps {
+  handleSubmit:  (fromCurrency: string, toCurrency: string, amount: Currency) => void
+}
+
+const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
   const [amount, setAmount] = useState<Currency>(new Currency(0))
   const [fromCurrency, setFromCurrency] = useState<string>("")
   const [toCurrency, setToCurrency] = useState<string>("")
@@ -29,14 +31,7 @@ const CurrencyConvertForm:FC = () => {
       })
       return
     }
-    const body: RequestData = {
-      fromCurrencyCode: fromCurrency,
-      toCurrencyCode: toCurrency,
-      amount: amount.getAmountInDollars(),
-    }
-    const response = await axios.post("/api/exchange", body)
-    console.log(JSON.stringify(response.data))
-    // TODO Display results
+    props.handleSubmit(fromCurrency, toCurrency, amount)
   }
 
   function handleFromCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
