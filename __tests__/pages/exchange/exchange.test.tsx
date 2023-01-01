@@ -5,7 +5,7 @@ import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
 import Exchange from "../../../pages/exchange"
-import { mockExchangeRate } from "../../setup"
+import { mockExchangeRate } from "../../serverSetup"
 
 describe("exchange rate", () => {
   const user: UserEvent = userEvent.setup()
