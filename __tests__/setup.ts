@@ -5,24 +5,25 @@ import { rest } from "msw"
 import { setupServer } from "msw/node"
 import { nanoid } from "nanoid"
 import { enableAllPlugins } from "immer"
-import { Data as createTransactionResponseData } from "../pages/api/wallet/transaction/create"
+import { Data as CreateTransactionResponseData } from "../pages/api/wallet/transaction/create"
 import {
-  CurrencyConvertResponse as exchangeResponseData,
-  RequestData as exchangeRequestData
+  CurrencyConvertResponse as ExchangeResponseData,
+  RequestData as ExchangeRequestData
 } from "../pages/api/exchange/index"
+import { CurrencySymbolResponse } from "../pages/api/exchange/currency/symbols"
 
 export const mockExchangeRate: number = 1.352
 
 export const restHandlers = [
   rest.post("/api/wallet/transaction/create", async (req, res, ctx) => {
-    const requestData: createTransactionResponseData = await req.json()
+    const requestData: CreateTransactionResponseData = await req.json()
     const transaction = getTransaction(requestData)
     return res(ctx.status(200), ctx.json(transaction))
   }),
   rest.get("/api/exchange", async (req, res, ctx) => {
     // https://api.exchangerate.host/convert
-    const requestData: exchangeRequestData = await req.json()
-    const mockResponse: exchangeResponseData = {
+    const requestData: ExchangeRequestData = await req.json()
+    const mockResponse: ExchangeResponseData = {
       date: new Date("2022-12-26"),
       rate: mockExchangeRate,
       result: getExchangeResult(requestData.amount),
@@ -31,11 +32,59 @@ export const restHandlers = [
   }),
   rest.post("/api/exchange", async (req, res, ctx) => {
     // https://api.exchangerate.host/convert
-    const requestData: exchangeRequestData = await req.json()
-    const mockResponse: exchangeResponseData = {
+    const requestData: ExchangeRequestData = await req.json()
+    const mockResponse: ExchangeResponseData = {
       date: new Date("2022-12-30"),
       rate: mockExchangeRate,
       result: getExchangeResult(requestData.amount),
+    }
+    return res(ctx.status(200), ctx.json(mockResponse))
+  }),
+  rest.get("/api/exchange/currency/symbols", async (req, res, ctx) => {
+    // https://api.exchangerate.host/symbols
+    const mockResponse: CurrencySymbolResponse = {
+      "symbols": {
+        "BTC": {
+          "description": "Bitcoin",
+          "code": "BTC"
+        },
+        "CNH": {
+          "description": "Chinese Yuan (Offshore)",
+          "code": "CNH"
+        },
+        "CNY": {
+          "description": "Chinese Yuan",
+          "code": "CNY"
+        },
+        "EUR": {
+          "description": "Euro",
+          "code": "EUR"
+        },
+        "GBP": {
+          "description": "British Pound Sterling",
+          "code": "GBP"
+        },
+        "HKD": {
+          "description": "Hong Kong Dollar",
+          "code": "HKD"
+        },
+        "JPY": {
+          "description": "Japanese Yen",
+          "code": "JPY"
+        },
+        "SGD": {
+          "description": "Singapore Dollar",
+          "code": "SGD"
+        },
+        "TWD": {
+          "description": "New Taiwan Dollar",
+          "code": "TWD"
+        },
+        "USD": {
+          "description": "United States Dollar",
+          "code": "USD"
+        },
+      }
     }
     return res(ctx.status(200), ctx.json(mockResponse))
   })
@@ -84,8 +133,8 @@ function mockNextFont() {
   })
 }
 
-function getTransaction(data: createTransactionResponseData) {
-  const { name, amount, isExpense, transactionDate }: createTransactionResponseData = data
+function getTransaction(data: CreateTransactionResponseData) {
+  const { name, amount, isExpense, transactionDate }: CreateTransactionResponseData = data
   return {
     id: nanoid(),
     name,
