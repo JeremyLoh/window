@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react"
 import Swal from "sweetalert2"
 import Currency from "../currency"
+import { Symbol } from "../../lib/exchange/currency/symbols"
 import styles from "../../styles/components/exchange/CurrencyConvertForm.module.css"
 
 const ErrorToast = Swal.mixin({
@@ -14,7 +15,8 @@ const ErrorToast = Swal.mixin({
 })
 
 interface CurrencyConvertFormProps {
-  handleSubmit:  (fromCurrency: string, toCurrency: string, amount: Currency) => void
+  handleSubmit:  (fromCurrency: string, toCurrency: string, amount: Currency) => void,
+  symbols: Record<string, Symbol>,
 }
 
 const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
@@ -44,6 +46,19 @@ const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
 
   function handleChangeAmount(event: React.ChangeEvent<HTMLInputElement>): void {
     setAmount(event.target.value)
+  }
+
+  function getCurrencyInputOptions(prepend: string): JSX.Element[] {
+    return Object.entries(props.symbols).map(([currencyCode, symbol]) => {
+      const label: string = `${prepend}-${currencyCode}`
+      return (
+        <option value={currencyCode}
+                key={label}
+                aria-label={label}>
+          {`${currencyCode} - ${symbol.description}`}
+        </option>
+      )
+    })
   }
 
   return (
@@ -78,8 +93,7 @@ const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
             <option value="" aria-label="default-from-currency" disabled hidden>
               -- select an option --
             </option>
-            <option value="SGD" aria-label="from-SGD">SGD - Singapore Dollar</option>
-            <option value="USD" aria-label="from-USD">USD - United States Dollar</option>
+            { props.symbols && getCurrencyInputOptions("from") }
           </select>
         </div>
         <div className={styles.currencyFormInput}>
@@ -93,8 +107,7 @@ const CurrencyConvertForm:FC<CurrencyConvertFormProps> = (props) => {
             <option value="" aria-label="default-to-currency" disabled hidden>
               -- select an option --
             </option>
-            <option value="SGD" aria-label="to-SGD">SGD - Singapore Dollar</option>
-            <option value="USD" aria-label="to-USD">USD - United States Dollar</option>
+            { props.symbols && getCurrencyInputOptions("to") }
           </select>
         </div>
         <button type="submit" className={styles.currencyFormButton}>

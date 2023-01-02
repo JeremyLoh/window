@@ -2,12 +2,37 @@ import Head from "next/head"
 import React, { useState } from "react"
 import axios from "axios"
 import produce from "immer"
+import Swal from "sweetalert2"
 import Emoji from "../components/emoji"
 import CardInfo from "../components/cardInfo"
 import Currency from "../components/currency"
 import CurrencyConvertForm from "../components/exchange/currencyConvertForm"
 import { CurrencyConvertResponse, RequestData } from "./api/exchange"
+import { getCurrencySymbols, Symbol } from "../lib/exchange/currency/symbols"
 import styles from "../styles/pages/Exchange.module.css"
+
+export async function getStaticProps() {
+  const revalidateInSeconds: number = 86400
+  try {
+    const { symbols } = await getCurrencySymbols()
+    return {
+      props: { symbols },
+      revalidate: revalidateInSeconds,
+    }
+  } catch (error) {
+    return { notfound: true }
+  }
+}
+
+const InvalidDataToast = Swal.mixin({
+  icon: "info",
+  toast: true,
+  position: "top",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  width: "42em",
+})
 
 type ExchangeResult = {
   fromCurrency: string
@@ -17,7 +42,11 @@ type ExchangeResult = {
   result: number
 } | null
 
-export default function Exchange() {
+type ExchangeProps = {
+  symbols:  Record<string, Symbol>
+}
+
+export default function Exchange(props: ExchangeProps) {
   const [exchangeResult, setExchangeResult] = useState<ExchangeResult>(null)
 
   async function handleSubmit(fromCurrency: string, toCurrency: string, amount: Currency) {
@@ -29,7 +58,9 @@ export default function Exchange() {
     const response = await axios.post("/api/exchange", body)
     const {rate, result}: CurrencyConvertResponse = response.data
     if (rate == null || result == null) {
-      // TODO handle error
+      await InvalidDataToast.fire({
+        title: "Currency conversion data unavailable",
+      })
       return
     }
     setExchangeResult(produce((draft) => {
@@ -62,7 +93,8 @@ export default function Exchange() {
       </h1>
 
       <div className={styles.currencyConvertContainer} aria-label="currency-exchange-result">
-        <CurrencyConvertForm handleSubmit={handleSubmit} />
+        <CurrencyConvertForm handleSubmit={handleSubmit}
+                             symbols={props.symbols} />
         { exchangeResult &&
           <CardInfo>
             <h2>{ getCurrencyExchangeText() }</h2>
