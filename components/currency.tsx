@@ -18,14 +18,14 @@ class Currency {
     return this.amount.toUnit()
   }
 
-  public getCurrency(): string {
+  private getCurrency(): DineroFactory.Currency {
     return this.amount.getCurrency()
-  }
+}
 
   public add(value: Currency): Currency {
     const sum: DineroFactory.Dinero = this.amount.add(DineroFactory({
       amount: value.getAmountInCents(),
-      currency: this.amount.getCurrency()
+      currency: value.getCurrency()
     }))
     return new Currency(sum.getAmount(), this.amount.getCurrency())
   }
@@ -33,7 +33,7 @@ class Currency {
   public subtract(value: Currency): Currency {
     const result: DineroFactory.Dinero = this.amount.subtract(DineroFactory({
       amount: value.getAmountInCents(),
-      currency: this.amount.getCurrency()
+      currency: value.getCurrency()
     }))
     return new Currency(result.getAmount(), this.amount.getCurrency())
   }
@@ -41,7 +41,14 @@ class Currency {
   public greaterThan(value: Currency): boolean {
     return this.amount.greaterThan(DineroFactory({
       amount: value.getAmountInCents(),
-      currency: this.amount.getCurrency()
+      currency: value.getCurrency()
+    }))
+  }
+
+  public equalTo(value: Currency): boolean {
+    return this.amount.equalsTo(DineroFactory({
+      amount: value.getAmountInCents(),
+      currency: value.getCurrency()
     }))
   }
 

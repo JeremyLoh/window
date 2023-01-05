@@ -323,6 +323,7 @@ describe("transactions", () => {
       test("should start with zero", async () => {
         render(<Wallet />)
         const cashFlow: HTMLElement = getCashFlowElement()
+        expect(cashFlow).not.toHaveTextContent("-$0.00")
         expect(cashFlow).toHaveTextContent("$0.00")
       })
 

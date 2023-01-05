@@ -26,7 +26,7 @@ export function WalletSummary({}) {
   }
 
   function getCashFlow(): string {
-    if (totalIncome.greaterThan(totalExpense)) {
+    if (totalIncome.greaterThan(totalExpense) || totalIncome.equalTo(totalExpense)) {
       return totalIncome.subtract(totalExpense).format()
     } else {
       return totalIncome.subtract(totalExpense).formatNegative()
