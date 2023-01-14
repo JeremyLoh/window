@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react"
 import styles from "../../styles/components/exchange/EconomyDisplay.module.css"
-import CardInfo from "../cardInfo";
+import CardInfo from "../cardInfo"
 
 export type Country = {
   alpha2Code: string,
