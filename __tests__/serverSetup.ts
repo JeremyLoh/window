@@ -36,54 +36,15 @@ export const restHandlers = [
     }
     return res(ctx.status(200), ctx.json(mockResponse))
   }),
+  rest.get("https://api.exchangerate.host/symbols", async (req, res, ctx) => {
+    const mockResponse: CurrencySymbolResponse = getCurrencySymbolMockResponse()
+    return res(ctx.status(200), ctx.json(mockResponse))
+  }),
   rest.get("/api/exchange/currency/symbols", async (req, res, ctx) => {
     // https://api.exchangerate.host/symbols
-    const mockResponse: CurrencySymbolResponse = {
-      "symbols": {
-        "BTC": {
-          "description": "Bitcoin",
-          "code": "BTC"
-        },
-        "CNH": {
-          "description": "Chinese Yuan (Offshore)",
-          "code": "CNH"
-        },
-        "CNY": {
-          "description": "Chinese Yuan",
-          "code": "CNY"
-        },
-        "EUR": {
-          "description": "Euro",
-          "code": "EUR"
-        },
-        "GBP": {
-          "description": "British Pound Sterling",
-          "code": "GBP"
-        },
-        "HKD": {
-          "description": "Hong Kong Dollar",
-          "code": "HKD"
-        },
-        "JPY": {
-          "description": "Japanese Yen",
-          "code": "JPY"
-        },
-        "SGD": {
-          "description": "Singapore Dollar",
-          "code": "SGD"
-        },
-        "TWD": {
-          "description": "New Taiwan Dollar",
-          "code": "TWD"
-        },
-        "USD": {
-          "description": "United States Dollar",
-          "code": "USD"
-        },
-      }
-    }
+    const mockResponse: CurrencySymbolResponse = getCurrencySymbolMockResponse()
     return res(ctx.status(200), ctx.json(mockResponse))
-  })
+  }),
 ]
 
 export const server = setupServer(...restHandlers)
@@ -101,4 +62,51 @@ function getTransaction(data: CreateTransactionResponseData) {
 
 function getExchangeResult(amount: number) {
   return Number((amount * mockExchangeRate).toFixed(3));
+}
+
+function getCurrencySymbolMockResponse() {
+  return {
+    "symbols": {
+      "BTC": {
+        "description": "Bitcoin",
+        "code": "BTC"
+      },
+      "CNH": {
+        "description": "Chinese Yuan (Offshore)",
+        "code": "CNH"
+      },
+      "CNY": {
+        "description": "Chinese Yuan",
+        "code": "CNY"
+      },
+      "EUR": {
+        "description": "Euro",
+        "code": "EUR"
+      },
+      "GBP": {
+        "description": "British Pound Sterling",
+        "code": "GBP"
+      },
+      "HKD": {
+        "description": "Hong Kong Dollar",
+        "code": "HKD"
+      },
+      "JPY": {
+        "description": "Japanese Yen",
+        "code": "JPY"
+      },
+      "SGD": {
+        "description": "Singapore Dollar",
+        "code": "SGD"
+      },
+      "TWD": {
+        "description": "New Taiwan Dollar",
+        "code": "TWD"
+      },
+      "USD": {
+        "description": "United States Dollar",
+        "code": "USD"
+      },
+    }
+  }
 }
