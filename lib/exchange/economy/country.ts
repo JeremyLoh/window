@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios"
+import { Country } from "../../../components/exchange/economyDisplay"
 
 export type CountryDetails = {
   name: {
@@ -12,20 +13,19 @@ export type CountryDetails = {
 
 export type RestCountryResponse = Array<CountryDetails>
 
-export async function getCountries() {
+export async function getCountries(): Promise<Array<Country>> {
   const url: string = "https://restcountries.com/v3.1/all?fields=name,cca2,flag"
   const response: AxiosResponse = await axios.get(url)
   if (response.status !== 200) {
     throw new Error("External Rest Countries API is down")
   }
   const data: RestCountryResponse = response.data
-  return new Map(data.map((country: CountryDetails) => {
+  return data.map((country: CountryDetails) => {
     const {name, cca2, flag} = country
-    const value = {
+    return {
       alpha2Code: cca2,
       name: name.common,
       flag,
     }
-    return [name, value]
-  }))
+  })
 }

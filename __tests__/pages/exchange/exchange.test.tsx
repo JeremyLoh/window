@@ -42,7 +42,7 @@ describe("exchange rate", () => {
   }
 
   test("should show amount to convert input element", () => {
-    render(<Exchange symbols={symbols} countries={new Map()} />)
+    render(<Exchange symbols={symbols} countries={[]} />)
     const conversionAmountInput: HTMLInputElement = getConversionAmountInput()
     expect(conversionAmountInput.getAttribute("type")).toEqual("number")
     expect(conversionAmountInput.getAttribute("min")).toEqual("0.01")
@@ -51,7 +51,7 @@ describe("exchange rate", () => {
 
   describe("from currency", () => {
     test("should show 'from' currency dropdown", () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       const fromCurrencyDropdown: HTMLSelectElement = getFromCurrencyDropdown()
       expect(fromCurrencyDropdown).toBeInTheDocument()
       expect(fromCurrencyDropdown).toHaveAttribute("required")
@@ -62,7 +62,7 @@ describe("exchange rate", () => {
     })
 
     test("should allow user to select 'from' currency", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       const fromCurrencyDropdown: HTMLSelectElement = getFromCurrencyDropdown()
       const fromSgdOption: HTMLOptionElement = getOption(fromCurrencyDropdown, "from-SGD")
       expect(fromSgdOption.selected).toBeFalsy()
@@ -73,7 +73,7 @@ describe("exchange rate", () => {
 
   describe("to currency", () => {
     test("should show 'to' currency dropdown", () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       const toCurrencyDropdown: HTMLSelectElement = getToCurrencyDropdown()
       expect(toCurrencyDropdown).toBeInTheDocument()
       expect(toCurrencyDropdown).toHaveAttribute("required")
@@ -84,7 +84,7 @@ describe("exchange rate", () => {
     })
 
     test("should allow user to select 'to' currency", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       const toCurrencyDropdown: HTMLSelectElement = getToCurrencyDropdown()
       const toSgdOption: HTMLOptionElement = getOption(toCurrencyDropdown, "to-SGD")
       expect(toSgdOption.selected).toBeFalsy()
@@ -113,7 +113,7 @@ describe("exchange rate", () => {
     }
 
     test("should submit valid exchange request", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("0.01", "SGD", "USD")
       expect(axiosSpy).toHaveBeenCalledOnce()
       expect(axiosSpy).toHaveBeenCalledWith("/api/exchange", {
@@ -124,13 +124,13 @@ describe("exchange rate", () => {
     })
 
     test("should not submit exchange request for invalid zero amount", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("0", "SGD", "USD")
       expect(axiosSpy).not.toHaveBeenCalled()
     })
 
     test("should not submit exchange request for negative amount", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       await expect(
         submitCurrencyConvert("-2", "SGD", "SGD"),
       ).resolves.not.toThrowError()
@@ -138,14 +138,14 @@ describe("exchange rate", () => {
     })
 
     test("should not submit exchange request for same currency conversion", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("10", "SGD", "SGD")
       expect(axiosSpy).not.toHaveBeenCalled()
       expect(alertSpy).toHaveBeenCalledTimes(1)
     })
 
     test("should display exchange result", async () => {
-      render(<Exchange symbols={symbols} countries={new Map()} />)
+      render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("2", "SGD", "USD")
       const currencyExchangeResult: HTMLElement = getCurrencyExchangeResult()
       const expectedExchangeAmount: string = (mockExchangeRate * 2).toFixed(3)

@@ -1,5 +1,5 @@
 import Head from "next/head"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Emoji from "../components/emoji"
 import { getCurrencySymbols, Symbol } from "../lib/exchange/currency/symbols"
 import { getCountries } from "../lib/exchange/economy/country"
@@ -9,10 +9,24 @@ import styles from "../styles/pages/Exchange.module.css"
 
 type ExchangeProps = {
   symbols:  Record<string, Symbol>,
-  countries: Map<string, Country>,
+  countries: Array<Country>,
 }
 
 export default function Exchange(props: ExchangeProps) {
+  const [countriesInfo, setCountriesInfo] = useState<Map<string, Country>>()
+  
+  useEffect(() => {
+    setCountriesInfo(new Map(props.countries.map((country: Country) => {
+      const key = country.name
+      const value = {
+        alpha2Code: country.alpha2Code,
+        name: country.name,
+        flag: country.flag,
+      }
+      return [key, value]
+    })))
+  }, [props.countries])
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -26,7 +40,7 @@ export default function Exchange(props: ExchangeProps) {
       </h1>
 
       <ExchangeRateDisplay symbols={props.symbols} />
-      <EconomyDisplay countries={props.countries} />
+      { countriesInfo && <EconomyDisplay countries={countriesInfo} /> }
     </div>
   )
 }
