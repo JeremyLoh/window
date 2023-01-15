@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios"
+import * as TimSort from "timsort"
 import { Country } from "../../../components/exchange/economyDisplay"
 
 export type CountryDetails = {
@@ -20,6 +21,8 @@ export async function getCountries(): Promise<Array<Country>> {
     throw new Error("External Rest Countries API is down")
   }
   const data: RestCountryResponse = response.data
+  TimSort.sort(data, (a: CountryDetails, b: CountryDetails) =>
+    a.name.common.localeCompare(b.name.common))
   return data.map((country: CountryDetails) => {
     const {name, cca2, flag} = country
     return {

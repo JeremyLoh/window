@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react"
-import * as TimSort from "timsort"
 import CardInfo from "../cardInfo"
 import styles from "../../styles/components/exchange/EconomyDisplay.module.css"
 
@@ -20,7 +19,6 @@ const EconomyDisplay:FC<EconomyDisplayProps> = (props) => {
   useEffect(() => {
     function getCountryInputOptions(): JSX.Element[] {
       const countries: Array<Country> = Array.from(props.countries.values())
-      TimSort.sort(countries, (a: Country, b: Country) => a.name.localeCompare(b.name))
       return countries.map((country) => {
         return (
           <option key={country.alpha2Code}
