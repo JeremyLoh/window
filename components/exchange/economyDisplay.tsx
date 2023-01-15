@@ -1,6 +1,7 @@
-import React, { FC, useState } from "react"
-import styles from "../../styles/components/exchange/EconomyDisplay.module.css"
+import React, { FC, useEffect, useState } from "react"
+import * as TimSort from "timsort"
 import CardInfo from "../cardInfo"
+import styles from "../../styles/components/exchange/EconomyDisplay.module.css"
 
 export type Country = {
   alpha2Code: string,
@@ -14,6 +15,25 @@ export type EconomyDisplayProps = {
 
 const EconomyDisplay:FC<EconomyDisplayProps> = (props) => {
   const [country, setCountry] = useState<string>("")
+  const [countryOptions, setCountryOptions] = useState<JSX.Element[]>()
+
+  useEffect(() => {
+    function getCountryInputOptions(): JSX.Element[] {
+      const countries: Array<Country> = Array.from(props.countries.values())
+      TimSort.sort(countries, (a: Country, b: Country) => a.name.localeCompare(b.name))
+      return countries.map((country) => {
+        return (
+          <option key={country.alpha2Code}
+                  value={country.alpha2Code}
+                  aria-label={`economy-country-${country.name}`}
+          >
+            {country.name}
+          </option>
+        )
+      })
+    }
+    setCountryOptions(getCountryInputOptions())
+  }, [props.countries])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -22,19 +42,6 @@ const EconomyDisplay:FC<EconomyDisplayProps> = (props) => {
 
   function handleCountryChange(event: React.ChangeEvent<HTMLSelectElement>): void {
     setCountry(event.target.value)
-  }
-
-  function getCountryInputOptions(): JSX.Element[] {
-    return Array.from(props.countries.values()).map((country) => {
-      return (
-        <option key={country.alpha2Code}
-                value={country.alpha2Code}
-                aria-label={`economy-country-${country.name}`}
-        >
-          {country.name}
-        </option>
-      )
-    })
   }
 
   return (
@@ -56,7 +63,7 @@ const EconomyDisplay:FC<EconomyDisplayProps> = (props) => {
             <option value="" aria-label="default-country" disabled hidden>
               -- select a country --
             </option>
-            { props.countries && getCountryInputOptions() }
+            { props.countries && countryOptions }
           </select>
         </div>
         <button type="submit">
