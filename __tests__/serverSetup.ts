@@ -1,12 +1,13 @@
 import { rest } from "msw"
+import { setupServer } from "msw/node"
+import { nanoid } from "nanoid"
 import { Data as CreateTransactionResponseData } from "../pages/api/wallet/transaction/create"
 import {
   CurrencyConvertResponse as ExchangeResponseData,
   RequestData as ExchangeRequestData
 } from "../pages/api/exchange"
 import { CurrencySymbolResponse } from "../pages/api/exchange/currency/symbols"
-import { setupServer } from "msw/node"
-import { nanoid } from "nanoid"
+import { RestCountryResponse } from "../lib/exchange/economy/country"
 
 export const mockExchangeRate: number = 1.352
 
@@ -45,6 +46,13 @@ export const restHandlers = [
     const mockResponse: CurrencySymbolResponse = getCurrencySymbolMockResponse()
     return res(ctx.status(200), ctx.json(mockResponse))
   }),
+  rest.get("https://restcountries.com/v3.1/all", async (req, res, ctx) => {
+    const fields = req.url.searchParams.get("fields")
+    if (fields != null && fields.includes("name,cca2,flag")) {
+      const mockResponse: RestCountryResponse = getRestCountryMockResponse()
+      return res(ctx.status(200), ctx.json(mockResponse))
+    }
+  }),
 ]
 
 export const server = setupServer(...restHandlers)
@@ -62,6 +70,44 @@ function getTransaction(data: CreateTransactionResponseData) {
 
 function getExchangeResult(amount: number) {
   return Number((amount * mockExchangeRate).toFixed(3));
+}
+
+function getRestCountryMockResponse(): RestCountryResponse {
+  return [
+    {
+      "name":{
+        "common":"Tunisia",
+        "official":"Tunisian Republic",
+      },
+      "cca2":"TN",
+      "capital":[
+        "Tunis"
+      ],
+      "flag":"🇹🇳"
+    },
+    {
+      "name":{
+        "common":"Guadeloupe",
+        "official":"Guadeloupe",
+      },
+      "cca2":"GP",
+      "capital":[
+        "Basse-Terre"
+      ],
+      "flag":"🇬🇵"
+    },
+    {
+      "name":{
+        "common":"Hong Kong",
+        "official":"Hong Kong Special Administrative Region of the People's Republic of China",
+      },
+      "cca2":"HK",
+      "capital":[
+        "City of Victoria"
+      ],
+      "flag":"🇭🇰"
+    },
+  ]
 }
 
 function getCurrencySymbolMockResponse() {
