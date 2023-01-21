@@ -53,6 +53,13 @@ export const restHandlers = [
       return res(ctx.status(200), ctx.json(mockResponse))
     }
   }),
+  rest.get("https://www.econdb.com/api/series/CPISG/", async (req, res, ctx) => {
+    const format = req.url.searchParams.get("format")
+    if (format != null && format.includes("json")) {
+      const mockResponse = getSingaporeCpiMockResponse()
+      return res(ctx.status(200), ctx.json(mockResponse))
+    }
+  })
 ]
 
 export const server = setupServer(...restHandlers)
@@ -70,6 +77,48 @@ function getTransaction(data: CreateTransactionResponseData) {
 
 function getExchangeResult(amount: number) {
   return Number((amount * mockExchangeRate).toFixed(3));
+}
+
+function getSingaporeCpiMockResponse() {
+  return {
+    "ticker":"CPISG",
+    "description":"Singapore - Consumer price index",
+    "geography":"Singapore",
+    "frequency":"M",
+    "dataset":"SSG_CPI",
+    "units":"Index",
+    "additional_metadata":{
+      "3:Indicator":"52:All Items",
+      "2:Units":"32:Index",
+      "GEO:None":"196:None"
+    },
+    "data":{
+      "values":[
+        24.25,
+        24.25,
+        24.54,
+        24.36,
+        110.2,
+        110.8
+      ],
+      "dates":[
+        "1961-01-01",
+        "1961-02-01",
+        "1961-03-01",
+        "1961-04-01",
+        "2022-10-01",
+        "2022-11-01"
+      ],
+      "status":[
+        "Final",
+        "Final",
+        "Final",
+        "Final",
+        "Final",
+        "Final"
+      ]
+    }
+  }
 }
 
 function getRestCountryMockResponse(): RestCountryResponse {
