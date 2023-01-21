@@ -1,8 +1,13 @@
-import { test, expect, describe } from "vitest"
-import { render, screen, waitFor, within } from "@testing-library/react"
+import axios from "axios"
+import { test, expect, describe, vi, afterEach } from "vitest"
+import { render, screen, within } from "@testing-library/react"
+import { UserEvent } from "@testing-library/user-event/setup/setup"
+import userEvent from "@testing-library/user-event"
 import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
 
 describe("EconomyDisplay", () => {
+  const user: UserEvent = userEvent.setup()
+
   function getCountryDropdown(): HTMLSelectElement {
     return screen.getByLabelText("economy-country-select")
   }
@@ -75,5 +80,27 @@ describe("EconomyDisplay", () => {
     render(<EconomyDisplay countries={countries} />)
     const submitButton: HTMLButtonElement = getEconomySubmitButton()
     expect(submitButton).toBeInTheDocument()
+  })
+
+  describe("CPI data", () => {
+    const axiosSpy = vi.spyOn(axios, "get")
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    test("should call correct API for CPI data when country is selected and submitted", async () => {
+      const countries: Map<string, Country> = new Map([
+        ["Singapore", getSingaporeDetails()]
+      ])
+      render(<EconomyDisplay countries={countries} />)
+      const countryDropdown: HTMLSelectElement = getCountryDropdown()
+      const option: HTMLOptionElement = getOption(countryDropdown, "economy-country-Singapore")
+      await user.selectOptions(countryDropdown, option)
+      const submitButton: HTMLButtonElement = getEconomySubmitButton()
+      await user.click(submitButton)
+      expect(axiosSpy).toHaveBeenCalledOnce()
+      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/CPISG/?format=json")
+    })
   })
 })
