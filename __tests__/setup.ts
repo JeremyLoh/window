@@ -1,3 +1,4 @@
+import ResizeObserver from "resize-observer-polyfill"
 import { afterAll, afterEach, beforeAll, expect, vi } from "vitest"
 import { cleanup } from "@testing-library/react"
 import matchers from "@testing-library/jest-dom/matchers"
@@ -16,6 +17,7 @@ beforeAll(() => {
   }
   server.listen({ onUnhandledRequest: "error" })
   mockNextFont()
+  mockResizeObserver()
   enableAllPlugins()
 })
 
@@ -43,4 +45,8 @@ function mockNextFont() {
       })
     }
   })
+}
+
+function mockResizeObserver() {
+  global.ResizeObserver = ResizeObserver
 }
