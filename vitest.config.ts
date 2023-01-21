@@ -5,8 +5,9 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
   plugins: [react()],
   test: {
+    setupFiles: ["./__tests__/setup.ts"],
     environment: "jsdom",
-    setupFiles: "./__tests__/setup.ts",
+    threads: false, // fix canvas error, https://github.com/vitest-dev/vitest/issues/740
     reporters: "verbose",
     testTimeout: 5000
   },
