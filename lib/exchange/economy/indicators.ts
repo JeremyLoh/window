@@ -1,5 +1,38 @@
 import axios, { AxiosResponse } from "axios"
 
+export type Series = {
+  ticker: string,
+  description: string,
+  geography: string,
+  dataset: string,
+  frequency: string,
+  units: string,
+}
+
+type SeriesResponse = {
+  count: number,
+  pages: number,
+  next: string | null,
+  previous: string | null,
+  results: Array<Series>,
+}
+
+export async function getCountrySeries(country: string): Promise<Array<Series>> {
+  const url: string = `https://www.econdb.com/api/series/?search=${country}&format=json&expand=meta`
+  const response: AxiosResponse = await axios.get(url)
+  if (response.status !== 200) {
+    throw new Error(`Could not get series information for country: ${country}`)
+  }
+  let data: SeriesResponse = response.data
+  let series: Array<Series> = data.results
+  while (data.next != null) {
+    const next: AxiosResponse = await axios.get(data.next)
+    data = next.data
+    series = series.concat(data.results)
+  }
+  return series
+}
+
 type CpiResponse = {
   ticker: string,
   description: string,
