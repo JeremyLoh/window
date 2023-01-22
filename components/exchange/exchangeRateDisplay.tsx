@@ -1,12 +1,12 @@
 import React, { FC, useState } from "react"
 import axios from "axios"
 import produce from "immer"
-import Swal from "sweetalert2"
 import CardInfo from "../cardInfo"
 import CurrencyConvertForm from "./currencyConvertForm"
 import Currency from "../currency"
 import { Symbol } from "../../lib/exchange/currency/symbols"
 import { CurrencyConvertResponse, RequestData } from "../../pages/api/exchange"
+import { InvalidDataToast } from "../alert/error"
 import styles from "../../styles/pages/Exchange.module.css"
 
 type ExchangeRateDisplayProps = {
@@ -20,16 +20,6 @@ type ExchangeResult = {
   rate: number
   result: number
 } | null
-
-const InvalidDataToast = Swal.mixin({
-  icon: "info",
-  toast: true,
-  position: "top",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  width: "42em",
-})
 
 const ExchangeRateDisplay:FC<ExchangeRateDisplayProps> = (props) => {
   const [exchangeResult, setExchangeResult] = useState<ExchangeResult>(null)
