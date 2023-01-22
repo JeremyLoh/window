@@ -4,6 +4,7 @@ import { render, screen, within } from "@testing-library/react"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
 import userEvent from "@testing-library/user-event"
 import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
+import Swal from "sweetalert2";
 
 describe("EconomyDisplay", () => {
   const user: UserEvent = userEvent.setup()
@@ -27,6 +28,15 @@ describe("EconomyDisplay", () => {
       alpha2Code: "SG",
       name: "Singapore",
       flag: "\ud83c\uddf8\ud83c\uddec",
+    }
+  }
+
+  function getAngolaDetails(): Country {
+    // https://flagpedia.net/angola/emoji
+    return {
+      alpha2Code: "AO",
+      name: "Angola",
+      flag: "\ud83c\udde6\ud83c\uddf4",
     }
   }
 
@@ -84,6 +94,7 @@ describe("EconomyDisplay", () => {
 
   describe("CPI data", () => {
     const axiosSpy = vi.spyOn(axios, "get")
+    const alertSpy = vi.spyOn(Swal, "fire")
 
     afterEach(() => {
       vi.restoreAllMocks()
@@ -101,6 +112,21 @@ describe("EconomyDisplay", () => {
       await user.click(submitButton)
       expect(axiosSpy).toHaveBeenCalledOnce()
       expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/CPISG/?format=json")
+    })
+
+    test("should show alert for no data present", async () => {
+      const countries: Map<string, Country> = new Map([
+        ["Angola", getAngolaDetails()]
+      ])
+      render(<EconomyDisplay countries={countries} />)
+      const countryDropdown: HTMLSelectElement = getCountryDropdown()
+      const option: HTMLOptionElement = getOption(countryDropdown, "economy-country-Angola")
+      await user.selectOptions(countryDropdown, option)
+      const submitButton: HTMLButtonElement = getEconomySubmitButton()
+      await user.click(submitButton)
+      expect(axiosSpy).toHaveBeenCalledOnce()
+      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/CPIAO/?format=json")
+      expect(alertSpy).toHaveBeenCalledOnce()
     })
   })
 })

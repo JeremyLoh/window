@@ -59,7 +59,14 @@ export const restHandlers = [
       const mockResponse = getSingaporeCpiMockResponse()
       return res(ctx.status(200), ctx.json(mockResponse))
     }
-  })
+  }),
+  rest.get("https://www.econdb.com/api/series/CPIAO/", async (req, res, ctx) => {
+    const format = req.url.searchParams.get("format")
+    if (format != null && format.includes("json")) {
+      const mockResponse = getEmptyCpiMockResponse()
+      return res(ctx.status(200), ctx.json(mockResponse))
+    }
+  }),
 ]
 
 export const server = setupServer(...restHandlers)
@@ -117,6 +124,23 @@ function getSingaporeCpiMockResponse() {
         "Final",
         "Final"
       ]
+    }
+  }
+}
+
+function getEmptyCpiMockResponse() {
+  return {
+    "ticker": "CPIAO",
+    "description": "",
+    "geography":"",
+    "frequency":"",
+    "dataset":"",
+    "units":"",
+    "additional_metadata": "",
+    "data": {
+      "dates": [],
+      "values": [],
+      "status": []
     }
   }
 }
