@@ -7,9 +7,6 @@ export default defineConfig({
   test: {
     setupFiles: ["./__tests__/setup.ts"],
     environment: "jsdom",
-    deps: {
-      inline: ["./node_modules/vitest-canvas-mock/dist/index.js"],
-    },
     threads: false, // fix canvas error, https://github.com/vitest-dev/vitest/issues/740
     environmentOptions: {
       jsdom: {
