@@ -34,13 +34,13 @@ export default function Home() {
             </CardLink>
           </section>
           <section>
-            <CardLink href="/exchange" ariaLabel="exchange-rate-feature">
+            <CardLink href="/exchange" ariaLabel="exchange-feature">
               <h2>
-                Exchange Rates {" "}
+                Exchange {" "}
                 <Emoji symbol="💱" label="currency-exchange"/>
                 {" "} &rarr;
               </h2>
-              <p>Check currency exchange rates</p>
+              <p>The World Exchange</p>
             </CardLink>
           </section>
         </div>

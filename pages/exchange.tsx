@@ -1,85 +1,32 @@
 import Head from "next/head"
-import React, { useState } from "react"
-import axios from "axios"
-import produce from "immer"
-import Swal from "sweetalert2"
+import React, { useEffect, useState } from "react"
 import Emoji from "../components/emoji"
-import CardInfo from "../components/cardInfo"
-import Currency from "../components/currency"
-import CurrencyConvertForm from "../components/exchange/currencyConvertForm"
-import { CurrencyConvertResponse, RequestData } from "./api/exchange"
 import { getCurrencySymbols, Symbol } from "../lib/exchange/currency/symbols"
+import { getCountries } from "../lib/exchange/economy/country"
+import ExchangeRateDisplay from "../components/exchange/exchangeRateDisplay"
+import EconomyDisplay, { Country } from "../components/exchange/economyDisplay"
 import styles from "../styles/pages/Exchange.module.css"
 
-export async function getStaticProps() {
-  const revalidateInSeconds: number = 86400
-  try {
-    const { symbols } = await getCurrencySymbols()
-    return {
-      props: { symbols },
-      revalidate: revalidateInSeconds,
-    }
-  } catch (error) {
-    return { notfound: true }
-  }
-}
-
-const InvalidDataToast = Swal.mixin({
-  icon: "info",
-  toast: true,
-  position: "top",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  width: "42em",
-})
-
-type ExchangeResult = {
-  fromCurrency: string
-  toCurrency: string
-  amount: Currency
-  rate: number
-  result: number
-} | null
-
 type ExchangeProps = {
-  symbols:  Record<string, Symbol>
+  symbols:  Record<string, Symbol>,
+  countries: Array<Country>,
 }
 
 export default function Exchange(props: ExchangeProps) {
-  const [exchangeResult, setExchangeResult] = useState<ExchangeResult>(null)
-
-  async function handleSubmit(fromCurrency: string, toCurrency: string, amount: Currency) {
-    const body: RequestData = {
-      fromCurrencyCode: fromCurrency,
-      toCurrencyCode: toCurrency,
-      amount: amount.getAmountInDollars(),
-    }
-    const response = await axios.post("/api/exchange", body)
-    const {rate, result}: CurrencyConvertResponse = response.data
-    if (rate == null || result == null) {
-      await InvalidDataToast.fire({
-        title: "Currency conversion data unavailable",
-      })
-      return
-    }
-    setExchangeResult(produce((draft) => {
-      draft = {
-        fromCurrency,
-        toCurrency,
-        amount,
-        rate,
-        result
+  const [countriesInfo, setCountriesInfo] = useState<Map<string, Country>>()
+  
+  useEffect(() => {
+    setCountriesInfo(new Map(props.countries.map((country: Country) => {
+      const key = country.name
+      const value = {
+        alpha2Code: country.alpha2Code,
+        name: country.name,
+        flag: country.flag,
       }
-      return draft
-    }))
-  }
-
-  function getCurrencyExchangeText() {
-    return `${exchangeResult?.amount.getAmountInDollars()} ${exchangeResult?.fromCurrency}` +
-      ` = ${exchangeResult?.result} ${exchangeResult?.toCurrency}`
-  }
-
+      return [key, value]
+    })))
+  }, [props.countries])
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -92,16 +39,26 @@ export default function Exchange(props: ExchangeProps) {
         <Emoji symbol="🌎" label="world" />
       </h1>
 
-      <div className={styles.currencyConvertContainer} aria-label="currency-exchange-result">
-        <CurrencyConvertForm handleSubmit={handleSubmit}
-                             symbols={props.symbols} />
-        { exchangeResult &&
-          <CardInfo>
-            <h2>{ getCurrencyExchangeText() }</h2>
-            <h2>{ `Exchange Rate: ${exchangeResult.rate}` }</h2>
-          </CardInfo>
-        }
-      </div>
+      <ExchangeRateDisplay symbols={props.symbols} />
+      { countriesInfo && <EconomyDisplay countries={countriesInfo} /> }
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const revalidateInSeconds: number = 86400
+  try {
+    const result = await Promise.all([getCurrencySymbols(), getCountries()])
+    const { symbols } = result[0]
+    const countries = result[1]
+    return {
+      props: {
+        symbols,
+        countries,
+      },
+      revalidate: revalidateInSeconds,
+    }
+  } catch (error) {
+    return { notFound: true }
+  }
 }
