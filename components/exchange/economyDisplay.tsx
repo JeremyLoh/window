@@ -2,6 +2,7 @@ import React, { FC, useState } from "react"
 import { Cpi } from "../../lib/exchange/economy/indicators"
 import LineChart from "../chart/lineChart"
 import EconomyCountryForm from "./economyCountryForm"
+import { InvalidDataToast } from "../alert/error"
 
 export type Country = {
   alpha2Code: string,
@@ -17,7 +18,12 @@ const EconomyDisplay:FC<EconomyDisplayProps> = (props) => {
   const [cpiData, setCpiData] = useState<Cpi>()
 
   async function handleSubmit(cpi: Cpi) {
-    // todo check if "data" of response.data is { dates: [], values: [], status: [] }, it is not available
+    if (cpi.values.length === 0 || cpi.dates.length === 0) {
+      await InvalidDataToast.fire({
+        title: "CPI data unavailable",
+      })
+      return
+    }
     setCpiData(cpi)
   }
 
