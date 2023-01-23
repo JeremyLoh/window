@@ -1,6 +1,6 @@
 .economyCountryForm {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   gap: 1rem;
 }
@@ -12,12 +12,24 @@
 }
 
 .submitButton {
-  width: 50%;
+  width: 30%;
+  padding: 1em;
+  border-radius: 1rem;
+  font-size: 1rem;
+  color: white;
+}
+
+.submitButton:hover {
+  filter: brightness(90%);
 }
 
 @media (max-width: 600px) {
   .economyCountryForm {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .submitButton {
     width: 100%;
   }
 }
