@@ -73,7 +73,9 @@ function getOptions(title: string) {
       point: {
         radius: 5,
         hitRadius: 25,
+        hoverRadius: 18,
         borderColor: "whitesmoke",
+        backgroundColor: "grey",
       }
     },
     scales: {
