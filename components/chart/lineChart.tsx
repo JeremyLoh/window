@@ -64,7 +64,6 @@ function getOptions(title: string) {
     },
     elements: {
       line: {
-        tension: 1,
         borderWidth: 1,
         fill: "start",
         borderColor: "white",
