@@ -64,7 +64,6 @@ function getOptions(title: string) {
     },
     elements: {
       line: {
-        tension: 1,
         borderWidth: 1,
         fill: "start",
         borderColor: "white",
@@ -73,7 +72,9 @@ function getOptions(title: string) {
       point: {
         radius: 5,
         hitRadius: 25,
+        hoverRadius: 18,
         borderColor: "whitesmoke",
+        backgroundColor: "grey",
       }
     },
     scales: {

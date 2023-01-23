@@ -1,10 +1,9 @@
 import axios from "axios"
 import { test, expect, describe, vi, afterEach } from "vitest"
-import { render, screen, within } from "@testing-library/react"
+import { render, screen, waitFor, within } from "@testing-library/react"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
 import userEvent from "@testing-library/user-event"
 import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
-import Swal from "sweetalert2";
 
 describe("EconomyDisplay", () => {
   const user: UserEvent = userEvent.setup()
@@ -92,41 +91,40 @@ describe("EconomyDisplay", () => {
     expect(submitButton).toBeInTheDocument()
   })
 
-  describe("CPI data", () => {
+  describe("Country economy input form", () => {
     const axiosSpy = vi.spyOn(axios, "get")
-    const alertSpy = vi.spyOn(Swal, "fire")
 
     afterEach(() => {
       vi.restoreAllMocks()
     })
 
-    test("should call correct API for CPI data when country is selected and submitted", async () => {
+    async function selectCountryDropdown(optionLabelText: string) {
+      const countryDropdown: HTMLSelectElement = getCountryDropdown()
+      const option: HTMLOptionElement = getOption(countryDropdown, optionLabelText)
+      await user.selectOptions(countryDropdown, option)
+    }
+
+    test("should show multi-select for available country series", async () => {
       const countries: Map<string, Country> = new Map([
         ["Singapore", getSingaporeDetails()]
       ])
       render(<EconomyDisplay countries={countries} />)
-      const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      const option: HTMLOptionElement = getOption(countryDropdown, "economy-country-Singapore")
-      await user.selectOptions(countryDropdown, option)
-      const submitButton: HTMLButtonElement = getEconomySubmitButton()
-      await user.click(submitButton)
-      expect(axiosSpy).toHaveBeenCalledOnce()
-      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/CPISG/?format=json")
+      await selectCountryDropdown("economy-country-Singapore")
+      await waitFor(() => {
+        const availableCountrySeries: HTMLSelectElement = screen.getByLabelText("economy-country-series")
+        expect(availableCountrySeries).toBeInTheDocument()
+      })
     })
 
-    test("should show alert for no data present", async () => {
+    test("should call series api when country is selected", async () => {
       const countries: Map<string, Country> = new Map([
-        ["Angola", getAngolaDetails()]
+        ["Singapore", getSingaporeDetails()]
       ])
       render(<EconomyDisplay countries={countries} />)
-      const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      const option: HTMLOptionElement = getOption(countryDropdown, "economy-country-Angola")
-      await user.selectOptions(countryDropdown, option)
-      const submitButton: HTMLButtonElement = getEconomySubmitButton()
-      await user.click(submitButton)
-      expect(axiosSpy).toHaveBeenCalledOnce()
-      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/CPIAO/?format=json")
-      expect(alertSpy).toHaveBeenCalledOnce()
+      await selectCountryDropdown("economy-country-Singapore")
+      expect(axiosSpy).toHaveBeenCalledTimes(2)
+      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta")
+      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore")
     })
   })
 })

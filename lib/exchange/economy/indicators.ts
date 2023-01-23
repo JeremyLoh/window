@@ -1,6 +1,41 @@
 import axios, { AxiosResponse } from "axios"
+import { sleep } from "../../request"
 
-type CpiResponse = {
+export type Series = {
+  ticker: string,
+  description: string,
+  geography: string,
+  dataset: string,
+  frequency: string,
+  units: string,
+}
+
+type SeriesResponse = {
+  count: number,
+  pages: number,
+  next: string | null,
+  previous: string | null,
+  results: Array<Series>,
+}
+
+export async function getCountrySeries(country: string): Promise<Array<Series>> {
+  const url: string = `https://www.econdb.com/api/series/?search=${country}&format=json&expand=meta`
+  const response: AxiosResponse = await axios.get(url)
+  if (response.status !== 200) {
+    throw new Error(`Could not get series information for country: ${country}`)
+  }
+  let data: SeriesResponse = response.data
+  let series: Array<Series> = data.results
+  while (data.next != null) {
+    const next: AxiosResponse = await axios.get(data.next)
+    data = next.data
+    series = series.concat(data.results)
+    await sleep(0.3)
+  }
+  return series
+}
+
+export type EconomySeries = {
   ticker: string,
   description: string,
   geography: string,
@@ -13,28 +48,11 @@ type CpiResponse = {
   }
 }
 
-export type Cpi = {
-  ticker: string,
-  description: string,
-  dates: Array<string>,
-  values: Array<number>,
-}
-
-export async function getCPI(countryAlphaTwoCode: string): Promise<Cpi> {
-  const url: string = `https://www.econdb.com/api/series/CPI${countryAlphaTwoCode}/?format=json`
+export async function getEconomySeries(series: string): Promise<EconomySeries> {
+  const url: string = `https://www.econdb.com/api/series/${series}/?format=json`
   const response: AxiosResponse = await axios.get(url)
   if (response.status !== 200) {
-    throw new Error(`Could not get CPI data for ${countryAlphaTwoCode}`)
+    throw new Error(`Could not get series data for ${series}`)
   }
-  const cpiData: CpiResponse = response.data
-  return extractCpiData(cpiData)
-}
-
-function extractCpiData(cpiData: CpiResponse): Cpi {
-  return {
-    ticker: cpiData.ticker,
-    description: cpiData.description,
-    dates: cpiData.data.dates,
-    values: cpiData.data.values,
-  }
+  return response.data
 }
