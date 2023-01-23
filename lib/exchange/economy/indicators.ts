@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios"
+import { sleep } from "../../request"
 
 export type Series = {
   ticker: string,
@@ -29,6 +30,7 @@ export async function getCountrySeries(country: string): Promise<Array<Series>> 
     const next: AxiosResponse = await axios.get(data.next)
     data = next.data
     series = series.concat(data.results)
+    await sleep(0.3)
   }
   return series
 }
