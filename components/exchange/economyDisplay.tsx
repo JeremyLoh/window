@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react"
-import { Cpi } from "../../lib/exchange/economy/indicators"
+import pLimit from "p-limit"
+import { EconomySeries, getEconomySeries } from "../../lib/exchange/economy/indicators"
 import LineChart from "../chart/lineChart"
 import EconomyCountryForm from "./economyCountryForm"
 import { InvalidDataToast } from "../alert/error"
@@ -10,35 +11,44 @@ export type Country = {
   flag: string,
 }
 
+const limit = pLimit(3)
+
 export type EconomyDisplayProps = {
   countries: Map<string, Country>
 }
 
 const EconomyDisplay:FC<EconomyDisplayProps> = (props) => {
-  const [cpiData, setCpiData] = useState<Cpi>()
+  const [data, setData] = useState<Array<EconomySeries>>([])
 
-  async function handleSubmit(cpi: Cpi) {
-    if (cpi.values.length === 0 || cpi.dates.length === 0) {
+  async function handleSubmit(series: Array<string>) {
+    // todo if returned data has "values" or "dates" that are empty, there is no data present
+    const promises = series.map((s) => limit(() => getEconomySeries(s)))
+    try {
+      const result = await Promise.all(promises)
+      setData(result)
+    } catch (error) {
       await InvalidDataToast.fire({
-        title: "CPI data unavailable",
+        title: "Could not obtain data for selected country",
       })
-      return
     }
-    setCpiData(cpi)
   }
 
   return (
     <div style={{display: "flex", flexDirection: "column", width: "80%"}}>
       <EconomyCountryForm handleSubmit={handleSubmit} countries={props.countries} />
       {
-        cpiData && (
-          <div style={{position: "relative", width: "100%", height: "100%"}}>
-            <LineChart ariaLabel="cpi-graph"
-                       title={`${cpiData.ticker} - ${cpiData.description}`}
-                       description={`${cpiData.description}`}
-                       xLabels={cpiData.dates}
-                       yLabelData={cpiData.values} />
-        </div>)
+        data.map((economySeries: EconomySeries) => {
+          return (
+            <div key={economySeries.ticker}
+                 style={{position: "relative", width: "100%", height: "100%"}}>
+              <LineChart ariaLabel={`${economySeries.ticker}-graph`}
+                         title={`${economySeries.ticker} - ${economySeries.description}`}
+                         description={`${economySeries.description}`}
+                         xLabels={economySeries.data.dates}
+                         yLabelData={economySeries.data.values} />
+            </div>
+          )
+        })
       }
     </div>
   )

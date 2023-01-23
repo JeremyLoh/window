@@ -2,12 +2,12 @@ import React, { FC, useEffect, useState } from "react"
 import Select, { ActionMeta, GroupBase, StylesConfig } from "react-select"
 import produce from "immer"
 import CardInfo from "../cardInfo"
-import { Cpi, getCountrySeries, getCPI, Series } from "../../lib/exchange/economy/indicators"
+import { getCountrySeries, Series } from "../../lib/exchange/economy/indicators"
 import { Country } from "./economyDisplay"
 import styles from "../../styles/components/exchange/EconomyCountryForm.module.css"
 
 type EconomyCountryFormProps = {
-  handleSubmit: (cpi: Cpi) => void,
+  handleSubmit: (selectedSeries: Array<string>) => void,
   countries: Map<string, Country>,
 }
 
@@ -68,8 +68,7 @@ const EconomyCountryForm:FC<EconomyCountryFormProps> = (props) => {
     if (country == null) {
       return
     }
-    const cpi: Cpi = await getCPI(country.alpha2Code)
-    props.handleSubmit(cpi)
+    props.handleSubmit(selectedSeries.map((series) => series.value))
   }
 
   async function handleCountryChange(event: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
