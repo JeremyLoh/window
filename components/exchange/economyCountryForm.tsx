@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react"
-import CardInfo from "../cardInfo"
-import { Cpi, getCPI, getCountrySeries } from "../../lib/exchange/economy/indicators"
-import { Country } from "./economyDisplay"
 import Select, { ActionMeta, GroupBase, StylesConfig } from "react-select"
+import produce from "immer"
+import CardInfo from "../cardInfo"
+import { Cpi, getCountrySeries, getCPI, Series } from "../../lib/exchange/economy/indicators"
+import { Country } from "./economyDisplay"
 import styles from "../../styles/components/exchange/EconomyCountryForm.module.css"
 
 type EconomyCountryFormProps = {
@@ -40,8 +41,9 @@ const multiSelectStyles: StylesConfig<Option, true, GroupBase<Option>> = {
 const EconomyCountryForm:FC<EconomyCountryFormProps> = (props) => {
   const [countryName, setCountryName] = useState<string>("")
   const [countryOptions, setCountryOptions] = useState<JSX.Element[]>()
-  const [series, setSeries] = useState<Array<Option>>([])
   const [selectedSeries, setSelectedSeries] = useState<Array<Option>>([])
+  const [seriesBasedOnSelectedCountry, setSeriesBasedOnSelectedCountry] = useState<Array<Option>>([])
+  const [allSeries, setAllSeries] = useState<Map<string, Series[]>>(new Map())
 
   useEffect(() => {
     function getCountryInputOptions(): JSX.Element[] {
@@ -72,13 +74,15 @@ const EconomyCountryForm:FC<EconomyCountryFormProps> = (props) => {
 
   async function handleCountryChange(event: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
     const countryName = event.target.value
-    const country: Country | undefined = props.countries.get(countryName)
-    if (country == null) {
-      return
-    }
+    setSelectedSeries([])
     setCountryName(countryName)
-    // todo update list of series available, cache results of query
-    // const data = await getCountrySeries(country.name)
+    // @ts-ignore
+    const countrySeries: Series[] = allSeries.has(countryName) ? allSeries.get(countryName)
+      : await getCountrySeries(countryName)
+    setAllSeries(produce((draft) => {
+      draft.set(countryName, countrySeries)
+    }))
+    setSeriesBasedOnSelectedCountry(convertToSelectOptions(countrySeries))
   }
 
   function handleSeriesChange(option: readonly Option[], actionMeta: ActionMeta<Option>): void {
@@ -108,18 +112,19 @@ const EconomyCountryForm:FC<EconomyCountryFormProps> = (props) => {
           </select>
         </div>
         {
-          (series.length > 0) && (
+           (
             <div className={styles.dropdownContainer}>
               <label htmlFor="economy-country-series">Series</label>
-              <Select aria-label="economy-country-series"
-                      name="economy-country-series"
-                      required
-                      isMulti
-                      options={series}
-                      value={selectedSeries}
-                      onChange={handleSeriesChange}
-                      styles={multiSelectStyles}
-              />
+                <Select aria-label="economy-country-series"
+                        name="economy-country-series"
+                        placeholder={"-- select a series --"}
+                        required
+                        isMulti
+                        options={seriesBasedOnSelectedCountry}
+                        value={selectedSeries}
+                        onChange={handleSeriesChange}
+                        styles={multiSelectStyles}
+                />
             </div>
           )
         }
@@ -129,6 +134,16 @@ const EconomyCountryForm:FC<EconomyCountryFormProps> = (props) => {
       </form>
     </CardInfo>
   )
+}
+
+function convertToSelectOptions(countrySeries: Series[]): Option[] {
+  return countrySeries.map((series: Series) => {
+    return {
+      key: series.ticker,
+      label: series.description,
+      value: series.ticker,
+    }
+  })
 }
 
 export default EconomyCountryForm
