@@ -73,3 +73,25 @@ function extractCpiData(cpiData: CpiResponse): Cpi {
     values: cpiData.data.values,
   }
 }
+
+export type EconomySeries = {
+  ticker: string,
+  description: string,
+  geography: string,
+  frequency: string,
+  dataset: string,
+  units: string,
+  data: {
+    values: Array<number>,
+    dates: Array<string>,
+  }
+}
+
+export async function getEconomySeries(series: string): Promise<EconomySeries> {
+  const url: string = `https://www.econdb.com/api/series/${series}/?format=json`
+  const response: AxiosResponse = await axios.get(url)
+  if (response.status !== 200) {
+    throw new Error(`Could not get series data for ${series}`)
+  }
+  return response.data
+}
