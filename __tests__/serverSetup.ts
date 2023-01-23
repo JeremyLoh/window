@@ -67,6 +67,20 @@ export const restHandlers = [
       return res(ctx.status(200), ctx.json(mockResponse))
     }
   }),
+  rest.get("https://www.econdb.com/api/series/", async (req, res, ctx) => {
+    const page = req.url.searchParams.get("page")
+    if (page != null && page.includes("2")) {
+      const lastPageMockResponse = getSearchSeriesLastPageMockResponse()
+      return res(ctx.status(200), ctx.json(lastPageMockResponse))
+    }
+
+    //https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta
+    const search = req.url.searchParams.get("search")
+    if (search != null && search.includes("Singapore")) {
+      const mockResponse = getSearchSingaporeSeriesMockResponse()
+      return res(ctx.status(200), ctx.json(mockResponse))
+    }
+  })
 ]
 
 export const server = setupServer(...restHandlers)
@@ -227,5 +241,156 @@ function getCurrencySymbolMockResponse() {
         "code": "USD"
       },
     }
+  }
+}
+
+function getSearchSingaporeSeriesMockResponse() {
+  return {
+    "count":46,
+    "pages":5,
+    "next":"https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore",
+    "previous":null,
+    "results":[
+      {
+        "ticker":"CPISG",
+        "description":"Singapore - Consumer price index",
+        "geography":"Singapore",
+        "frequency":"M",
+        "dataset":"SSG_CPI",
+        "units":"Index",
+        "additional_metadata":{
+          "3:Indicator":"52:All Items",
+          "2:Units":"32:Index",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"Y10YDSG",
+        "description":"Singapore - Long term yield",
+        "geography":"Singapore",
+        "frequency":"M",
+        "dataset":"SSG_IR",
+        "units":"Per Cent Per Annum",
+        "additional_metadata":{
+          "3:Indicator":"502:Government Securities - 10-Year Bond Yield",
+          "2:Units":"154:Per Cent Per Annum",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"GDPSG",
+        "description":"Singapore - Gross domestic product",
+        "geography":"Singapore",
+        "frequency":"Q",
+        "dataset":"SSG_GDP_EXP",
+        "units":"Million Dollars",
+        "additional_metadata":{
+          "3:Indicator":"41:GDP At Current Market Prices",
+          "2:Units":"1:Million Dollars",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"RGDPSG",
+        "description":"Singapore - Real gross domestic product",
+        "geography":"Singapore",
+        "frequency":"Q",
+        "dataset":"SSG_RGDP_EXP",
+        "units":"Million Dollars",
+        "additional_metadata":{
+          "3:Indicator":"42:GDP In Chained (2015) Dollars",
+          "2:Units":"1:Million Dollars",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"GFCFSG",
+        "description":"Singapore - Gross fixed capital formation",
+        "geography":"Singapore",
+        "frequency":"Q",
+        "dataset":"SSG_GDP_EXP",
+        "units":"Million Dollars",
+        "additional_metadata":{
+          "3:Indicator":"28:Gross Fixed Capital Formation",
+          "2:Units":"1:Million Dollars",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"RETASG",
+        "description":"Singapore - Retail trade",
+        "geography":"Singapore",
+        "frequency":"M",
+        "dataset":"SSG_RETA",
+        "units":"Index",
+        "additional_metadata":{
+          "3:Indicator":"78:Total",
+          "2:Units":"32:Index",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"IPSG",
+        "description":"Singapore - Industrial production",
+        "geography":"Singapore",
+        "frequency":"M",
+        "dataset":"SSG_IPP",
+        "units":"Index",
+        "additional_metadata":{
+          "3:Indicator":"78:Total",
+          "2:Units":"32:Index",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"RPRCSG",
+        "description":"Singapore - Real private consumption",
+        "geography":"Singapore",
+        "frequency":"Q",
+        "dataset":"SSG_RGDP_EXP",
+        "units":"Million Dollars",
+        "additional_metadata":{
+          "3:Indicator":"26:Private Consumption Expenditure",
+          "2:Units":"1:Million Dollars",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"RGFCFSG",
+        "description":"Singapore - Real gross fixed capital formation",
+        "geography":"Singapore",
+        "frequency":"Q",
+        "dataset":"SSG_RGDP_EXP",
+        "units":"Million Dollars",
+        "additional_metadata":{
+          "3:Indicator":"28:Gross Fixed Capital Formation",
+          "2:Units":"1:Million Dollars",
+          "GEO:None":"196:None"
+        }
+      },
+      {
+        "ticker":"RPUCSG",
+        "description":"Singapore - Real public consumption",
+        "geography":"Singapore",
+        "frequency":"Q",
+        "dataset":"SSG_RGDP_EXP",
+        "units":"Million Dollars",
+        "additional_metadata":{
+          "3:Indicator":"29:Government Consumption Expenditure",
+          "2:Units":"1:Million Dollars",
+          "GEO:None":"196:None"
+        }
+      }
+    ]
+  }
+}
+
+function getSearchSeriesLastPageMockResponse() {
+  return {
+    "count":46,
+    "pages":5,
+    "next":null,
+    "previous":null,
+    "results":[],
   }
 }
