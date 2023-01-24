@@ -44,7 +44,10 @@ const EconomyDisplay: FC<EconomyDisplayProps> = (props) => {
       />
       {data.map((economySeries: EconomySeries) => {
         return (
-          <div key={economySeries.ticker} className="relative h-full w-full">
+          <div
+            key={economySeries.ticker}
+            className="relative py-1 sm:h-full sm:w-full md:h-[80vh] md:w-[80vw]"
+          >
             <LineChart
               ariaLabel={`${economySeries.ticker}-graph`}
               title={`${economySeries.ticker} - ${economySeries.description}`}
