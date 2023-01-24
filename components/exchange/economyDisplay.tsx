@@ -46,7 +46,7 @@ const EconomyDisplay: FC<EconomyDisplayProps> = (props) => {
         return (
           <div
             key={economySeries.ticker}
-            className="relative py-1 sm:h-full sm:w-full md:h-[80vh] md:w-[80vw]"
+            className="relative w-full py-1 sm:h-full md:h-[80vh]"
           >
             <LineChart
               ariaLabel={`${economySeries.ticker}-graph`}
