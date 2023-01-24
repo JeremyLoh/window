@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --monokai-cyan: #56C2D6;
   --monokai-green: #82B414;

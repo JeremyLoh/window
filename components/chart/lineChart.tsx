@@ -12,14 +12,23 @@ import {
 } from "chart.js"
 import { Line } from "react-chartjs-2"
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+)
 
 export type LineChartProps = {
-  ariaLabel: string,
-  title: string,
-  description: string,
-  xLabels: Array<string>,
-  yLabelData: Array<number>,
+  ariaLabel: string
+  title: string
+  description: string
+  xLabels: Array<string>
+  yLabelData: Array<number>
 }
 
 const LineChart: FC<LineChartProps> = (props) => {
@@ -30,21 +39,15 @@ const LineChart: FC<LineChartProps> = (props) => {
       {
         label: props.description,
         data: props.yLabelData,
-      }
-    ]
+      },
+    ],
   }
-  return (
-    <Line aria-label={props.ariaLabel}
-          style={{margin: "0 auto", width: "100%"}}
-          options={options}
-          data={data}/>
-  )
+  return <Line aria-label={props.ariaLabel} options={options} data={data} />
 }
 
 function getOptions(title: string) {
   return {
-    responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     updateMode: "resize",
     plugins: {
       legend: {
@@ -58,9 +61,9 @@ function getOptions(title: string) {
         text: title,
         color: "white",
         font: {
-          size: 18
-        }
-      }
+          size: 18,
+        },
+      },
     },
     elements: {
       line: {
@@ -75,14 +78,14 @@ function getOptions(title: string) {
         hoverRadius: 18,
         borderColor: "whitesmoke",
         backgroundColor: "grey",
-      }
+      },
     },
     scales: {
       x: {
         display: true,
         ticks: {
           color: "white",
-        }
+        },
       },
       y: {
         display: true,
@@ -92,7 +95,7 @@ function getOptions(title: string) {
         },
         ticks: {
           color: "white",
-        }
+        },
       },
     },
   }
