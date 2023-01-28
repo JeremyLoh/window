@@ -20,7 +20,7 @@ export default function Home() {
         <div className="flex max-w-2xl flex-col flex-wrap items-stretch justify-center sm:flex-row">
           <section>
             <CardLink href="/wallet" ariaLabel="wallet-feature">
-              <h2>
+              <h2 className="text-xl font-bold">
                 Wallet <Emoji symbol="💵" label="money" /> &rarr;
               </h2>
               <p>Track your cash flow!</p>
@@ -28,7 +28,7 @@ export default function Home() {
           </section>
           <section>
             <CardLink href="/exchange" ariaLabel="exchange-feature">
-              <h2>
+              <h2 className="text-xl font-bold">
                 Exchange <Emoji symbol="💱" label="currency-exchange" /> &rarr;
               </h2>
               <p>The World Exchange</p>
