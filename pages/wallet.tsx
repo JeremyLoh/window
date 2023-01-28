@@ -8,13 +8,12 @@ import { WalletSummary } from "../components/wallet/walletSummary"
 import TransactionHistory from "../components/wallet/transactionHistory"
 import CardInfo from "../components/cardInfo"
 import Currency from "../components/currency"
-import styles from "../styles/pages/Wallet.module.css"
 
 export interface Transaction {
-  id: string,
-  name: string,
-  amount: Currency,
-  isExpense: boolean,
+  id: string
+  name: string
+  amount: Currency
+  isExpense: boolean
   transactionDate: Date
 }
 
@@ -23,11 +22,15 @@ export interface DeleteTransactionType {
 }
 
 export const TransactionContext = createContext<Array<Transaction>>([])
-export const DeleteTransactionContext = createContext<DeleteTransactionType>(() => {})
+export const DeleteTransactionContext = createContext<DeleteTransactionType>(
+  () => {}
+)
 
-const Wallet:FC<any> = () => {
+const Wallet: FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
-  const [transactionsByDate, setTransactionsByDate] = useState<Map<String, Array<Transaction>>>(new Map())
+  const [transactionsByDate, setTransactionsByDate] = useState<
+    Map<String, Array<Transaction>>
+  >(new Map())
 
   function formatDate(date: Date): string {
     // e.g. "LLL d y" => Dec 1 2022
@@ -37,34 +40,42 @@ const Wallet:FC<any> = () => {
   function displayNewTransaction(transaction: Transaction): void {
     const selectedDate: string = formatDate(date)
     if (!transactionsByDate.has(selectedDate)) {
-      setTransactionsByDate(produce((draft) => {
-        draft.set(selectedDate, [])
-      }))
+      setTransactionsByDate(
+        produce((draft) => {
+          draft.set(selectedDate, [])
+        })
+      )
     }
-    setTransactionsByDate(produce((draft) => {
-      draft.get(selectedDate)?.unshift(transaction)
-    }))
+    setTransactionsByDate(
+      produce((draft) => {
+        draft.get(selectedDate)?.unshift(transaction)
+      })
+    )
   }
 
   function deleteTransaction(transactionId: string, date: Date): void {
-    setTransactionsByDate(produce((draft) => {
-      const key = formatDate(date)
-      const updatedTransactions = draft.get(key)
-        ?.filter((transaction) => transaction.id !== transactionId) || []
-      draft.set(key, updatedTransactions)
-    }))
+    setTransactionsByDate(
+      produce((draft) => {
+        const key = formatDate(date)
+        const updatedTransactions =
+          draft
+            .get(key)
+            ?.filter((transaction) => transaction.id !== transactionId) || []
+        draft.set(key, updatedTransactions)
+      })
+    )
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Head>
         <title>Window</title>
         <meta name="description" content="Manage your Wallet" />
       </Head>
 
-      <h1 className={styles.pageTitle}>Wallet</h1>
+      <h1 className="my-6 w-[90%] text-end text-5xl xl:w-[80%]">Wallet</h1>
 
-      <div className={styles.transactionInfo}>
+      <div className="flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:items-start">
         <div aria-label="wallet-transaction-date">
           <CardInfo ariaLabel="wallet-transaction-date-selection">
             <h2>Transaction Date</h2>
@@ -78,18 +89,26 @@ const Wallet:FC<any> = () => {
         />
       </div>
 
-      <TransactionContext.Provider value={transactionsByDate.get(formatDate(date)) || []}>
-        <div className={styles.transactions} aria-label="wallet-transactions">
+      <TransactionContext.Provider
+        value={transactionsByDate.get(formatDate(date)) || []}
+      >
+        <div
+          className="flex flex-col items-center"
+          aria-label="wallet-transactions"
+        >
           <WalletSummary />
-          <div className={styles.transactionHistory}>
-            <div className={styles["transactionHistory-add-form"]}>
+          <div className="flex w-[80%] flex-col justify-center gap-5 md:flex-row">
+            <div className="grow">
               <CardInfo ariaLabel="add-transaction-form">
-                <WalletForm handleNewTransaction={displayNewTransaction} transactionDate={date}/>
+                <WalletForm
+                  handleNewTransaction={displayNewTransaction}
+                  transactionDate={date}
+                />
               </CardInfo>
             </div>
             <DeleteTransactionContext.Provider value={deleteTransaction}>
-              <div className={styles["transactionHistory-transactions"]}>
-                  <TransactionHistory />
+              <div className="grow-[3] rounded-xl bg-blue-900 p-4">
+                <TransactionHistory />
               </div>
             </DeleteTransactionContext.Provider>
           </div>
