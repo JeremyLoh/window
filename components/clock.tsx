@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import styles from "../styles/components/Clock.module.css"
 import Emoji from "./emoji"
 
-const Clock:FC<any> = () => {
+const Clock: FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
 
   function updateClock(): void {
@@ -33,11 +32,12 @@ const Clock:FC<any> = () => {
   }, [])
 
   return (
-    <div className={styles.clock}>
+    <div className="flex justify-center rounded-full bg-stone-700">
       <h2 aria-label="current-clock-time">
-        <Emoji symbol={getCurrentTimeEmoji()} />
-        {" "}
-        <span>{date.toLocaleTimeString()}</span>
+        <Emoji symbol={getCurrentTimeEmoji()} />{" "}
+        <span className="font-mono text-xl font-bold tracking-normal">
+          {date.toLocaleTimeString()}
+        </span>
       </h2>
     </div>
   )
