@@ -1,14 +1,13 @@
 import React, { FC } from "react"
-import styles from "../styles/components/CardInfo.module.css"
 
 interface CardInfoProps {
-  ariaLabel?: string,
+  ariaLabel?: string
   children: any
 }
 
-const CardInfo:FC<CardInfoProps> = (props) => {
+const CardInfo: FC<CardInfoProps> = (props) => {
   return (
-    <div className={styles.card} aria-label={props.ariaLabel}>
+    <div className="px-6 py-4 text-left" aria-label={props.ariaLabel}>
       {props.children}
     </div>
   )
