@@ -78,11 +78,12 @@ const Wallet: FC<any> = () => {
       <div className="flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:items-start">
         <div aria-label="wallet-transaction-date">
           <CardInfo ariaLabel="wallet-transaction-date-selection">
-            <h2>Transaction Date</h2>
-            <p>{date.toDateString()}</p>
+            <h2 className="text-xl">Transaction Date</h2>
+            <p className="text-lg">{date.toDateString()}</p>
           </CardInfo>
         </div>
         <Calendar
+          className="rounded-xl p-3 text-lg"
           navigationAriaLabel="wallet-calendar-date-selection"
           onChange={setDate}
           value={date}
