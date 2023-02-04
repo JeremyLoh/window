@@ -108,7 +108,7 @@ const Wallet: FC<any> = () => {
               </div>
             </div>
             <DeleteTransactionContext.Provider value={deleteTransaction}>
-              <div className="flex rounded-xl">
+              <div className="flex grow rounded-xl">
                 <TransactionHistory />
               </div>
             </DeleteTransactionContext.Provider>

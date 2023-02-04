@@ -22,7 +22,10 @@ const TransactionHistory: FC<any> = () => {
   }
 
   return (
-    <div aria-label="wallet-transaction-history" className="bg-gray-700 p-4">
+    <div
+      aria-label="wallet-transaction-history"
+      className="w-full bg-gray-700 p-4"
+    >
       <h2 className="mb-4 text-xl">Transaction History</h2>
       <div className="flex flex-row gap-4 pb-4">
         <button
