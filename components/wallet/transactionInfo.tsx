@@ -25,7 +25,7 @@ const TransactionInfo: FC<TransactionInfoProps> = (props) => {
       className={`${containerStyle} ${transactionTypeStyle}`}
       aria-label="transaction"
     >
-      <h1 className="mb-4 max-w-prose break-all text-xl">
+      <h1 className="mb-4 w-full max-w-prose break-all text-xl">
         {props.transaction.name}
       </h1>
       <div className="flex w-full flex-col items-end gap-2 md:w-1/3">
