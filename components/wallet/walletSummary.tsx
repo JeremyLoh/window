@@ -41,8 +41,18 @@ export function WalletSummary() {
     }
   }
 
+  function getCashFlowTextStyle(): string {
+    if (cashFlow === "$0.00") {
+      return "text-white"
+    } else if (cashFlow.startsWith("-")) {
+      return "text-red-600"
+    } else {
+      return "text-green-600"
+    }
+  }
+
   return (
-    <div className="my-4 flex w-4/5 flex-col flex-wrap items-start justify-center bg-gray-800 py-3 transition-colors hover:bg-gray-900 md:mb-4 md:flex-row md:items-center">
+    <div className="my-4 flex w-4/5 flex-col flex-wrap items-start justify-center py-3 md:mb-4 md:flex-row md:items-center">
       <h1
         className="px-4 text-center text-2xl"
         aria-label="wallet-transaction-day-count"
@@ -61,7 +71,7 @@ export function WalletSummary() {
       </CardInfo>
       <CardInfo ariaLabel="wallet-cash-flow">
         <h2 className="text-xl">Cash Flow</h2>
-        <p className="text-lg">{cashFlow}</p>
+        <p className={`${getCashFlowTextStyle()} text-lg`}>{cashFlow}</p>
       </CardInfo>
     </div>
   )
