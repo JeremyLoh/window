@@ -108,7 +108,7 @@ const Wallet: FC<any> = () => {
               </CardInfo>
             </div>
             <DeleteTransactionContext.Provider value={deleteTransaction}>
-              <div className="mb-4 grow-[3] rounded-xl bg-amber-50 p-4">
+              <div className="mb-4 grow-[3] rounded-xl p-4">
                 <TransactionHistory />
               </div>
             </DeleteTransactionContext.Provider>
