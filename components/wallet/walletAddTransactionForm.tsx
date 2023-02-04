@@ -39,7 +39,7 @@ const WalletForm: FC<WalletFormProps> = (props) => {
         Name
       </label>
       <input
-        className="rounded-lg border border-gray-500 p-2 text-lg shadow-sm focus:border-indigo-500 focus:outline-none focus:ring"
+        className="rounded-lg border border-gray-500 p-2 text-lg text-black shadow-sm focus:border-cyan-500 focus:outline-none focus:ring"
         type="text"
         id="name"
         name="name"
@@ -73,7 +73,7 @@ const WalletForm: FC<WalletFormProps> = (props) => {
         Amount
       </label>
       <input
-        className="rounded-lg border border-gray-500 p-2 text-lg shadow-sm focus:border-indigo-500 focus:outline-none focus:ring"
+        className="rounded-lg border border-gray-500 p-2 text-lg text-black shadow-sm focus:border-cyan-500 focus:outline-none focus:ring"
         type="number"
         min="0.01"
         max="9999999999"

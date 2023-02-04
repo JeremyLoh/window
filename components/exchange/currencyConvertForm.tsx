@@ -90,7 +90,7 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
             step="0.01"
             value={amount}
             onChange={handleChangeAmount}
-            className="font-lg h-full py-2 px-4"
+            className="font-lg h-full py-2 px-4 text-black"
           />
         </div>
         <div className="flex flex-col">
@@ -100,7 +100,7 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
             value={fromCurrency}
             onChange={handleFromCurrencyChange}
             aria-label="from-currency-select"
-            className="font-lg h-full py-2 px-4"
+            className="font-lg h-full py-2 px-4 text-black"
           >
             <option value="" aria-label="default-from-currency" disabled hidden>
               -- select an option --
@@ -115,7 +115,7 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
             value={toCurrency}
             onChange={handleToCurrencyChange}
             aria-label="to-currency-select"
-            className="font-lg h-full py-2 px-4"
+            className="font-lg h-full py-2 px-4 text-black"
           >
             <option value="" aria-label="default-to-currency" disabled hidden>
               -- select an option --
