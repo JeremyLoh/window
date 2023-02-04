@@ -99,9 +99,9 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
 
   return (
     <CardInfo>
-      <h2>View Economic Data</h2>
+      <h2 className="text-xl">View Economic Data</h2>
       <form
-        className="flex flex-col justify-center gap-4 sm:w-full"
+        className="flex flex-col justify-center gap-4 text-black sm:w-full"
         action="/api/exchange/economy/country"
         method="post"
         onSubmit={handleSubmit}
@@ -139,7 +139,7 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
         }
         <button
           type="submit"
-          className="rounded-md bg-cyan-300 px-3.5 text-base text-black hover:bg-cyan-500 sm:w-full md:w-4/12"
+          className="rounded-md bg-cyan-300 px-3.5 py-2 text-base text-black transition-colors hover:bg-cyan-500 sm:w-full md:w-4/12"
         >
           Get Economic Data
         </button>
