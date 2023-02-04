@@ -94,21 +94,21 @@ const Wallet: FC<any> = () => {
         value={transactionsByDate.get(formatDate(date)) || []}
       >
         <div
-          className="flex flex-col items-center"
+          className="mb-4 flex flex-col items-center"
           aria-label="wallet-transactions"
         >
           <WalletSummary />
           <div className="flex w-[80%] flex-col justify-center gap-5 md:flex-row">
-            <div className="grow">
-              <CardInfo ariaLabel="add-transaction-form">
+            <div className="w-full md:w-1/2 lg:w-1/3">
+              <div className="bg-gray-700" aria-label="add-transaction-form">
                 <WalletForm
                   handleNewTransaction={displayNewTransaction}
                   transactionDate={date}
                 />
-              </CardInfo>
+              </div>
             </div>
             <DeleteTransactionContext.Provider value={deleteTransaction}>
-              <div className="mb-4 grow-[3] rounded-xl p-4">
+              <div className="flex rounded-xl">
                 <TransactionHistory />
               </div>
             </DeleteTransactionContext.Provider>

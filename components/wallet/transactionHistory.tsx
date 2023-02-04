@@ -22,14 +22,12 @@ const TransactionHistory: FC<any> = () => {
   }
 
   return (
-    <div
-      aria-label="wallet-transaction-history"
-      className="flex w-full flex-col justify-start"
-    >
+    <div aria-label="wallet-transaction-history" className="bg-gray-700 p-4">
+      <h2 className="mb-4 text-xl">Transaction History</h2>
       <div className="flex flex-row gap-4 pb-4">
         <button
           aria-label="previous-transaction-history"
-          className="rounded bg-cyan-400 px-2 text-black disabled:cursor-not-allowed"
+          className="rounded bg-cyan-400 px-2 text-black disabled:cursor-not-allowed disabled:bg-cyan-600"
           disabled={pageIndex === 1}
           onClick={() => setPageIndex(pageIndex - 1)}
         >
@@ -37,14 +35,14 @@ const TransactionHistory: FC<any> = () => {
         </button>
         <button
           aria-label="current-transaction-history-page"
-          className="rounded bg-cyan-500 px-4 text-lg text-black"
+          className="rounded bg-cyan-400 px-4 text-lg text-black"
           disabled
         >
           {pageIndex}
         </button>
         <button
           aria-label="next-transaction-history"
-          className="rounded bg-cyan-400 px-2 text-black disabled:cursor-not-allowed"
+          className="rounded bg-cyan-400 px-2 text-black disabled:cursor-not-allowed disabled:bg-cyan-600"
           disabled={pageIndex * 10 >= transactions.length}
           onClick={() => setPageIndex(pageIndex + 1)}
         >
