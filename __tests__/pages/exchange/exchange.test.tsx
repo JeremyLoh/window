@@ -1,4 +1,3 @@
-import axios from "axios"
 import Swal from "sweetalert2"
 import { test, expect, describe, vi, beforeAll, afterEach } from "vitest"
 import { render, screen, within } from "@testing-library/react"
@@ -113,7 +112,7 @@ describe("exchange rate", () => {
   })
 
   describe("convert currency", () => {
-    const axiosSpy = vi.spyOn(axios, "post")
+    const httpRequestSpy = vi.spyOn(HttpRequest, "post")
     const alertSpy = vi.spyOn(Swal, "fire")
 
     afterEach(() => {
@@ -138,8 +137,8 @@ describe("exchange rate", () => {
     test("should submit valid exchange request", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("0.01", "SGD", "USD")
-      expect(axiosSpy).toHaveBeenCalledOnce()
-      expect(axiosSpy).toHaveBeenCalledWith("/api/exchange", {
+      expect(httpRequestSpy).toHaveBeenCalledOnce()
+      expect(httpRequestSpy).toHaveBeenCalledWith("/api/exchange", {
         fromCurrencyCode: "SGD",
         toCurrencyCode: "USD",
         amount: 0.01,
@@ -149,7 +148,7 @@ describe("exchange rate", () => {
     test("should not submit exchange request for invalid zero amount", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("0", "SGD", "USD")
-      expect(axiosSpy).not.toHaveBeenCalled()
+      expect(httpRequestSpy).not.toHaveBeenCalled()
     })
 
     test("should not submit exchange request for negative amount", async () => {
@@ -157,13 +156,13 @@ describe("exchange rate", () => {
       await expect(
         submitCurrencyConvert("-2", "SGD", "SGD")
       ).resolves.not.toThrowError()
-      expect(axiosSpy).not.toHaveBeenCalled()
+      expect(httpRequestSpy).not.toHaveBeenCalled()
     })
 
     test("should not submit exchange request for same currency conversion", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("10", "SGD", "SGD")
-      expect(axiosSpy).not.toHaveBeenCalled()
+      expect(httpRequestSpy).not.toHaveBeenCalled()
       expect(alertSpy).toHaveBeenCalledTimes(1)
     })
 

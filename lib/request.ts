@@ -32,4 +32,13 @@ export class HttpRequest {
       statusText: response.statusText,
     }
   }
+
+  static async post(url: string, body: object): Promise<HttpResponse> {
+    const response: AxiosResponse = await axios.post(url, body)
+    return {
+      data: response.data,
+      status: response.status,
+      statusText: response.statusText,
+    }
+  }
 }

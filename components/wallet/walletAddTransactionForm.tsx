@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react"
-import axios from "axios"
 import { Transaction } from "../../pages/wallet"
 import Currency from "../currency"
+import { HttpRequest, HttpResponse } from "../../lib/request"
 
 interface handleNewTransaction {
   (transaction: Transaction): void
@@ -19,7 +19,10 @@ const WalletForm: FC<WalletFormProps> = (props) => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const body = getRequestBody(event, props.transactionDate)
-    const response = await axios.post("/api/wallet/transaction/create", body)
+    const response: HttpResponse = await HttpRequest.post(
+      "/api/wallet/transaction/create",
+      body
+    )
     const transaction = response.data
     props.handleNewTransaction({
       ...transaction,
