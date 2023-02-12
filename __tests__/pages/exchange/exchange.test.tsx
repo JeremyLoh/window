@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios"
+import axios from "axios"
 import Swal from "sweetalert2"
 import { test, expect, describe, vi, beforeAll, afterEach } from "vitest"
 import { render, screen, within } from "@testing-library/react"
@@ -7,13 +7,19 @@ import { UserEvent } from "@testing-library/user-event/setup/setup"
 
 import Exchange from "../../../pages/exchange"
 import { mockExchangeRate } from "../../serverSetup"
-import { CurrencySymbolApiResponse, Symbol } from "../../../lib/exchange/currency/symbols"
+import {
+  CurrencySymbolApiResponse,
+  Symbol,
+} from "../../../lib/exchange/currency/symbols"
+import { HttpRequest, HttpResponse } from "../../../lib/request"
 
 describe("exchange rate", () => {
   let symbols: Record<string, Symbol>
 
   beforeAll(async () => {
-    const response: AxiosResponse = await axios.get("/api/exchange/currency/symbols")
+    const response: HttpResponse = await HttpRequest.get(
+      "/api/exchange/currency/symbols"
+    )
     const data: CurrencySymbolApiResponse = response.data
     symbols = data.symbols
   })
@@ -32,7 +38,10 @@ describe("exchange rate", () => {
     return screen.getByLabelText("to-currency-select")
   }
 
-  function getOption(selectElement: HTMLSelectElement, optionLabelText: string): HTMLOptionElement {
+  function getOption(
+    selectElement: HTMLSelectElement,
+    optionLabelText: string
+  ): HTMLOptionElement {
     return within(selectElement).getByLabelText(optionLabelText)
   }
 
@@ -55,8 +64,10 @@ describe("exchange rate", () => {
       const fromCurrencyDropdown: HTMLSelectElement = getFromCurrencyDropdown()
       expect(fromCurrencyDropdown).toBeInTheDocument()
       expect(fromCurrencyDropdown).toHaveAttribute("required")
-      const defaultOption: HTMLOptionElement = getOption(fromCurrencyDropdown,
-        "default-from-currency")
+      const defaultOption: HTMLOptionElement = getOption(
+        fromCurrencyDropdown,
+        "default-from-currency"
+      )
       expect(defaultOption.selected).toBe(true)
       expect(defaultOption.textContent).toBe("-- select an option --")
     })
@@ -64,7 +75,10 @@ describe("exchange rate", () => {
     test("should allow user to select 'from' currency", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       const fromCurrencyDropdown: HTMLSelectElement = getFromCurrencyDropdown()
-      const fromSgdOption: HTMLOptionElement = getOption(fromCurrencyDropdown, "from-SGD")
+      const fromSgdOption: HTMLOptionElement = getOption(
+        fromCurrencyDropdown,
+        "from-SGD"
+      )
       expect(fromSgdOption.selected).toBeFalsy()
       await user.selectOptions(fromCurrencyDropdown, fromSgdOption)
       expect(fromSgdOption.selected).toBeTruthy()
@@ -77,8 +91,10 @@ describe("exchange rate", () => {
       const toCurrencyDropdown: HTMLSelectElement = getToCurrencyDropdown()
       expect(toCurrencyDropdown).toBeInTheDocument()
       expect(toCurrencyDropdown).toHaveAttribute("required")
-      const defaultOption: HTMLOptionElement = getOption(toCurrencyDropdown,
-        "default-to-currency")
+      const defaultOption: HTMLOptionElement = getOption(
+        toCurrencyDropdown,
+        "default-to-currency"
+      )
       expect(defaultOption.selected).toBe(true)
       expect(defaultOption.textContent).toBe("-- select an option --")
     })
@@ -86,7 +102,10 @@ describe("exchange rate", () => {
     test("should allow user to select 'to' currency", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       const toCurrencyDropdown: HTMLSelectElement = getToCurrencyDropdown()
-      const toSgdOption: HTMLOptionElement = getOption(toCurrencyDropdown, "to-SGD")
+      const toSgdOption: HTMLOptionElement = getOption(
+        toCurrencyDropdown,
+        "to-SGD"
+      )
       expect(toSgdOption.selected).toBeFalsy()
       await user.selectOptions(toCurrencyDropdown, toSgdOption)
       expect(toSgdOption.selected).toBeTruthy()
@@ -105,7 +124,11 @@ describe("exchange rate", () => {
       return screen.getByLabelText(/currency-exchange-result/i)
     }
 
-    async function submitCurrencyConvert(amount: string, fromCurrency: string, toCurrency: string) {
+    async function submitCurrencyConvert(
+      amount: string,
+      fromCurrency: string,
+      toCurrency: string
+    ) {
       await user.type(getConversionAmountInput(), amount)
       await user.selectOptions(getFromCurrencyDropdown(), fromCurrency)
       await user.selectOptions(getToCurrencyDropdown(), toCurrency)
@@ -132,7 +155,7 @@ describe("exchange rate", () => {
     test("should not submit exchange request for negative amount", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       await expect(
-        submitCurrencyConvert("-2", "SGD", "SGD"),
+        submitCurrencyConvert("-2", "SGD", "SGD")
       ).resolves.not.toThrowError()
       expect(axiosSpy).not.toHaveBeenCalled()
     })
@@ -149,8 +172,12 @@ describe("exchange rate", () => {
       await submitCurrencyConvert("2", "SGD", "USD")
       const currencyExchangeResult: HTMLElement = getCurrencyExchangeResult()
       const expectedExchangeAmount: string = (mockExchangeRate * 2).toFixed(3)
-      expect(currencyExchangeResult).toHaveTextContent(`2 SGD = ${expectedExchangeAmount} USD`)
-      expect(currencyExchangeResult).toHaveTextContent(`Exchange Rate: ${mockExchangeRate}`)
+      expect(currencyExchangeResult).toHaveTextContent(
+        `2 SGD = ${expectedExchangeAmount} USD`
+      )
+      expect(currencyExchangeResult).toHaveTextContent(
+        `Exchange Rate: ${mockExchangeRate}`
+      )
     })
   })
 })
