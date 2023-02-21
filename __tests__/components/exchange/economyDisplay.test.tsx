@@ -1,9 +1,11 @@
-import axios from "axios"
 import { test, expect, describe, vi, afterEach } from "vitest"
 import { render, screen, waitFor, within } from "@testing-library/react"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
 import userEvent from "@testing-library/user-event"
-import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
+import EconomyDisplay, {
+  Country,
+} from "../../../components/exchange/economyDisplay"
+import { HttpRequest } from "../../../lib/request"
 
 describe("EconomyDisplay", () => {
   const user: UserEvent = userEvent.setup()
@@ -17,7 +19,10 @@ describe("EconomyDisplay", () => {
     return within(form).getByRole("button", { name: "Get Economic Data" })
   }
 
-  function getOption(selectElement: HTMLSelectElement, optionLabelText: string): HTMLOptionElement {
+  function getOption(
+    selectElement: HTMLSelectElement,
+    optionLabelText: string
+  ): HTMLOptionElement {
     return within(selectElement).getByLabelText(optionLabelText)
   }
 
@@ -55,18 +60,24 @@ describe("EconomyDisplay", () => {
       const countryDropdown: HTMLSelectElement = getCountryDropdown()
       expect(countryDropdown).toBeInTheDocument()
       expect(countryDropdown).toHaveAttribute("required")
-      const defaultOption: HTMLOptionElement = getOption(countryDropdown, "default-country")
+      const defaultOption: HTMLOptionElement = getOption(
+        countryDropdown,
+        "default-country"
+      )
       expect(defaultOption.selected).toBe(true)
       expect(defaultOption.textContent).toBe("-- select a country --")
     })
 
     test("should show dropdown for one country choice", () => {
       const countries: Map<string, Country> = new Map([
-        ["Singapore", getSingaporeDetails()]
+        ["Singapore", getSingaporeDetails()],
       ])
       render(<EconomyDisplay countries={countries} />)
       const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      const option: HTMLOptionElement = getOption(countryDropdown, "economy-country-Singapore")
+      const option: HTMLOptionElement = getOption(
+        countryDropdown,
+        "economy-country-Singapore"
+      )
       expect(option).toBeInTheDocument()
     })
 
@@ -77,10 +88,12 @@ describe("EconomyDisplay", () => {
       ])
       render(<EconomyDisplay countries={countries} />)
       const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      expect(getOption(countryDropdown, "economy-country-Singapore"))
-        .toBeInTheDocument()
-      expect(getOption(countryDropdown, "economy-country-United States of America"))
-        .toBeInTheDocument()
+      expect(
+        getOption(countryDropdown, "economy-country-Singapore")
+      ).toBeInTheDocument()
+      expect(
+        getOption(countryDropdown, "economy-country-United States of America")
+      ).toBeInTheDocument()
     })
   })
 
@@ -92,7 +105,7 @@ describe("EconomyDisplay", () => {
   })
 
   describe("Country economy input form", () => {
-    const axiosSpy = vi.spyOn(axios, "get")
+    const httpRequestSpy = vi.spyOn(HttpRequest, "get")
 
     afterEach(() => {
       vi.restoreAllMocks()
@@ -100,31 +113,40 @@ describe("EconomyDisplay", () => {
 
     async function selectCountryDropdown(optionLabelText: string) {
       const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      const option: HTMLOptionElement = getOption(countryDropdown, optionLabelText)
+      const option: HTMLOptionElement = getOption(
+        countryDropdown,
+        optionLabelText
+      )
       await user.selectOptions(countryDropdown, option)
     }
 
     test("should show multi-select for available country series", async () => {
       const countries: Map<string, Country> = new Map([
-        ["Singapore", getSingaporeDetails()]
+        ["Singapore", getSingaporeDetails()],
       ])
       render(<EconomyDisplay countries={countries} />)
       await selectCountryDropdown("economy-country-Singapore")
       await waitFor(() => {
-        const availableCountrySeries: HTMLSelectElement = screen.getByLabelText("economy-country-series")
+        const availableCountrySeries: HTMLSelectElement = screen.getByLabelText(
+          "economy-country-series"
+        )
         expect(availableCountrySeries).toBeInTheDocument()
       })
     })
 
     test("should call series api when country is selected", async () => {
       const countries: Map<string, Country> = new Map([
-        ["Singapore", getSingaporeDetails()]
+        ["Singapore", getSingaporeDetails()],
       ])
       render(<EconomyDisplay countries={countries} />)
       await selectCountryDropdown("economy-country-Singapore")
-      expect(axiosSpy).toHaveBeenCalledTimes(2)
-      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta")
-      expect(axiosSpy).toHaveBeenCalledWith("https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore")
+      expect(httpRequestSpy).toHaveBeenCalledTimes(2)
+      expect(httpRequestSpy).toHaveBeenCalledWith(
+        "https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta"
+      )
+      expect(httpRequestSpy).toHaveBeenCalledWith(
+        "https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore"
+      )
     })
   })
 })

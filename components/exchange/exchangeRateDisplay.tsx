@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react"
-import axios from "axios"
 import produce from "immer"
 import CardInfo from "../cardInfo"
 import CurrencyConvertForm from "./currencyConvertForm"
@@ -7,6 +6,7 @@ import Currency from "../currency"
 import { Symbol } from "../../lib/exchange/currency/symbols"
 import { CurrencyConvertResponse, RequestData } from "../../pages/api/exchange"
 import { InvalidDataToast } from "../alert/error"
+import { HttpRequest, HttpResponse } from "../../lib/request"
 
 type ExchangeRateDisplayProps = {
   symbols: Record<string, Symbol>
@@ -33,7 +33,7 @@ const ExchangeRateDisplay: FC<ExchangeRateDisplayProps> = (props) => {
       toCurrencyCode: toCurrency,
       amount: amount.getAmountInDollars(),
     }
-    const response = await axios.post("/api/exchange", body)
+    const response: HttpResponse = await HttpRequest.post("/api/exchange", body)
     const { rate, result }: CurrencyConvertResponse = response.data
     if (rate == null || result == null) {
       await InvalidDataToast.fire({

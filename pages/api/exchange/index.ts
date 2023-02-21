@@ -1,33 +1,35 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import axios, { AxiosResponse } from "axios"
+import { HttpResponse, XmlHttpRequest } from "../../../lib/request"
 
 export type RequestData = {
-  fromCurrencyCode: string,
-  toCurrencyCode: string,
-  amount: number,
+  fromCurrencyCode: string
+  toCurrencyCode: string
+  amount: number
 }
 
 export type CurrencyConvertResponse = {
-  date?: Date,
-  rate?: number,
-  result?: number,
-  error?: string,
+  date?: Date
+  rate?: number
+  result?: number
+  error?: string
 }
 
 type ApiResponse = {
-  success: boolean,
-  query: { from: string, to: string, amount: number },
-  info: { rate: number },
-  historical: boolean,
-  date: string,
-  result: number,
+  success: boolean
+  query: { from: string; to: string; amount: number }
+  info: { rate: number }
+  historical: boolean
+  date: string
+  result: number
 }
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<CurrencyConvertResponse>
 ) {
-  function parseCurrencyExchangeResponse(responseData: ApiResponse): CurrencyConvertResponse {
+  function parseCurrencyExchangeResponse(
+    responseData: ApiResponse
+  ): CurrencyConvertResponse {
     return {
       date: new Date(responseData.date),
       rate: responseData.info.rate,
@@ -39,8 +41,10 @@ export default async function handler(
     const params: object = getConvertCurrencyParams(req.body)
     const url: string = "https://api.exchangerate.host/convert"
     try {
-      const response: AxiosResponse = await getCurrencyExchange(url, params)
-      const output: CurrencyConvertResponse = parseCurrencyExchangeResponse(response.data)
+      const response: HttpResponse = await getCurrencyExchange(url, params)
+      const output: CurrencyConvertResponse = parseCurrencyExchangeResponse(
+        response.data
+      )
       res.status(200).json(output)
     } catch (error) {
       // TODO handle error
@@ -62,11 +66,5 @@ function getConvertCurrencyParams(requestData: RequestData): object {
 }
 
 async function getCurrencyExchange(url: string, params: object) {
-  return await axios.get(url, {
-    headers: {
-      "X-Requested-With": "XMLHttpRequest",
-      "Accept-Encoding": "gzip,deflate,compress",
-    },
-    params,
-  })
+  return await XmlHttpRequest.get(url, params)
 }
