@@ -42,3 +42,15 @@ export class HttpRequest {
     }
   }
 }
+
+export class XmlHttpRequest {
+  static async get(url: string, params: object): Promise<HttpResponse> {
+    return await axios.get(url, {
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "Accept-Encoding": "gzip,deflate,compress",
+      },
+      params,
+    })
+  }
+}
