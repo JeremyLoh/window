@@ -7,6 +7,7 @@ import {
 import LineChart from "../chart/lineChart"
 import EconomyCountryForm from "./economyCountryForm"
 import { InvalidDataToast } from "../alert/error"
+import Carousel from "../carousel"
 
 export type Country = {
   alpha2Code: string
@@ -37,27 +38,32 @@ const EconomyDisplay: FC<EconomyDisplayProps> = (props) => {
   }
 
   return (
-    <div className="flex w-4/5 flex-col">
-      <EconomyCountryForm
-        handleSubmit={handleSubmit}
-        countries={props.countries}
+    <div className="flex w-full flex-col md:w-4/5">
+      <div className="z-10">
+        <EconomyCountryForm
+          handleSubmit={handleSubmit}
+          countries={props.countries}
+        />
+      </div>
+      <Carousel
+        keys={data.map((economySeries: EconomySeries) => economySeries.ticker)}
+        items={data.map((economySeries: EconomySeries) => {
+          return (
+            <div
+              key={`ticker-${economySeries.ticker}`}
+              className="py-8 sm:h-full md:h-[80vh]"
+            >
+              <LineChart
+                ariaLabel={`${economySeries.ticker}-graph`}
+                title={`${economySeries.ticker} - ${economySeries.description}`}
+                description={`${economySeries.description}`}
+                xLabels={economySeries.data.dates}
+                yLabelData={economySeries.data.values}
+              />
+            </div>
+          )
+        })}
       />
-      {data.map((economySeries: EconomySeries) => {
-        return (
-          <div
-            key={economySeries.ticker}
-            className="relative w-full py-1 sm:h-full md:h-[80vh]"
-          >
-            <LineChart
-              ariaLabel={`${economySeries.ticker}-graph`}
-              title={`${economySeries.ticker} - ${economySeries.description}`}
-              description={`${economySeries.description}`}
-              xLabels={economySeries.data.dates}
-              yLabelData={economySeries.data.values}
-            />
-          </div>
-        )
-      })}
     </div>
   )
 }
