@@ -1,7 +1,7 @@
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import { enableAllPlugins } from "immer"
-import { Special_Elite } from "@next/font/google"
+import { Special_Elite } from "next/font/google"
 import Image from "next/image"
 import profilePicture from "../public/profilePicture.jpg"
 
