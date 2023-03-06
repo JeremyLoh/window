@@ -47,7 +47,7 @@ afterAll(() => {
 })
 
 function mockNextFont() {
-  vi.mock("@next/font/google", () => {
+  vi.mock("next/font/google", () => {
     return {
       Special_Elite: vi.fn(() => {
         return {
@@ -55,7 +55,7 @@ function mockNextFont() {
           variable: "variable",
           style: { fontFamily: "fontFamily" },
         }
-      })
+      }),
     }
   })
 }
