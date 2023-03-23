@@ -51,7 +51,7 @@ const EconomyDisplay: FC<EconomyDisplayProps> = (props) => {
           return (
             <div
               key={`ticker-${economySeries.ticker}`}
-              className="py-8 sm:h-full md:h-[80vh]"
+              className="h-[50vh] py-8 md:h-[80vh]"
             >
               <LineChart
                 ariaLabel={`${economySeries.ticker}-graph`}

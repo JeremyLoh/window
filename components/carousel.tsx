@@ -11,7 +11,7 @@ export type CarouselProps = {
 
 const Carousel: FC<CarouselProps> = (props) => {
   const swiperStyle: Object = {
-    "--swiper-navigation-size": "3rem",
+    "--swiper-navigation-size": "2rem",
     "--swiper-navigation-top-offset": "3%",
     "--swiper-navigation-sides-offset": "5rem",
   }
