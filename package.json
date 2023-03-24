@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "e2e": "cypress open"
   },
   "dependencies": {
     "@tailwindcss/forms": "0.5.3",
@@ -46,6 +47,7 @@
     "@vitejs/plugin-react": "3.1.0",
     "autoprefixer": "10.4.14",
     "canvas": "2.11.0",
+    "cypress": "12.8.1",
     "jsdom": "21.1.1",
     "msw": "1.2.0",
     "postcss": "8.4.21",
