@@ -8,6 +8,7 @@ import { WalletSummary } from "../components/wallet/walletSummary"
 import TransactionHistory from "../components/wallet/transactionHistory"
 import CardInfo from "../components/cardInfo"
 import Currency from "../components/currency"
+import Navbar from "../components/navbar"
 
 export interface Transaction {
   id: string
@@ -73,6 +74,7 @@ const Wallet: FC<any> = () => {
         <meta name="description" content="Manage your Wallet" />
       </Head>
 
+      <Navbar />
       <h1 className="my-6 w-[90%] text-end text-5xl xl:w-[80%]">Wallet</h1>
 
       <div className="flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:items-start">

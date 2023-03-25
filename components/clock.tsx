@@ -32,7 +32,7 @@ const Clock: FC<any> = () => {
   }, [])
 
   return (
-    <div className="flex justify-center rounded-full bg-stone-700">
+    <div className="flex justify-center rounded-full border border-zinc-500 bg-stone-600 px-3 py-1">
       <h2 aria-label="current-clock-time">
         <Emoji symbol={getCurrentTimeEmoji()} />{" "}
         <span className="font-mono text-xl font-bold tracking-normal">

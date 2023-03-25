@@ -11,7 +11,8 @@ const CardLink: FC<CardLinkProps> = (props) => {
   return (
     <Link href={props.href} passHref>
       <button
-        className="m-4 rounded-xl bg-green-900 p-6 text-left transition-colors hover:bg-green-700"
+        className="m-4 rounded-xl border border-fuchsia-600 bg-secondary p-6 text-left transition-colors
+                   hover:bg-fuchsia-600"
         aria-label={props.ariaLabel}
       >
         {props.children}

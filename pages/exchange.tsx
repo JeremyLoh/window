@@ -5,6 +5,7 @@ import { getCurrencySymbols, Symbol } from "../lib/exchange/currency/symbols"
 import { getCountries } from "../lib/exchange/economy/country"
 import ExchangeRateDisplay from "../components/exchange/exchangeRateDisplay"
 import EconomyDisplay, { Country } from "../components/exchange/economyDisplay"
+import Navbar from "../components/navbar"
 
 type ExchangeProps = {
   symbols: Record<string, Symbol>
@@ -31,13 +32,14 @@ export default function Exchange(props: ExchangeProps) {
   }, [props.countries])
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center gap-y-4 py-4 px-2">
+    <div className="flex min-h-screen w-full flex-col items-center">
       <Head>
         <title>Window</title>
         <meta name="description" content="Exchange Rate" />
       </Head>
 
-      <h1 className="w-full text-end text-2xl md:w-4/5 md:text-3xl">
+      <Navbar />
+      <h1 className="my-6 w-full text-end text-2xl md:w-4/5 md:text-3xl">
         Exchange <Emoji symbol="🌎" label="world" />
       </h1>
 

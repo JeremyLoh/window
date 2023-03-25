@@ -14,11 +14,11 @@ const TransactionInfo: FC<TransactionInfoProps> = (props) => {
     DeleteTransactionContext
   )
   const transactionTypeStyle: string = props.transaction.isExpense
-    ? "bg-red-700 break-all"
-    : "bg-green-700 break-all"
+    ? "bg-gradient-to-b from-red-600 to-red-800 break-all"
+    : "bg-gradient-to-b from-green-600 to-green-800 break-all"
   const containerStyle =
-    "mb-4 flex flex-col items-start justify-center rounded-2xl p-4 py-4 last:mb-0" +
-    " sm:flex-row md:items-center md:gap-3"
+    "mb-4 flex flex-col items-start justify-center rounded-2xl p-4 py-4 last:mb-0 " +
+    "sm:flex-row md:items-center md:gap-3"
 
   return (
     <div
@@ -28,16 +28,17 @@ const TransactionInfo: FC<TransactionInfoProps> = (props) => {
       <h1 className="mb-4 w-full max-w-prose break-all text-xl">
         {props.transaction.name}
       </h1>
-      <div className="flex w-full flex-col items-end gap-2 md:w-1/3">
-        <h2 className="w-full rounded bg-gray-700 py-2 text-center text-white">
+      <div className="flex w-full flex-col items-end gap-2 md:w-1/4">
+        <h2 className="w-full rounded py-2 text-center text-lg text-white">
           {props.transaction.amount.format()}
         </h2>
-        <h3 className="w-full rounded bg-gray-700 py-1 px-4 text-center text-white">
+        <h3 className="w-full rounded py-1 px-4 text-center text-white">
           {props.transaction.transactionDate.toLocaleDateString()}
         </h3>
       </div>
       <button
-        className="my-4 inline-flex aspect-square items-center rounded-full border-2 border-gray-500 bg-gray-800 p-3 text-lg hover:bg-gray-600"
+        className="my-4 inline-flex aspect-square items-center rounded-full border-2 border-cyan-600
+                   bg-cyan-500 p-3 text-lg hover:bg-cyan-400"
         aria-label="delete-transaction"
         onClick={() =>
           deleteTransaction(
