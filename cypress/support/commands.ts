@@ -3,6 +3,18 @@
 // Add an import, export, or an empty 'export {}' statement to make it a module.
 export {}
 
+Cypress.Commands.add("getByTestId", (selector) => {
+  return cy.get(`[data-test=${selector}]`)
+})
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      getByTestId(selector: string): Chainable<JQuery<HTMLElement>>
+    }
+  }
+}
+
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -13,7 +25,6 @@ export {}
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
