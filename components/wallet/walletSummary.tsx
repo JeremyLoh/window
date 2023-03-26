@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import CardInfo from "../../components/cardInfo"
 import { Transaction, TransactionContext } from "../../pages/wallet"
 import Currency from "../currency"
+import ProgressBar from "./progressBar"
 
 export function WalletSummary() {
   const transactions: Array<Transaction> = useContext(TransactionContext)
@@ -61,7 +62,7 @@ export function WalletSummary() {
           ? "Zero Transactions"
           : `Transaction Count: ${transactions.length}`}
       </h1>
-      <div className="flex flex-wrap gap-x-4 gap-y-2 lg:flex-row">
+      <div className="flex flex-wrap justify-between gap-x-4 gap-y-2 lg:flex-row">
         <CardInfo ariaLabel="wallet-expenses">
           <h2 className="text-xl">Expenses</h2>
           <p className="text-lg text-red-600">{totalExpense.format()}</p>
@@ -74,6 +75,11 @@ export function WalletSummary() {
           <h2 className="text-xl">Cash Flow</h2>
           <p className={`${getCashFlowTextStyle()} text-lg`}>{cashFlow}</p>
         </CardInfo>
+
+        <ProgressBar
+          current={totalExpense.getAmountInCents()}
+          max={totalIncome.getAmountInCents()}
+        />
       </div>
     </div>
   )

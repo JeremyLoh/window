@@ -6,5 +6,13 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
+    experimentalRunAllSpecs: true,
+  },
+
+  component: {
+    devServer: {
+      framework: "next",
+      bundler: "webpack",
+    },
   },
 })
