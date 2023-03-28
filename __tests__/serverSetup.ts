@@ -46,7 +46,7 @@ export const restHandlers = [
     const mockResponse: CurrencySymbolResponse = getCurrencySymbolMockResponse()
     return res(ctx.status(200), ctx.json(mockResponse))
   }),
-  rest.get("https://restcountries.com/v3.1/all", async (req, res, ctx) => {
+  rest.get("https://restcountries.com/v3.1/independent", async (req, res, ctx) => {
     const fields = req.url.searchParams.get("fields")
     if (fields != null && fields.includes("name,cca2,flag")) {
       const mockResponse: RestCountryResponse = getRestCountryMockResponse()

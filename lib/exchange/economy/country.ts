@@ -1,6 +1,7 @@
 import * as TimSort from "timsort"
 import { Country } from "../../../components/exchange/economyDisplay"
 import { HttpRequest, HttpResponse } from "../../request"
+import independentCountries from "./independentCountryInfo.json"
 
 export type CountryDetails = {
   name: {
@@ -15,12 +16,11 @@ export type CountryDetails = {
 export type RestCountryResponse = Array<CountryDetails>
 
 export async function getCountries(): Promise<Array<Country>> {
-  const url: string = "https://restcountries.com/v3.1/all?fields=name,cca2,flag"
+  const url: string = "https://restcountries.com/v3.1/independent?status=true&fields=name,cca2,flag"
   const response: HttpResponse = await HttpRequest.get(url)
-  if (response.status !== 200) {
-    throw new Error("External Rest Countries API is down")
-  }
-  const data: RestCountryResponse = getAvailableCountryCodes(response.data)
+  const data: RestCountryResponse = isFailedHttpRequest(response)
+    ? getAvailableCountryCodes(independentCountries)
+    : getAvailableCountryCodes(response.data)
   TimSort.sort(data, (a: CountryDetails, b: CountryDetails) =>
     a.name.common.localeCompare(b.name.common)
   )
@@ -32,6 +32,10 @@ export async function getCountries(): Promise<Array<Country>> {
       flag,
     }
   })
+}
+
+function isFailedHttpRequest(response: HttpResponse) {
+  return response.status !== 200
 }
 
 const availableCountryData: [string, string][] = [
