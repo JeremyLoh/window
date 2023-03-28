@@ -16,7 +16,7 @@ export type CountryDetails = {
 export type RestCountryResponse = Array<CountryDetails>
 
 export async function getCountries(): Promise<Array<Country>> {
-  const url: string = "https://restcountries.com/v3.1/independent?status=true&fields=name,cca2,flag"
+  const url: string = "https://restcountries.com/v3.1/independent?status=true&fields=name,cca2,flag,capital"
   const response: HttpResponse = await HttpRequest.get(url)
   const data: RestCountryResponse = isFailedHttpRequest(response)
     ? getAvailableCountryCodes(independentCountries)

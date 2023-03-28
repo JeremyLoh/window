@@ -11,6 +11,9 @@
       }
     },
     "cca2": "BB",
+    "capital": [
+      "Bridgetown"
+    ],
     "flag": "🇧🇧"
   },
   {
@@ -25,6 +28,9 @@
       }
     },
     "cca2": "SR",
+    "capital": [
+      "Paramaribo"
+    ],
     "flag": "🇸🇷"
   },
   {
@@ -71,6 +77,9 @@
       }
     },
     "cca2": "NA",
+    "capital": [
+      "Windhoek"
+    ],
     "flag": "🇳🇦"
   },
   {
@@ -85,6 +94,9 @@
       }
     },
     "cca2": "GN",
+    "capital": [
+      "Conakry"
+    ],
     "flag": "🇬🇳"
   },
   {
@@ -107,6 +119,9 @@
       }
     },
     "cca2": "VU",
+    "capital": [
+      "Port Vila"
+    ],
     "flag": "🇻🇺"
   },
   {
@@ -125,6 +140,9 @@
       }
     },
     "cca2": "WS",
+    "capital": [
+      "Apia"
+    ],
     "flag": "🇼🇸"
   },
   {
@@ -139,6 +157,9 @@
       }
     },
     "cca2": "FR",
+    "capital": [
+      "Paris"
+    ],
     "flag": "🇫🇷"
   },
   {
@@ -153,6 +174,9 @@
       }
     },
     "cca2": "AD",
+    "capital": [
+      "Andorra la Vella"
+    ],
     "flag": "🇦🇩"
   },
   {
@@ -171,6 +195,9 @@
       }
     },
     "cca2": "AZ",
+    "capital": [
+      "Baku"
+    ],
     "flag": "🇦🇿"
   },
   {
@@ -185,6 +212,9 @@
       }
     },
     "cca2": "MV",
+    "capital": [
+      "Malé"
+    ],
     "flag": "🇲🇻"
   },
   {
@@ -199,6 +229,9 @@
       }
     },
     "cca2": "LC",
+    "capital": [
+      "Castries"
+    ],
     "flag": "🇱🇨"
   },
   {
@@ -213,6 +246,9 @@
       }
     },
     "cca2": "PA",
+    "capital": [
+      "Panama City"
+    ],
     "flag": "🇵🇦"
   },
   {
@@ -231,6 +267,9 @@
       }
     },
     "cca2": "TL",
+    "capital": [
+      "Dili"
+    ],
     "flag": "🇹🇱"
   },
   {
@@ -245,6 +284,9 @@
       }
     },
     "cca2": "MK",
+    "capital": [
+      "Skopje"
+    ],
     "flag": "🇲🇰"
   },
   {
@@ -259,6 +301,9 @@
       }
     },
     "cca2": "DK",
+    "capital": [
+      "Copenhagen"
+    ],
     "flag": "🇩🇰"
   },
   {
@@ -273,6 +318,9 @@
       }
     },
     "cca2": "EG",
+    "capital": [
+      "Cairo"
+    ],
     "flag": "🇪🇬"
   },
   {
@@ -287,6 +335,9 @@
       }
     },
     "cca2": "EE",
+    "capital": [
+      "Tallinn"
+    ],
     "flag": "🇪🇪"
   },
   {
@@ -305,6 +356,9 @@
       }
     },
     "cca2": "CZ",
+    "capital": [
+      "Prague"
+    ],
     "flag": "🇨🇿"
   },
   {
@@ -319,6 +373,9 @@
       }
     },
     "cca2": "BS",
+    "capital": [
+      "Nassau"
+    ],
     "flag": "🇧🇸"
   },
   {
@@ -333,6 +390,9 @@
       }
     },
     "cca2": "UY",
+    "capital": [
+      "Montevideo"
+    ],
     "flag": "🇺🇾"
   },
   {
@@ -355,6 +415,9 @@
       }
     },
     "cca2": "KM",
+    "capital": [
+      "Moroni"
+    ],
     "flag": "🇰🇲"
   },
   {
@@ -369,6 +432,9 @@
       }
     },
     "cca2": "CR",
+    "capital": [
+      "San José"
+    ],
     "flag": "🇨🇷"
   },
   {
@@ -383,6 +449,9 @@
       }
     },
     "cca2": "TG",
+    "capital": [
+      "Lomé"
+    ],
     "flag": "🇹🇬"
   },
   {
@@ -397,6 +466,9 @@
       }
     },
     "cca2": "ST",
+    "capital": [
+      "São Tomé"
+    ],
     "flag": "🇸🇹"
   },
   {
@@ -411,6 +483,9 @@
       }
     },
     "cca2": "NL",
+    "capital": [
+      "Amsterdam"
+    ],
     "flag": "🇳🇱"
   },
   {
@@ -425,6 +500,9 @@
       }
     },
     "cca2": "AU",
+    "capital": [
+      "Canberra"
+    ],
     "flag": "🇦🇺"
   },
   {
@@ -443,6 +521,9 @@
       }
     },
     "cca2": "MY",
+    "capital": [
+      "Kuala Lumpur"
+    ],
     "flag": "🇲🇾"
   },
   {
@@ -457,6 +538,9 @@
       }
     },
     "cca2": "NP",
+    "capital": [
+      "Kathmandu"
+    ],
     "flag": "🇳🇵"
   },
   {
@@ -471,6 +555,9 @@
       }
     },
     "cca2": "CU",
+    "capital": [
+      "Havana"
+    ],
     "flag": "🇨🇺"
   },
   {
@@ -485,6 +572,9 @@
       }
     },
     "cca2": "KP",
+    "capital": [
+      "Pyongyang"
+    ],
     "flag": "🇰🇵"
   },
   {
@@ -499,6 +589,9 @@
       }
     },
     "cca2": "MD",
+    "capital": [
+      "Chișinău"
+    ],
     "flag": "🇲🇩"
   },
   {
@@ -513,6 +606,9 @@
       }
     },
     "cca2": "ZM",
+    "capital": [
+      "Lusaka"
+    ],
     "flag": "🇿🇲"
   },
   {
@@ -527,6 +623,9 @@
       }
     },
     "cca2": "DM",
+    "capital": [
+      "Roseau"
+    ],
     "flag": "🇩🇲"
   },
   {
@@ -545,6 +644,9 @@
       }
     },
     "cca2": "MH",
+    "capital": [
+      "Majuro"
+    ],
     "flag": "🇲🇭"
   },
   {
@@ -563,6 +665,9 @@
       }
     },
     "cca2": "TO",
+    "capital": [
+      "Nuku'alofa"
+    ],
     "flag": "🇹🇴"
   },
   {
@@ -585,6 +690,9 @@
       }
     },
     "cca2": "PE",
+    "capital": [
+      "Lima"
+    ],
     "flag": "🇵🇪"
   },
   {
@@ -599,6 +707,9 @@
       }
     },
     "cca2": "CV",
+    "capital": [
+      "Praia"
+    ],
     "flag": "🇨🇻"
   },
   {
@@ -617,6 +728,9 @@
       }
     },
     "cca2": "KI",
+    "capital": [
+      "South Tarawa"
+    ],
     "flag": "🇰🇮"
   },
   {
@@ -635,6 +749,9 @@
       }
     },
     "cca2": "FI",
+    "capital": [
+      "Helsinki"
+    ],
     "flag": "🇫🇮"
   },
   {
@@ -649,6 +766,9 @@
       }
     },
     "cca2": "CI",
+    "capital": [
+      "Yamoussoukro"
+    ],
     "flag": "🇨🇮"
   },
   {
@@ -667,6 +787,9 @@
       }
     },
     "cca2": "PK",
+    "capital": [
+      "Islamabad"
+    ],
     "flag": "🇵🇰"
   },
   {
@@ -685,6 +808,9 @@
       }
     },
     "cca2": "DJ",
+    "capital": [
+      "Djibouti"
+    ],
     "flag": "🇩🇯"
   },
   {
@@ -699,6 +825,9 @@
       }
     },
     "cca2": "FM",
+    "capital": [
+      "Palikir"
+    ],
     "flag": "🇫🇲"
   },
   {
@@ -713,6 +842,9 @@
       }
     },
     "cca2": "SI",
+    "capital": [
+      "Ljubljana"
+    ],
     "flag": "🇸🇮"
   },
   {
@@ -731,6 +863,9 @@
       }
     },
     "cca2": "KG",
+    "capital": [
+      "Bishkek"
+    ],
     "flag": "🇰🇬"
   },
   {
@@ -757,6 +892,9 @@
       }
     },
     "cca2": "CH",
+    "capital": [
+      "Bern"
+    ],
     "flag": "🇨🇭"
   },
   {
@@ -771,6 +909,9 @@
       }
     },
     "cca2": "KW",
+    "capital": [
+      "Kuwait City"
+    ],
     "flag": "🇰🇼"
   },
   {
@@ -793,6 +934,9 @@
       }
     },
     "cca2": "SC",
+    "capital": [
+      "Victoria"
+    ],
     "flag": "🇸🇨"
   },
   {
@@ -807,6 +951,9 @@
       }
     },
     "cca2": "GB",
+    "capital": [
+      "London"
+    ],
     "flag": "🇬🇧"
   },
   {
@@ -829,6 +976,9 @@
       }
     },
     "cca2": "FJ",
+    "capital": [
+      "Suva"
+    ],
     "flag": "🇫🇯"
   },
   {
@@ -843,6 +993,9 @@
       }
     },
     "cca2": "YE",
+    "capital": [
+      "Sana'a"
+    ],
     "flag": "🇾🇪"
   },
   {
@@ -861,6 +1014,9 @@
       }
     },
     "cca2": "CF",
+    "capital": [
+      "Bangui"
+    ],
     "flag": "🇨🇫"
   },
   {
@@ -883,6 +1039,9 @@
       }
     },
     "cca2": "BE",
+    "capital": [
+      "Brussels"
+    ],
     "flag": "🇧🇪"
   },
   {
@@ -901,6 +1060,9 @@
       }
     },
     "cca2": "AR",
+    "capital": [
+      "Buenos Aires"
+    ],
     "flag": "🇦🇷"
   },
   {
@@ -919,6 +1081,9 @@
       }
     },
     "cca2": "MG",
+    "capital": [
+      "Antananarivo"
+    ],
     "flag": "🇲🇬"
   },
   {
@@ -973,6 +1138,11 @@
       }
     },
     "cca2": "ZA",
+    "capital": [
+      "Pretoria",
+      "Bloemfontein",
+      "Cape Town"
+    ],
     "flag": "🇿🇦"
   },
   {
@@ -987,6 +1157,9 @@
       }
     },
     "cca2": "LV",
+    "capital": [
+      "Riga"
+    ],
     "flag": "🇱🇻"
   },
   {
@@ -1057,6 +1230,9 @@
       }
     },
     "cca2": "ZW",
+    "capital": [
+      "Harare"
+    ],
     "flag": "🇿🇼"
   },
   {
@@ -1071,6 +1247,9 @@
       }
     },
     "cca2": "GA",
+    "capital": [
+      "Libreville"
+    ],
     "flag": "🇬🇦"
   },
   {
@@ -1085,6 +1264,9 @@
       }
     },
     "cca2": "RO",
+    "capital": [
+      "Bucharest"
+    ],
     "flag": "🇷🇴"
   },
   {
@@ -1099,6 +1281,9 @@
       }
     },
     "cca2": "DE",
+    "capital": [
+      "Berlin"
+    ],
     "flag": "🇩🇪"
   },
   {
@@ -1113,6 +1298,9 @@
       }
     },
     "cca2": "BD",
+    "capital": [
+      "Dhaka"
+    ],
     "flag": "🇧🇩"
   },
   {
@@ -1127,6 +1315,9 @@
       }
     },
     "cca2": "JO",
+    "capital": [
+      "Amman"
+    ],
     "flag": "🇯🇴"
   },
   {
@@ -1141,6 +1332,9 @@
       }
     },
     "cca2": "MZ",
+    "capital": [
+      "Maputo"
+    ],
     "flag": "🇲🇿"
   },
   {
@@ -1159,6 +1353,9 @@
       }
     },
     "cca2": "IL",
+    "capital": [
+      "Jerusalem"
+    ],
     "flag": "🇮🇱"
   },
   {
@@ -1181,6 +1378,9 @@
       }
     },
     "cca2": "ER",
+    "capital": [
+      "Asmara"
+    ],
     "flag": "🇪🇷"
   },
   {
@@ -1195,6 +1395,9 @@
       }
     },
     "cca2": "ID",
+    "capital": [
+      "Jakarta"
+    ],
     "flag": "🇮🇩"
   },
   {
@@ -1209,6 +1412,9 @@
       }
     },
     "cca2": "JP",
+    "capital": [
+      "Tokyo"
+    ],
     "flag": "🇯🇵"
   },
   {
@@ -1223,6 +1429,9 @@
       }
     },
     "cca2": "ES",
+    "capital": [
+      "Madrid"
+    ],
     "flag": "🇪🇸"
   },
   {
@@ -1245,6 +1454,9 @@
       }
     },
     "cca2": "AF",
+    "capital": [
+      "Kabul"
+    ],
     "flag": "🇦🇫"
   },
   {
@@ -1259,6 +1471,9 @@
       }
     },
     "cca2": "AE",
+    "capital": [
+      "Abu Dhabi"
+    ],
     "flag": "🇦🇪"
   },
   {
@@ -1277,6 +1492,9 @@
       }
     },
     "cca2": "MW",
+    "capital": [
+      "Lilongwe"
+    ],
     "flag": "🇲🇼"
   },
   {
@@ -1291,6 +1509,9 @@
       }
     },
     "cca2": "TR",
+    "capital": [
+      "Ankara"
+    ],
     "flag": "🇹🇷"
   },
   {
@@ -1309,6 +1530,9 @@
       }
     },
     "cca2": "BY",
+    "capital": [
+      "Minsk"
+    ],
     "flag": "🇧🇾"
   },
   {
@@ -1323,6 +1547,9 @@
       }
     },
     "cca2": "ME",
+    "capital": [
+      "Podgorica"
+    ],
     "flag": "🇲🇪"
   },
   {
@@ -1345,6 +1572,9 @@
       }
     },
     "cca2": "BA",
+    "capital": [
+      "Sarajevo"
+    ],
     "flag": "🇧🇦"
   },
   {
@@ -1363,6 +1593,9 @@
       }
     },
     "cca2": "SZ",
+    "capital": [
+      "Mbabane"
+    ],
     "flag": "🇸🇿"
   },
   {
@@ -1377,6 +1610,9 @@
       }
     },
     "cca2": "LT",
+    "capital": [
+      "Vilnius"
+    ],
     "flag": "🇱🇹"
   },
   {
@@ -1395,6 +1631,9 @@
       }
     },
     "cca2": "TM",
+    "capital": [
+      "Ashgabat"
+    ],
     "flag": "🇹🇲"
   },
   {
@@ -1409,6 +1648,9 @@
       }
     },
     "cca2": "ET",
+    "capital": [
+      "Addis Ababa"
+    ],
     "flag": "🇪🇹"
   },
   {
@@ -1423,6 +1665,9 @@
       }
     },
     "cca2": "HU",
+    "capital": [
+      "Budapest"
+    ],
     "flag": "🇭🇺"
   },
   {
@@ -1441,6 +1686,9 @@
       }
     },
     "cca2": "TD",
+    "capital": [
+      "N'Djamena"
+    ],
     "flag": "🇹🇩"
   },
   {
@@ -1455,6 +1703,9 @@
       }
     },
     "cca2": "NG",
+    "capital": [
+      "Abuja"
+    ],
     "flag": "🇳🇬"
   },
   {
@@ -1469,6 +1720,9 @@
       }
     },
     "cca2": "SM",
+    "capital": [
+      "City of San Marino"
+    ],
     "flag": "🇸🇲"
   },
   {
@@ -1483,6 +1737,9 @@
       }
     },
     "cca2": "UA",
+    "capital": [
+      "Kyiv"
+    ],
     "flag": "🇺🇦"
   },
   {
@@ -1501,6 +1758,9 @@
       }
     },
     "cca2": "HT",
+    "capital": [
+      "Port-au-Prince"
+    ],
     "flag": "🇭🇹"
   },
   {
@@ -1519,6 +1779,9 @@
       }
     },
     "cca2": "BW",
+    "capital": [
+      "Gaborone"
+    ],
     "flag": "🇧🇼"
   },
   {
@@ -1533,6 +1796,9 @@
       }
     },
     "cca2": "PT",
+    "capital": [
+      "Lisbon"
+    ],
     "flag": "🇵🇹"
   },
   {
@@ -1547,6 +1813,9 @@
       }
     },
     "cca2": "GY",
+    "capital": [
+      "Georgetown"
+    ],
     "flag": "🇬🇾"
   },
   {
@@ -1565,6 +1834,9 @@
       }
     },
     "cca2": "IE",
+    "capital": [
+      "Dublin"
+    ],
     "flag": "🇮🇪"
   },
   {
@@ -1587,6 +1859,9 @@
       }
     },
     "cca2": "MU",
+    "capital": [
+      "Port Louis"
+    ],
     "flag": "🇲🇺"
   },
   {
@@ -1601,6 +1876,9 @@
       }
     },
     "cca2": "KN",
+    "capital": [
+      "Basseterre"
+    ],
     "flag": "🇰🇳"
   },
   {
@@ -1615,6 +1893,9 @@
       }
     },
     "cca2": "IS",
+    "capital": [
+      "Reykjavik"
+    ],
     "flag": "🇮🇸"
   },
   {
@@ -1629,6 +1910,9 @@
       }
     },
     "cca2": "CL",
+    "capital": [
+      "Santiago"
+    ],
     "flag": "🇨🇱"
   },
   {
@@ -1647,6 +1931,9 @@
       }
     },
     "cca2": "KZ",
+    "capital": [
+      "Nur-Sultan"
+    ],
     "flag": "🇰🇿"
   },
   {
@@ -1661,6 +1948,9 @@
       }
     },
     "cca2": "CN",
+    "capital": [
+      "Beijing"
+    ],
     "flag": "🇨🇳"
   },
   {
@@ -1675,6 +1965,9 @@
       }
     },
     "cca2": "AM",
+    "capital": [
+      "Yerevan"
+    ],
     "flag": "🇦🇲"
   },
   {
@@ -1701,6 +1994,9 @@
       }
     },
     "cca2": "BO",
+    "capital": [
+      "Sucre"
+    ],
     "flag": "🇧🇴"
   },
   {
@@ -1719,6 +2015,9 @@
       }
     },
     "cca2": "SD",
+    "capital": [
+      "Khartoum"
+    ],
     "flag": "🇸🇩"
   },
   {
@@ -1733,6 +2032,9 @@
       }
     },
     "cca2": "VN",
+    "capital": [
+      "Hanoi"
+    ],
     "flag": "🇻🇳"
   },
   {
@@ -1751,6 +2053,9 @@
       }
     },
     "cca2": "BI",
+    "capital": [
+      "Gitega"
+    ],
     "flag": "🇧🇮"
   },
   {
@@ -1769,6 +2074,9 @@
       }
     },
     "cca2": "CA",
+    "capital": [
+      "Ottawa"
+    ],
     "flag": "🇨🇦"
   },
   {
@@ -1783,6 +2091,9 @@
       }
     },
     "cca2": "CO",
+    "capital": [
+      "Bogotá"
+    ],
     "flag": "🇨🇴"
   },
   {
@@ -1801,6 +2112,9 @@
       }
     },
     "cca2": "LS",
+    "capital": [
+      "Maseru"
+    ],
     "flag": "🇱🇸"
   },
   {
@@ -1815,6 +2129,9 @@
       }
     },
     "cca2": "GT",
+    "capital": [
+      "Guatemala City"
+    ],
     "flag": "🇬🇹"
   },
   {
@@ -1833,6 +2150,9 @@
       }
     },
     "cca2": "UZ",
+    "capital": [
+      "Tashkent"
+    ],
     "flag": "🇺🇿"
   },
   {
@@ -1847,6 +2167,9 @@
       }
     },
     "cca2": "SN",
+    "capital": [
+      "Dakar"
+    ],
     "flag": "🇸🇳"
   },
   {
@@ -1861,6 +2184,9 @@
       }
     },
     "cca2": "GM",
+    "capital": [
+      "Banjul"
+    ],
     "flag": "🇬🇲"
   },
   {
@@ -1875,6 +2201,9 @@
       }
     },
     "cca2": "LI",
+    "capital": [
+      "Vaduz"
+    ],
     "flag": "🇱🇮"
   },
   {
@@ -1893,6 +2222,9 @@
       }
     },
     "cca2": "TV",
+    "capital": [
+      "Funafuti"
+    ],
     "flag": "🇹🇻"
   },
   {
@@ -1915,6 +2247,9 @@
       }
     },
     "cca2": "GQ",
+    "capital": [
+      "Malabo"
+    ],
     "flag": "🇬🇶"
   },
   {
@@ -1929,6 +2264,9 @@
       }
     },
     "cca2": "BT",
+    "capital": [
+      "Thimphu"
+    ],
     "flag": "🇧🇹"
   },
   {
@@ -1947,6 +2285,9 @@
       }
     },
     "cca2": "PY",
+    "capital": [
+      "Asunción"
+    ],
     "flag": "🇵🇾"
   },
   {
@@ -1961,6 +2302,9 @@
       }
     },
     "cca2": "GD",
+    "capital": [
+      "St. George's"
+    ],
     "flag": "🇬🇩"
   },
   {
@@ -1983,6 +2327,9 @@
       }
     },
     "cca2": "PG",
+    "capital": [
+      "Port Moresby"
+    ],
     "flag": "🇵🇬"
   },
   {
@@ -2001,6 +2348,9 @@
       }
     },
     "cca2": "JM",
+    "capital": [
+      "Kingston"
+    ],
     "flag": "🇯🇲"
   },
   {
@@ -2023,6 +2373,9 @@
       }
     },
     "cca2": "CG",
+    "capital": [
+      "Brazzaville"
+    ],
     "flag": "🇨🇬"
   },
   {
@@ -2037,6 +2390,9 @@
       }
     },
     "cca2": "PL",
+    "capital": [
+      "Warsaw"
+    ],
     "flag": "🇵🇱"
   },
   {
@@ -2051,6 +2407,9 @@
       }
     },
     "cca2": "RU",
+    "capital": [
+      "Moscow"
+    ],
     "flag": "🇷🇺"
   },
   {
@@ -2065,6 +2424,9 @@
       }
     },
     "cca2": "MR",
+    "capital": [
+      "Nouakchott"
+    ],
     "flag": "🇲🇷"
   },
   {
@@ -2079,6 +2441,9 @@
       }
     },
     "cca2": "BF",
+    "capital": [
+      "Ouagadougou"
+    ],
     "flag": "🇧🇫"
   },
   {
@@ -2109,6 +2474,9 @@
       }
     },
     "cca2": "CD",
+    "capital": [
+      "Kinshasa"
+    ],
     "flag": "🇨🇩"
   },
   {
@@ -2123,6 +2491,9 @@
       }
     },
     "cca2": "BJ",
+    "capital": [
+      "Porto-Novo"
+    ],
     "flag": "🇧🇯"
   },
   {
@@ -2141,6 +2512,9 @@
       }
     },
     "cca2": "UG",
+    "capital": [
+      "Kampala"
+    ],
     "flag": "🇺🇬"
   },
   {
@@ -2155,6 +2529,9 @@
       }
     },
     "cca2": "MN",
+    "capital": [
+      "Ulan Bator"
+    ],
     "flag": "🇲🇳"
   },
   {
@@ -2169,6 +2546,9 @@
       }
     },
     "cca2": "LA",
+    "capital": [
+      "Vientiane"
+    ],
     "flag": "🇱🇦"
   },
   {
@@ -2183,6 +2563,9 @@
       }
     },
     "cca2": "DZ",
+    "capital": [
+      "Algiers"
+    ],
     "flag": "🇩🇿"
   },
   {
@@ -2197,6 +2580,9 @@
       }
     },
     "cca2": "BN",
+    "capital": [
+      "Bandar Seri Begawan"
+    ],
     "flag": "🇧🇳"
   },
   {
@@ -2215,6 +2601,9 @@
       }
     },
     "cca2": "KE",
+    "capital": [
+      "Nairobi"
+    ],
     "flag": "🇰🇪"
   },
   {
@@ -2233,6 +2622,9 @@
       }
     },
     "cca2": "LK",
+    "capital": [
+      "Sri Jayawardenepura Kotte"
+    ],
     "flag": "🇱🇰"
   },
   {
@@ -2247,6 +2639,9 @@
       }
     },
     "cca2": "DO",
+    "capital": [
+      "Santo Domingo"
+    ],
     "flag": "🇩🇴"
   },
   {
@@ -2261,6 +2656,9 @@
       }
     },
     "cca2": "AT",
+    "capital": [
+      "Vienna"
+    ],
     "flag": "🇦🇹"
   },
   {
@@ -2283,6 +2681,9 @@
       }
     },
     "cca2": "LU",
+    "capital": [
+      "Luxembourg"
+    ],
     "flag": "🇱🇺"
   },
   {
@@ -2297,6 +2698,9 @@
       }
     },
     "cca2": "GE",
+    "capital": [
+      "Tbilisi"
+    ],
     "flag": "🇬🇪"
   },
   {
@@ -2311,6 +2715,9 @@
       }
     },
     "cca2": "SK",
+    "capital": [
+      "Bratislava"
+    ],
     "flag": "🇸🇰"
   },
   {
@@ -2333,6 +2740,9 @@
       }
     },
     "cca2": "NO",
+    "capital": [
+      "Oslo"
+    ],
     "flag": "🇳🇴"
   },
   {
@@ -2347,6 +2757,9 @@
       }
     },
     "cca2": "TH",
+    "capital": [
+      "Bangkok"
+    ],
     "flag": "🇹🇭"
   },
   {
@@ -2369,6 +2782,9 @@
       }
     },
     "cca2": "IN",
+    "capital": [
+      "New Delhi"
+    ],
     "flag": "🇮🇳"
   },
   {
@@ -2387,6 +2803,9 @@
       }
     },
     "cca2": "MA",
+    "capital": [
+      "Rabat"
+    ],
     "flag": "🇲🇦"
   },
   {
@@ -2401,6 +2820,9 @@
       }
     },
     "cca2": "NI",
+    "capital": [
+      "Managua"
+    ],
     "flag": "🇳🇮"
   },
   {
@@ -2415,6 +2837,9 @@
       }
     },
     "cca2": "QA",
+    "capital": [
+      "Doha"
+    ],
     "flag": "🇶🇦"
   },
   {
@@ -2429,6 +2854,9 @@
       }
     },
     "cca2": "BR",
+    "capital": [
+      "Brasília"
+    ],
     "flag": "🇧🇷"
   },
   {
@@ -2451,6 +2879,9 @@
       }
     },
     "cca2": "NZ",
+    "capital": [
+      "Wellington"
+    ],
     "flag": "🇳🇿"
   },
   {
@@ -2477,6 +2908,9 @@
       }
     },
     "cca2": "SG",
+    "capital": [
+      "Singapore"
+    ],
     "flag": "🇸🇬"
   },
   {
@@ -2491,6 +2925,9 @@
       }
     },
     "cca2": "SY",
+    "capital": [
+      "Damascus"
+    ],
     "flag": "🇸🇾"
   },
   {
@@ -2513,6 +2950,9 @@
       }
     },
     "cca2": "BZ",
+    "capital": [
+      "Belmopan"
+    ],
     "flag": "🇧🇿"
   },
   {
@@ -2527,6 +2967,9 @@
       }
     },
     "cca2": "VE",
+    "capital": [
+      "Caracas"
+    ],
     "flag": "🇻🇪"
   },
   {
@@ -2541,6 +2984,9 @@
       }
     },
     "cca2": "BH",
+    "capital": [
+      "Manama"
+    ],
     "flag": "🇧🇭"
   },
   {
@@ -2559,6 +3005,9 @@
       }
     },
     "cca2": "CM",
+    "capital": [
+      "Yaoundé"
+    ],
     "flag": "🇨🇲"
   },
   {
@@ -2577,6 +3026,9 @@
       }
     },
     "cca2": "CY",
+    "capital": [
+      "Nicosia"
+    ],
     "flag": "🇨🇾"
   },
   {
@@ -2591,6 +3043,9 @@
       }
     },
     "cca2": "US",
+    "capital": [
+      "Washington, D.C."
+    ],
     "flag": "🇺🇸"
   },
   {
@@ -2605,6 +3060,9 @@
       }
     },
     "cca2": "AO",
+    "capital": [
+      "Luanda"
+    ],
     "flag": "🇦🇴"
   },
   {
@@ -2619,6 +3077,9 @@
       }
     },
     "cca2": "TN",
+    "capital": [
+      "Tunis"
+    ],
     "flag": "🇹🇳"
   },
   {
@@ -2633,6 +3094,9 @@
       }
     },
     "cca2": "MC",
+    "capital": [
+      "Monaco"
+    ],
     "flag": "🇲🇨"
   },
   {
@@ -2655,6 +3119,9 @@
       }
     },
     "cca2": "RW",
+    "capital": [
+      "Kigali"
+    ],
     "flag": "🇷🇼"
   },
   {
@@ -2669,6 +3136,9 @@
       }
     },
     "cca2": "TT",
+    "capital": [
+      "Port of Spain"
+    ],
     "flag": "🇹🇹"
   },
   {
@@ -2687,6 +3157,9 @@
       }
     },
     "cca2": "MT",
+    "capital": [
+      "Valletta"
+    ],
     "flag": "🇲🇹"
   },
   {
@@ -2701,6 +3174,9 @@
       }
     },
     "cca2": "MX",
+    "capital": [
+      "Mexico City"
+    ],
     "flag": "🇲🇽"
   },
   {
@@ -2715,6 +3191,9 @@
       }
     },
     "cca2": "AG",
+    "capital": [
+      "Saint John's"
+    ],
     "flag": "🇦🇬"
   },
   {
@@ -2729,6 +3208,9 @@
       }
     },
     "cca2": "KR",
+    "capital": [
+      "Seoul"
+    ],
     "flag": "🇰🇷"
   },
   {
@@ -2743,6 +3225,9 @@
       }
     },
     "cca2": "NE",
+    "capital": [
+      "Niamey"
+    ],
     "flag": "🇳🇪"
   },
   {
@@ -2757,6 +3242,9 @@
       }
     },
     "cca2": "AL",
+    "capital": [
+      "Tirana"
+    ],
     "flag": "🇦🇱"
   },
   {
@@ -2775,6 +3263,9 @@
       }
     },
     "cca2": "SO",
+    "capital": [
+      "Mogadishu"
+    ],
     "flag": "🇸🇴"
   },
   {
@@ -2789,6 +3280,9 @@
       }
     },
     "cca2": "LR",
+    "capital": [
+      "Monrovia"
+    ],
     "flag": "🇱🇷"
   },
   {
@@ -2803,6 +3297,9 @@
       }
     },
     "cca2": "MM",
+    "capital": [
+      "Naypyidaw"
+    ],
     "flag": "🇲🇲"
   },
   {
@@ -2821,6 +3318,9 @@
       }
     },
     "cca2": "TZ",
+    "capital": [
+      "Dodoma"
+    ],
     "flag": "🇹🇿"
   },
   {
@@ -2843,6 +3343,9 @@
       }
     },
     "cca2": "IQ",
+    "capital": [
+      "Baghdad"
+    ],
     "flag": "🇮🇶"
   },
   {
@@ -2857,6 +3360,9 @@
       }
     },
     "cca2": "VC",
+    "capital": [
+      "Kingstown"
+    ],
     "flag": "🇻🇨"
   },
   {
@@ -2871,6 +3377,9 @@
       }
     },
     "cca2": "LY",
+    "capital": [
+      "Tripoli"
+    ],
     "flag": "🇱🇾"
   },
   {
@@ -2885,6 +3394,9 @@
       }
     },
     "cca2": "SL",
+    "capital": [
+      "Freetown"
+    ],
     "flag": "🇸🇱"
   },
   {
@@ -2899,6 +3411,9 @@
       }
     },
     "cca2": "RS",
+    "capital": [
+      "Belgrade"
+    ],
     "flag": "🇷🇸"
   },
   {
@@ -2913,6 +3428,9 @@
       }
     },
     "cca2": "GH",
+    "capital": [
+      "Accra"
+    ],
     "flag": "🇬🇭"
   },
   {
@@ -2927,6 +3445,9 @@
       }
     },
     "cca2": "SS",
+    "capital": [
+      "Juba"
+    ],
     "flag": "🇸🇸"
   },
   {
@@ -2941,6 +3462,9 @@
       }
     },
     "cca2": "SE",
+    "capital": [
+      "Stockholm"
+    ],
     "flag": "🇸🇪"
   },
   {
@@ -2955,6 +3479,9 @@
       }
     },
     "cca2": "GR",
+    "capital": [
+      "Athens"
+    ],
     "flag": "🇬🇷"
   },
   {
@@ -2973,6 +3500,9 @@
       }
     },
     "cca2": "PH",
+    "capital": [
+      "Manila"
+    ],
     "flag": "🇵🇭"
   },
   {
@@ -2991,6 +3521,9 @@
       }
     },
     "cca2": "GW",
+    "capital": [
+      "Bissau"
+    ],
     "flag": "🇬🇼"
   },
   {
@@ -3005,6 +3538,9 @@
       }
     },
     "cca2": "SA",
+    "capital": [
+      "Riyadh"
+    ],
     "flag": "🇸🇦"
   },
   {
@@ -3023,6 +3559,9 @@
       }
     },
     "cca2": "PW",
+    "capital": [
+      "Ngerulmud"
+    ],
     "flag": "🇵🇼"
   },
   {
@@ -3037,6 +3576,9 @@
       }
     },
     "cca2": "BG",
+    "capital": [
+      "Sofia"
+    ],
     "flag": "🇧🇬"
   },
   {
@@ -3055,6 +3597,9 @@
       }
     },
     "cca2": "NR",
+    "capital": [
+      "Yaren"
+    ],
     "flag": "🇳🇷"
   },
   {
@@ -3069,6 +3614,9 @@
       }
     },
     "cca2": "KH",
+    "capital": [
+      "Phnom Penh"
+    ],
     "flag": "🇰🇭"
   },
   {
@@ -3083,6 +3631,9 @@
       }
     },
     "cca2": "IT",
+    "capital": [
+      "Rome"
+    ],
     "flag": "🇮🇹"
   },
   {
@@ -3097,6 +3648,9 @@
       }
     },
     "cca2": "ML",
+    "capital": [
+      "Bamako"
+    ],
     "flag": "🇲🇱"
   },
   {
@@ -3111,6 +3665,9 @@
       }
     },
     "cca2": "IR",
+    "capital": [
+      "Tehran"
+    ],
     "flag": "🇮🇷"
   },
   {
@@ -3129,6 +3686,9 @@
       }
     },
     "cca2": "TJ",
+    "capital": [
+      "Dushanbe"
+    ],
     "flag": "🇹🇯"
   },
   {
@@ -3143,6 +3703,9 @@
       }
     },
     "cca2": "OM",
+    "capital": [
+      "Muscat"
+    ],
     "flag": "🇴🇲"
   },
   {
@@ -3157,6 +3720,9 @@
       }
     },
     "cca2": "SV",
+    "capital": [
+      "San Salvador"
+    ],
     "flag": "🇸🇻"
   },
   {
@@ -3175,6 +3741,9 @@
       }
     },
     "cca2": "LB",
+    "capital": [
+      "Beirut"
+    ],
     "flag": "🇱🇧"
   },
   {
@@ -3193,6 +3762,9 @@
       }
     },
     "cca2": "VA",
+    "capital": [
+      "Vatican City"
+    ],
     "flag": "🇻🇦"
   },
   {
@@ -3207,6 +3779,9 @@
       }
     },
     "cca2": "EC",
+    "capital": [
+      "Quito"
+    ],
     "flag": "🇪🇨"
   },
   {
@@ -3221,6 +3796,9 @@
       }
     },
     "cca2": "HR",
+    "capital": [
+      "Zagreb"
+    ],
     "flag": "🇭🇷"
   },
   {
@@ -3235,6 +3813,9 @@
       }
     },
     "cca2": "SB",
+    "capital": [
+      "Honiara"
+    ],
     "flag": "🇸🇧"
   },
   {
@@ -3249,6 +3830,9 @@
       }
     },
     "cca2": "HN",
+    "capital": [
+      "Tegucigalpa"
+    ],
     "flag": "🇭🇳"
   }
 ]
