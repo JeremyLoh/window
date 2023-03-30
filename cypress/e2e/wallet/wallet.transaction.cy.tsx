@@ -75,7 +75,7 @@ describe("Wallet", () => {
         getNextPaginationButton().should("be.disabled")
       })
 
-      it.only("should have previous pagination button enabled for last page", () => {
+      it("should have previous pagination button enabled for last page", () => {
         inputExpenseTransaction("transaction name", "0.01")
         for (let i = 0; i < transactionsPerPage + 1; i++) {
           submitTransaction()
