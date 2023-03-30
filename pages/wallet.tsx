@@ -102,7 +102,10 @@ const Wallet: FC<any> = () => {
           <WalletSummary />
           <div className="flex w-[80%] flex-col justify-center gap-5 md:flex-row">
             <div className="w-full md:w-1/2 lg:w-1/3">
-              <div className="bg-gray-700" aria-label="add-transaction-form">
+              <div className="bg-gray-700"
+                   data-test="add-transaction-form"
+                   aria-label="add-transaction-form"
+              >
                 <WalletForm
                   handleNewTransaction={displayNewTransaction}
                   transactionDate={date}
