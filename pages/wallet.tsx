@@ -78,7 +78,7 @@ const Wallet: FC<any> = () => {
       <h1 className="my-6 w-[90%] text-end text-5xl xl:w-[80%]">Wallet</h1>
 
       <div className="flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:items-start">
-        <div aria-label="wallet-transaction-date">
+        <div data-test="wallet-transaction-date" aria-label="wallet-transaction-date">
           <CardInfo ariaLabel="wallet-transaction-date-selection">
             <h2 className="text-xl">Transaction Date</h2>
             <p className="text-lg">{date.toDateString()}</p>
@@ -97,6 +97,7 @@ const Wallet: FC<any> = () => {
       >
         <div
           className="mb-4 flex flex-col items-center"
+          data-test="wallet-transactions"
           aria-label="wallet-transactions"
         >
           <WalletSummary />

@@ -88,4 +88,41 @@ describe("Wallet", () => {
       })
     })
   })
+
+  describe("calendar", () => {
+    function getMonth(date: Date) {
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ]
+      return monthNames[date.getMonth()]
+    }
+
+    it("should show calendar with current month and year", () => {
+      const currentDate: Date = new Date()
+      const calendarHeader: string = `${getMonth(currentDate)} ${currentDate.getFullYear()}`
+      cy.get("[aria-label='wallet-calendar-date-selection']")
+        .should("have.text", calendarHeader)
+    })
+
+    it("should show current day transaction date", () => {
+      const currentDate: Date = new Date()
+      cy.getByTestId("wallet-transaction-date").should("be.visible")
+        .should("contain.text", "Transaction Date")
+        .should("contain.text", currentDate.toDateString())
+    })
+
+    it("should show zero expense", () => {
+      cy.getByTestId("wallet-transactions")
+        .should("be.visible")
+        .and("contain.text", "Zero Transactions")
+        .and("contain.text", "Expenses$0.00")
+    })
+
+    it("should show zero income", () => {
+      cy.getByTestId("wallet-transactions")
+        .should("be.visible")
+        .and("contain.text", "Zero Transactions")
+        .and("contain.text", "Income$0.00")
+    })
+  })
 })
