@@ -70,7 +70,9 @@ export function WalletSummary() {
           <h2 className="text-xl">Expenses</h2>
           <p className="text-lg text-red-600">{totalExpense.format()}</p>
         </CardInfo>
-        <CardInfo ariaLabel="wallet-income">
+        <CardInfo data-test="wallet-income"
+          ariaLabel="wallet-income"
+        >
           <h2 className="text-xl">Income</h2>
           <p className="text-lg text-green-600">{totalIncome.format()}</p>
         </CardInfo>

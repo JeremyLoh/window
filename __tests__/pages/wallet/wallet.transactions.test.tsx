@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest"
-import { render, screen, within } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
 import format from "date-fns/format"
@@ -151,49 +151,6 @@ describe("transactions", () => {
     function getTransactionHistory(): HTMLElement {
       return screen.getByLabelText("wallet-transaction-history")
     }
-
-    function getFirstTransactionDeleteButton() {
-      const transactionHistory: HTMLElement = getTransactionHistory()
-      return within(transactionHistory)
-        .getAllByRole("button", { name: "delete-transaction" })[0]
-    }
-
-    describe("total income", () => {
-      function getIncomeTotalElement(): HTMLElement {
-        return screen.getByLabelText("wallet-income")
-      }
-
-      test("should update total income when an income transaction is added", async () => {
-        render(<Wallet />)
-        const amount: string = "3.20"
-        const amountInput: HTMLInputElement = getAmountInput()
-        assertEmptyInput(amountInput)
-        await submitIncomeTransaction(user, VALID_NAME, amount)
-        expect(getIncomeTotalElement()).toHaveTextContent("$3.20")
-      })
-
-      test("should update total income for multiple income transactions", async () => {
-        render(<Wallet />)
-        const amount: string = "3.20"
-        const amountInput: HTMLInputElement = getAmountInput()
-        assertEmptyInput(amountInput)
-        await submitIncomeTransaction(user, VALID_NAME, amount)
-        await submitIncomeTransaction(user, VALID_NAME, amount)
-        expect(getIncomeTotalElement()).toHaveTextContent("$6.40")
-      })
-
-      test("should reduce total income when income transaction is deleted", async () => {
-        render(<Wallet />)
-        const amount: string = "3.20"
-        const amountInput: HTMLInputElement = getAmountInput()
-        assertEmptyInput(amountInput)
-        await submitIncomeTransaction(user, VALID_NAME, amount)
-        const incomeTotalElement = getIncomeTotalElement()
-        expect(incomeTotalElement).toHaveTextContent("$3.20")
-        await user.click(getFirstTransactionDeleteButton())
-        expect(incomeTotalElement).toHaveTextContent("$0.00")
-      })
-    })
 
     describe("cash flow", () => {
       function getCashFlowElement(): HTMLElement {
