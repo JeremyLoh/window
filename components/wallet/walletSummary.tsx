@@ -56,6 +56,7 @@ export function WalletSummary() {
     <div className="my-4 flex w-4/5 flex-col flex-wrap items-center justify-center py-3 md:mb-4 md:flex-row md:items-center">
       <h1
         className="px-4 text-center text-2xl"
+        data-test="wallet-transaction-day-count"
         aria-label="wallet-transaction-day-count"
       >
         {transactions.length === 0

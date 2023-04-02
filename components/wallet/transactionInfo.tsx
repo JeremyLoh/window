@@ -39,6 +39,7 @@ const TransactionInfo: FC<TransactionInfoProps> = (props) => {
       <button
         className="my-4 inline-flex aspect-square items-center rounded-full border-2 border-cyan-600
                    bg-cyan-500 p-3 text-lg hover:bg-cyan-400"
+        data-test="delete-transaction"
         aria-label="delete-transaction"
         onClick={() =>
           deleteTransaction(

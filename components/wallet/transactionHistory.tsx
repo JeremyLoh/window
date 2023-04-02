@@ -11,7 +11,9 @@ const TransactionHistory: FC<any> = () => {
     const start = (pageIndex - 1) * transactionsPerPage
     const end = pageIndex * transactionsPerPage
     return (
-      <div aria-label="transactions-container">
+      <div data-test="transaction-history-container"
+           aria-label="transaction-history-container"
+      >
         {transactions.slice(start, end).map((transaction: Transaction) => {
           return (
             <TransactionInfo key={transaction.id} transaction={transaction} />
@@ -23,6 +25,7 @@ const TransactionHistory: FC<any> = () => {
 
   return (
     <div
+      data-test="wallet-transaction-history"
       aria-label="wallet-transaction-history"
       className="w-full bg-gray-700 p-4"
     >

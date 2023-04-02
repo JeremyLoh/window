@@ -134,12 +134,6 @@ describe("transactions", () => {
   })
 
   describe("transaction history", () => {
-    function assertEmptyTransactionHistory(transactionHistory: HTMLElement): void {
-      expect(transactionHistory).toBeInTheDocument()
-      expect(within(transactionHistory).getByLabelText("transactions-container"))
-        .toBeEmptyDOMElement()
-    }
-
     function assertTransactionHistoryContains(transactionHistory: HTMLElement,
                                               name: string,
                                               amount: string): void {
@@ -163,86 +157,6 @@ describe("transactions", () => {
       return within(transactionHistory)
         .getAllByRole("button", { name: "delete-transaction" })[0]
     }
-
-    test("should show empty transaction history element", async () => {
-      render(<Wallet />)
-      const transactionHistory: HTMLElement = getTransactionHistory()
-      assertEmptyTransactionHistory(transactionHistory)
-    })
-
-    test("should show added transaction", async () => {
-      render(<Wallet />)
-      const transactionHistory: HTMLElement = getTransactionHistory()
-      assertEmptyTransactionHistory(transactionHistory)
-      await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-      assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
-    })
-
-    test("should show delete button in added transaction", async () => {
-      render(<Wallet />)
-      const transactionHistory: HTMLElement = getTransactionHistory()
-      assertEmptyTransactionHistory(transactionHistory)
-      await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-      const transactionDeleteButton: HTMLElement = getFirstTransactionDeleteButton()
-      expect(transactionDeleteButton).toBeInTheDocument()
-    })
-
-    test("should delete transaction when delete button is clicked", async () => {
-      render(<Wallet />)
-      const transactionHistory: HTMLElement = getTransactionHistory()
-      assertEmptyTransactionHistory(transactionHistory)
-      await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-      assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
-      const transactionDeleteButton: HTMLElement = getFirstTransactionDeleteButton()
-      await user.click(transactionDeleteButton)
-      expect(transactionHistory.textContent).not.toContain(VALID_NAME)
-      expect(transactionHistory.textContent).not.toContain("$" + VALID_AMOUNT)
-    })
-
-    describe("transaction count", () => {
-      describe("day", () => {
-        function getTransactionDayCount(): HTMLElement {
-          return screen.getByLabelText("wallet-transaction-day-count");
-        }
-
-        function assertZeroTransactionCount(): void {
-          expect(getTransactionDayCount().textContent).toBe("Zero Transactions")
-        }
-
-        function assertTransactionCount(expectedCount: number): void {
-          expect(getTransactionDayCount().textContent).toBe(`Transaction Count: ${expectedCount}`)
-        }
-
-        test("should start with zero transactions", async () => {
-          render(<Wallet />)
-          assertZeroTransactionCount()
-        })
-
-        test("should show one transaction count", async () => {
-          render(<Wallet />)
-          assertZeroTransactionCount()
-          await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-          assertTransactionCount(1)
-        })
-
-        test("should show multiple transaction count", async () => {
-          render(<Wallet />)
-          assertZeroTransactionCount()
-          await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-          await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-          assertTransactionCount(2)
-        })
-
-        test("should reduce transaction count when transaction is deleted", async () => {
-          render(<Wallet />)
-          assertZeroTransactionCount()
-          await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-          assertTransactionCount(1)
-          await user.click(getFirstTransactionDeleteButton())
-          assertZeroTransactionCount()
-        })
-      })
-    })
 
     describe("total expense", () => {
       function getExpenseTotalElement(): HTMLElement {
