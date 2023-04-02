@@ -76,7 +76,9 @@ export function WalletSummary() {
           <h2 className="text-xl">Income</h2>
           <p className="text-lg text-green-600">{totalIncome.format()}</p>
         </CardInfo>
-        <CardInfo ariaLabel="wallet-cash-flow">
+        <CardInfo data-test="wallet-cash-flow"
+          ariaLabel="wallet-cash-flow"
+        >
           <h2 className="text-xl">Cash Flow</h2>
           <p className={`${getCashFlowTextStyle()} text-lg`}>{cashFlow}</p>
         </CardInfo>

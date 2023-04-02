@@ -7,7 +7,6 @@ import {
   getAmountInput, getExpenseInput, getIncomeInput,
   getNameInput,
   submitExpenseTransaction,
-  submitIncomeTransaction
 } from "./util/submitTransactionForm"
 import Wallet from "../../../pages/wallet"
 
@@ -151,33 +150,6 @@ describe("transactions", () => {
     function getTransactionHistory(): HTMLElement {
       return screen.getByLabelText("wallet-transaction-history")
     }
-
-    describe("cash flow", () => {
-      function getCashFlowElement(): HTMLElement {
-        return screen.getByLabelText("wallet-cash-flow")
-      }
-
-      test("should start with zero", async () => {
-        render(<Wallet />)
-        const cashFlow: HTMLElement = getCashFlowElement()
-        expect(cashFlow).not.toHaveTextContent("-$0.00")
-        expect(cashFlow).toHaveTextContent("$0.00")
-      })
-
-      test("should be negative", async () => {
-        render(<Wallet />)
-        const cashFlow: HTMLElement = getCashFlowElement()
-        await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-        expect(cashFlow).toHaveTextContent("-$" + VALID_AMOUNT)
-      })
-
-      test("should be positive", async () => {
-        render(<Wallet />)
-        const cashFlow: HTMLElement = getCashFlowElement()
-        await submitIncomeTransaction(user, VALID_NAME, VALID_AMOUNT)
-        expect(cashFlow).toHaveTextContent("$" + VALID_AMOUNT)
-      })
-    })
 
     describe("add transaction on different date", () => {
       function getWalletTransactionDate(): HTMLElement {
