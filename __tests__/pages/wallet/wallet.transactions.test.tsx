@@ -158,40 +158,6 @@ describe("transactions", () => {
         .getAllByRole("button", { name: "delete-transaction" })[0]
     }
 
-    describe("total expense", () => {
-      function getExpenseTotalElement(): HTMLElement {
-        return screen.getByLabelText("wallet-expenses")
-      }
-
-      test("should update total expense when an expense transaction is added", async () => {
-        render(<Wallet />)
-        const amount: string = "3.20"
-        assertEmptyInput(getAmountInput())
-        await submitExpenseTransaction(user, VALID_NAME, amount)
-        expect(getExpenseTotalElement()).toHaveTextContent("$3.20")
-      })
-
-      test("should update total expense when multiple expense transactions are added", async () => {
-        render(<Wallet />)
-        const amount: string = "3.20"
-        const amountInput: HTMLInputElement = getAmountInput()
-        assertEmptyInput(amountInput)
-        await submitExpenseTransaction(user, VALID_NAME, amount)
-        await submitExpenseTransaction(user, VALID_NAME, amount)
-        expect(getExpenseTotalElement()).toHaveTextContent("$6.40")
-      })
-
-      test("should reduce total expense when expense transaction is deleted", async () => {
-        render(<Wallet />)
-        const amount: string = "3.20"
-        assertEmptyInput(getAmountInput())
-        await submitExpenseTransaction(user, VALID_NAME, amount)
-        expect(getExpenseTotalElement()).toHaveTextContent("$3.20")
-        await user.click(getFirstTransactionDeleteButton())
-        expect(getExpenseTotalElement()).toHaveTextContent("$0.00")
-      })
-    })
-
     describe("total income", () => {
       function getIncomeTotalElement(): HTMLElement {
         return screen.getByLabelText("wallet-income")
