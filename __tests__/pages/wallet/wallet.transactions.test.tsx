@@ -2,7 +2,6 @@ import { describe, expect, test } from "vitest"
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { UserEvent } from "@testing-library/user-event/setup/setup"
-import format from "date-fns/format"
 import {
   getAmountInput, getExpenseInput, getIncomeInput,
   getNameInput,
@@ -129,72 +128,6 @@ describe("transactions", () => {
 
       await submitExpenseTransaction(user, VALID_NAME, amount + ".01")
       expect(amountInput).toBeInvalid()
-    })
-  })
-
-  describe("transaction history", () => {
-    function assertTransactionHistoryContains(transactionHistory: HTMLElement,
-                                              name: string,
-                                              amount: string): void {
-      expect(transactionHistory.textContent).toContain(name)
-      expect(transactionHistory.textContent).toContain("$" + amount)
-    }
-
-    function assertTransactionHistoryDoesNotContain(transactionHistory: HTMLElement,
-                                                    name: string,
-                                                    amount: string): void {
-      expect(transactionHistory.textContent).not.toContain(name)
-      expect(transactionHistory.textContent).not.toContain("$" + amount)
-    }
-
-    function getTransactionHistory(): HTMLElement {
-      return screen.getByLabelText("wallet-transaction-history")
-    }
-
-    describe("add transaction on different date", () => {
-      function getWalletTransactionDate(): HTMLElement {
-        return screen.getByLabelText("wallet-transaction-date")
-      }
-
-      function getButtonForTransactionDate(date: Date): HTMLButtonElement {
-        // e.g. "LLLL d, y" => December 1, 2022
-        const dateName = format(date, "LLLL d, y")
-        return screen.getByRole("button", { name: dateName })
-      }
-
-      function getDisplayedTransactionDateFormat(date: Date): string {
-        // e.g. "EEE LLL dd y" => Thu Dec 01 2022
-        return format(date, "EEE LLL dd y")
-      }
-
-      function getDateElementOfCurrentMonth(date: number) {
-        const now: Date = new Date()
-        now.setDate(date)
-        return {
-          element: getButtonForTransactionDate(now),
-          date: now,
-        }
-      }
-
-      test("should remember added transaction when changing dates", async () => {
-        render(<Wallet />)
-        const transactionHistory: HTMLElement = getTransactionHistory()
-        const walletTransactionDate: HTMLElement = getWalletTransactionDate()
-        const {element: firstOfCurrentMonth, date: firstOfMonth} = getDateElementOfCurrentMonth(1)
-        const {element: secondOfCurrentMonth, date: secondOfMonth} = getDateElementOfCurrentMonth(2)
-
-        await user.click(firstOfCurrentMonth)
-        expect(walletTransactionDate).toHaveTextContent(getDisplayedTransactionDateFormat(firstOfMonth))
-        await submitExpenseTransaction(user, VALID_NAME, VALID_AMOUNT)
-
-        await user.click(secondOfCurrentMonth)
-        expect(walletTransactionDate).toHaveTextContent(getDisplayedTransactionDateFormat(secondOfMonth))
-        assertTransactionHistoryDoesNotContain(transactionHistory, VALID_NAME, VALID_AMOUNT)
-
-        await user.click(firstOfCurrentMonth)
-        expect(walletTransactionDate).toHaveTextContent(getDisplayedTransactionDateFormat(firstOfMonth))
-        assertTransactionHistoryContains(transactionHistory, VALID_NAME, VALID_AMOUNT)
-      })
     })
   })
 })

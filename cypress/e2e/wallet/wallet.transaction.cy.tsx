@@ -1,9 +1,20 @@
+import format from "date-fns/format"
+
 describe("Wallet", () => {
   beforeEach(() => {
     cy.visit("/wallet")
   })
 
   const transactionsPerPage: number = 10
+
+  function getCurrentTransactionDateElement() {
+    return cy.getByTestId("wallet-transaction-date")
+  }
+
+  function getDisplayedTransactionDateFormat(date: Date): string {
+    // e.g. "EEE LLL dd y" => Thu Dec 01 2022
+    return format(date, "EEE LLL dd y")
+  }
 
   describe("transaction history", () => {
     function getTransactionHistoryContainer() {
@@ -68,6 +79,39 @@ describe("Wallet", () => {
           getFirstDeleteTransactionButton().should("be.visible").click()
           assertZeroTransactionCount()
         })
+      })
+    })
+
+    describe("add transaction on different date", () => {
+      function getButtonForTransactionDate(date: Date) {
+        // e.g. "LLLL d, y" => December 1, 2022
+        const dateName = format(date, "LLLL d, y")
+        return cy.get(`[aria-label='${dateName}']`)
+      }
+
+      it("should remember added transaction on different date", () => {
+        const firstOfCurrentMonth = new Date()
+        firstOfCurrentMonth.setDate(1)
+        const secondOfCurrentMonth = new Date()
+        secondOfCurrentMonth.setDate(2)
+
+        getButtonForTransactionDate(firstOfCurrentMonth).click()
+        cy.submitIncomeTransaction("First of Current Month Transaction", ".01")
+        getTransactionHistoryContainer()
+          .should("contain.text", "First of Current Month Transaction")
+          .and("contain.text", "0.01")
+
+        getButtonForTransactionDate(secondOfCurrentMonth).click()
+        getCurrentTransactionDateElement().should("contain.text",
+          getDisplayedTransactionDateFormat(secondOfCurrentMonth))
+        getTransactionHistoryContainer().should("be.empty")
+
+        getButtonForTransactionDate(firstOfCurrentMonth).click()
+        getCurrentTransactionDateElement().should("contain.text",
+          getDisplayedTransactionDateFormat(firstOfCurrentMonth))
+        getTransactionHistoryContainer()
+          .should("contain.text", "First of Current Month Transaction")
+          .and("contain.text", "0.01")
       })
     })
   })
@@ -158,9 +202,9 @@ describe("Wallet", () => {
 
     it("should show current day transaction date", () => {
       const currentDate: Date = new Date()
-      cy.getByTestId("wallet-transaction-date").should("be.visible")
+      getCurrentTransactionDateElement().should("be.visible")
         .should("contain.text", "Transaction Date")
-        .should("contain.text", currentDate.toDateString())
+        .should("contain.text", getDisplayedTransactionDateFormat(currentDate))
     })
 
     it("should show zero expense", () => {
