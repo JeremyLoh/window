@@ -2,6 +2,7 @@ import React, { FC } from "react"
 
 interface CardInfoProps {
   ariaLabel?: string
+  "data-test"?: string
   children: any
 }
 
@@ -10,6 +11,7 @@ const CardInfo: FC<CardInfoProps> = (props) => {
     <div
       className="rounded border border-2 border-secondary px-6 py-4 text-left"
       aria-label={props.ariaLabel}
+      data-test={props["data-test"]}
     >
       {props.children}
     </div>

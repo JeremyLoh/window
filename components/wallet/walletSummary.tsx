@@ -64,7 +64,9 @@ export function WalletSummary() {
           : `Transaction Count: ${transactions.length}`}
       </h1>
       <div className="flex flex-wrap justify-between gap-x-4 gap-y-2 lg:flex-row">
-        <CardInfo ariaLabel="wallet-expenses">
+        <CardInfo data-test="wallet-expenses"
+                  ariaLabel="wallet-expenses"
+        >
           <h2 className="text-xl">Expenses</h2>
           <p className="text-lg text-red-600">{totalExpense.format()}</p>
         </CardInfo>
