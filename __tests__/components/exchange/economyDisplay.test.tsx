@@ -54,33 +54,6 @@ describe("EconomyDisplay", () => {
   }
 
   describe("country choice", () => {
-    test("should show dropdown for default choice", () => {
-      const countries: Map<string, Country> = new Map()
-      render(<EconomyDisplay countries={countries} />)
-      const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      expect(countryDropdown).toBeInTheDocument()
-      expect(countryDropdown).toHaveAttribute("required")
-      const defaultOption: HTMLOptionElement = getOption(
-        countryDropdown,
-        "default-country"
-      )
-      expect(defaultOption.selected).toBe(true)
-      expect(defaultOption.textContent).toBe("-- select a country --")
-    })
-
-    test("should show dropdown for one country choice", () => {
-      const countries: Map<string, Country> = new Map([
-        ["Singapore", getSingaporeDetails()],
-      ])
-      render(<EconomyDisplay countries={countries} />)
-      const countryDropdown: HTMLSelectElement = getCountryDropdown()
-      const option: HTMLOptionElement = getOption(
-        countryDropdown,
-        "economy-country-Singapore"
-      )
-      expect(option).toBeInTheDocument()
-    })
-
     test("should show dropdown for multiple country choice", () => {
       const countries: Map<string, Country> = new Map([
         ["Singapore", getSingaporeDetails()],
@@ -95,13 +68,6 @@ describe("EconomyDisplay", () => {
         getOption(countryDropdown, "economy-country-United States of America")
       ).toBeInTheDocument()
     })
-  })
-
-  test("should show submit button for economy country form", () => {
-    const countries: Map<string, Country> = new Map()
-    render(<EconomyDisplay countries={countries} />)
-    const submitButton: HTMLButtonElement = getEconomySubmitButton()
-    expect(submitButton).toBeInTheDocument()
   })
 
   describe("Country economy input form", () => {
@@ -132,21 +98,6 @@ describe("EconomyDisplay", () => {
         )
         expect(availableCountrySeries).toBeInTheDocument()
       })
-    })
-
-    test("should call series api when country is selected", async () => {
-      const countries: Map<string, Country> = new Map([
-        ["Singapore", getSingaporeDetails()],
-      ])
-      render(<EconomyDisplay countries={countries} />)
-      await selectCountryDropdown("economy-country-Singapore")
-      expect(httpRequestSpy).toHaveBeenCalledTimes(2)
-      expect(httpRequestSpy).toHaveBeenCalledWith(
-        "https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta"
-      )
-      expect(httpRequestSpy).toHaveBeenCalledWith(
-        "https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore"
-      )
     })
   })
 })

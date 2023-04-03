@@ -1,0 +1,81 @@
+import { enableAllPlugins } from "immer"
+import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
+
+describe("EconomyDisplay", () => {
+  before(() => {
+    enableAllPlugins()
+  })
+
+  function mockSingaporeCountrySeriesApi() {
+    cy.intercept("GET", "**/api/series/?search=Singapore&format=json&expand=meta", {
+      fixture: "/econdb/singaporeSeries.json"
+    }).as("singaporeSeriesSearchFirstPage")
+
+    cy.intercept("GET",
+      "**/api/series/?expand=meta&format=json&page=2&search=Singapore", {
+      fixture: "/econdb/singaporeSeries2.json"
+    }).as("singaporeSeriesSearchLastPage")
+
+    cy.intercept("GET", "https://www.econdb.com/api/series/Y10YDSG/?format=json", {
+      fixture: "/econdb/series/singapore/singaporeY10YDSG.json"
+    }).as("singaporeLongTermYield")
+  }
+
+  function getSingaporeDetails(): Country {
+    // https://flagpedia.net/singapore/emoji
+    return {
+      alpha2Code: "SG",
+      name: "Singapore",
+      flag: "\ud83c\uddf8\ud83c\uddec",
+    }
+  }
+
+  function getCountryDropdown() {
+    return cy.getByTestId("economy-country-select")
+  }
+
+  function getCountrySeriesDropdown() {
+    return cy.get("[aria-label='economy-country-series']")
+  }
+
+  function assertSeriesChartIsShown(series: string) {
+    cy.get(`canvas[aria-label='${series}-graph']`).should("be.visible")
+  }
+
+  function getSubmitButton() {
+    return cy.contains("button", "Get Economic Data")
+  }
+
+  it("should show submit button for form", () => {
+    const countries: Map<string, Country> = new Map()
+    cy.mount(<EconomyDisplay countries={countries} />)
+    mockSingaporeCountrySeriesApi()
+    getSubmitButton().should("be.visible")
+  })
+
+  it("should show default choice for country choice", () => {
+    const countries: Map<string, Country> = new Map()
+    cy.mount(<EconomyDisplay countries={countries} />)
+    mockSingaporeCountrySeriesApi()
+    getCountryDropdown().find("option:selected")
+      .should("have.text", "-- select a country --")
+  })
+
+  it("should show dropdown for one country and get series information", () => {
+    const countries: Map<string, Country> = new Map([
+      ["Singapore", getSingaporeDetails()],
+    ])
+    cy.mount(<EconomyDisplay countries={countries} />)
+    mockSingaporeCountrySeriesApi()
+    getCountryDropdown().select("Singapore")
+    getCountryDropdown().find("option:selected")
+      .should("have.text", "Singapore")
+    cy.wait("@singaporeSeriesSearchFirstPage")
+    cy.wait("@singaporeSeriesSearchLastPage")
+
+    getCountrySeriesDropdown().type("Singapore - Long term yield{enter}")
+    getSubmitButton().click()
+    cy.wait("@singaporeLongTermYield")
+    assertSeriesChartIsShown("Y10YDSG")
+  })
+})
