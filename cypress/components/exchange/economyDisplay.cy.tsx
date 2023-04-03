@@ -7,18 +7,22 @@ describe("EconomyDisplay", () => {
   })
 
   function mockSingaporeCountrySeriesApi() {
-    cy.intercept("GET", "**/api/series/?search=Singapore&format=json&expand=meta", {
+    cy.intercept("GET", "https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta", {
       fixture: "/econdb/singaporeSeries.json"
     }).as("singaporeSeriesSearchFirstPage")
 
     cy.intercept("GET",
-      "**/api/series/?expand=meta&format=json&page=2&search=Singapore", {
+      "https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore", {
       fixture: "/econdb/singaporeSeries2.json"
     }).as("singaporeSeriesSearchLastPage")
 
     cy.intercept("GET", "https://www.econdb.com/api/series/Y10YDSG/?format=json", {
-      fixture: "/econdb/series/singapore/singaporeY10YDSG.json"
+      fixture: "/econdb/series/singapore/Y10YDSG.json"
     }).as("singaporeLongTermYield")
+
+    cy.intercept("GET", "https://www.econdb.com/api/series/RPUCSG/?format=json", {
+      fixture: "/econdb/series/singapore/RPUCSG.json"
+    }).as("singaporeRealPublicConsumption")
   }
 
   function getSingaporeDetails(): Country {
@@ -27,6 +31,24 @@ describe("EconomyDisplay", () => {
       alpha2Code: "SG",
       name: "Singapore",
       flag: "\ud83c\uddf8\ud83c\uddec",
+    }
+  }
+
+  function getAngolaDetails(): Country {
+    // https://flagpedia.net/angola/emoji
+    return {
+      alpha2Code: "AO",
+      name: "Angola",
+      flag: "\ud83c\udde6\ud83c\uddf4",
+    }
+  }
+
+  function getUnitedStatesDetails(): Country {
+    // https://flagpedia.net/the-united-states/emoji
+    return {
+      alpha2Code: "USA",
+      name: "United States of America",
+      flag: "\ud83c\uddfa\ud83c\uddf8",
     }
   }
 
@@ -46,17 +68,23 @@ describe("EconomyDisplay", () => {
     return cy.contains("button", "Get Economic Data")
   }
 
+  function clickNextSeriesChart() {
+    cy.get(".swiper-button-next").click()
+  }
+
+  function clickPreviousSeriesChart() {
+    cy.get(".swiper-button-prev").click()
+  }
+
   it("should show submit button for form", () => {
     const countries: Map<string, Country> = new Map()
     cy.mount(<EconomyDisplay countries={countries} />)
-    mockSingaporeCountrySeriesApi()
     getSubmitButton().should("be.visible")
   })
 
   it("should show default choice for country choice", () => {
     const countries: Map<string, Country> = new Map()
     cy.mount(<EconomyDisplay countries={countries} />)
-    mockSingaporeCountrySeriesApi()
     getCountryDropdown().find("option:selected")
       .should("have.text", "-- select a country --")
   })
@@ -77,5 +105,40 @@ describe("EconomyDisplay", () => {
     getSubmitButton().click()
     cy.wait("@singaporeLongTermYield")
     assertSeriesChartIsShown("Y10YDSG")
+  })
+
+  it("should allow multi select series for country", () => {
+    const countries: Map<string, Country> = new Map([
+      ["Singapore", getSingaporeDetails()],
+    ])
+    cy.mount(<EconomyDisplay countries={countries} />)
+    mockSingaporeCountrySeriesApi()
+    getCountryDropdown().select("Singapore")
+    cy.wait("@singaporeSeriesSearchFirstPage")
+    cy.wait("@singaporeSeriesSearchLastPage")
+
+    getCountrySeriesDropdown().type("Singapore - Long term yield{enter}")
+    getCountrySeriesDropdown().type("Singapore - Real public consumption{enter}")
+    getSubmitButton().click()
+    cy.wait("@singaporeLongTermYield")
+    cy.wait("@singaporeRealPublicConsumption")
+
+    assertSeriesChartIsShown("Y10YDSG")
+    clickNextSeriesChart()
+    assertSeriesChartIsShown("RPUCSG")
+    clickPreviousSeriesChart()
+    assertSeriesChartIsShown("Y10YDSG")
+  })
+
+  it("should show multiple countries", () => {
+    const countries: Map<string, Country> = new Map([
+      ["Singapore", getSingaporeDetails()],
+      ["United States of America", getUnitedStatesDetails()],
+    ])
+    cy.mount(<EconomyDisplay countries={countries} />)
+    getCountryDropdown().find("option")
+      .contains("Singapore")
+    getCountryDropdown().find("option")
+      .contains("United States of America")
   })
 })
