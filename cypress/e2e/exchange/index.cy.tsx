@@ -112,11 +112,9 @@ describe("Exchange Page", () => {
       convertCurrency("0.01", "SGD", "USD")
       cy.wait("@exchangeRate")
       assertRouteCalled("exchangeRate", 1)
-      getExchangeRateConversionElement()
-        .should("be.visible")
+      getExchangeRateConversionElement().should("be.visible")
         .and("have.text", "0.01 SGD = 0.008 USD")
-      getExchangeRateElement()
-        .should("be.visible")
+      getExchangeRateElement().should("be.visible")
         .and("have.text", "Exchange Rate: 0.800")
     })
 
