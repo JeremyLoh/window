@@ -65,13 +65,6 @@ describe("exchange rate", () => {
       await user.click(getSubmitButton())
     }
 
-    test("should not submit exchange request for same currency conversion", async () => {
-      render(<Exchange symbols={symbols} countries={[]} />)
-      await submitCurrencyConvert("10", "SGD", "SGD")
-      expect(httpRequestSpy).not.toHaveBeenCalled()
-      expect(alertSpy).toHaveBeenCalledTimes(1)
-    })
-
     test("should display exchange result", async () => {
       render(<Exchange symbols={symbols} countries={[]} />)
       await submitCurrencyConvert("2", "SGD", "USD")

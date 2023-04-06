@@ -10,3 +10,4 @@ Hosted using [Vercel Platform](https://vercel.com/new?utm_medium=default-templat
 - To learn more about Next.js, take a look at the following resources:
   - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
   - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [How do I get the content in Javascript popups with Cypress?](https://stackoverflow.com/a/66630041)

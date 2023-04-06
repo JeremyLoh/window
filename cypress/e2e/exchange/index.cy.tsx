@@ -99,6 +99,14 @@ describe("Exchange Page", () => {
       cy.get(`@${alias}.all`).should("have.length", times)
     }
 
+    function assertSwalTitle(text: string): void {
+      cy.get(".swal2-title").should("have.text", text)
+    }
+
+    function assertSwalBody(text: string): void {
+      cy.get(".swal2-html-container").should("have.text",text)
+    }
+
     it("should submit valid exchange request", () => {
       mockExchangeRate("exchangeRate")
       convertCurrency("0.01", "SGD", "USD")
@@ -124,11 +132,12 @@ describe("Exchange Page", () => {
       assertRouteCalled("exchangeRate", 0)
     })
 
-    // it("should not submit exchange request for same currency conversion", () => {
-    //   mockExchangeRate("exchangeRate")
-    //   convertCurrency("0.01", "USD", "USD")
-    //   assertRouteCalled("exchangeRate", 0)
-    //   // TODO assert alert shows up! Swal
-    // })
+    it("should not submit exchange request for same currency conversion", () => {
+      mockExchangeRate("exchangeRate")
+      convertCurrency("0.01", "USD", "USD")
+      assertRouteCalled("exchangeRate", 0)
+      assertSwalTitle("Invalid currency chosen")
+      assertSwalBody("Currency chosen for conversion should be different")
+    })
   })
 })
