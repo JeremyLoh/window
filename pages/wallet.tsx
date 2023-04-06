@@ -33,6 +33,13 @@ const Wallet: FC<any> = () => {
     Map<String, Array<Transaction>>
   >(new Map())
 
+  function handleDateChange(date: Date | null | (Date | null)[]) {
+    if (date == null || Array.isArray(date)) {
+      return
+    }
+    setDate(date)
+  }
+
   function formatDate(date: Date): string {
     // e.g. "LLL d y" => Dec 1 2022
     return format(date, "LLL d y")
@@ -87,8 +94,9 @@ const Wallet: FC<any> = () => {
         <Calendar
           className="rounded-xl p-3 text-lg"
           navigationAriaLabel="wallet-calendar-date-selection"
-          onChange={setDate}
+          onChange={handleDateChange}
           value={date}
+          selectRange={false}
         />
       </div>
 
