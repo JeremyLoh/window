@@ -56,6 +56,7 @@ export function WalletSummary() {
     <div className="my-4 flex w-4/5 flex-col flex-wrap items-center justify-center py-3 md:mb-4 md:flex-row md:items-center">
       <h1
         className="px-4 text-center text-2xl"
+        data-test="wallet-transaction-day-count"
         aria-label="wallet-transaction-day-count"
       >
         {transactions.length === 0
@@ -63,15 +64,21 @@ export function WalletSummary() {
           : `Transaction Count: ${transactions.length}`}
       </h1>
       <div className="flex flex-wrap justify-between gap-x-4 gap-y-2 lg:flex-row">
-        <CardInfo ariaLabel="wallet-expenses">
+        <CardInfo data-test="wallet-expenses"
+                  ariaLabel="wallet-expenses"
+        >
           <h2 className="text-xl">Expenses</h2>
           <p className="text-lg text-red-600">{totalExpense.format()}</p>
         </CardInfo>
-        <CardInfo ariaLabel="wallet-income">
+        <CardInfo data-test="wallet-income"
+          ariaLabel="wallet-income"
+        >
           <h2 className="text-xl">Income</h2>
           <p className="text-lg text-green-600">{totalIncome.format()}</p>
         </CardInfo>
-        <CardInfo ariaLabel="wallet-cash-flow">
+        <CardInfo data-test="wallet-cash-flow"
+          ariaLabel="wallet-cash-flow"
+        >
           <h2 className="text-xl">Cash Flow</h2>
           <p className={`${getCashFlowTextStyle()} text-lg`}>{cashFlow}</p>
         </CardInfo>

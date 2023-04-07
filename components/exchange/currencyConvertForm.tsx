@@ -82,6 +82,7 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
         <div className="flex flex-col">
           <label htmlFor="conversion-amount">Conversion Amount</label>
           <input
+            data-test="conversion-amount"
             type="number"
             required
             id="conversion-amount"
@@ -99,6 +100,7 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
             required
             value={fromCurrency}
             onChange={handleFromCurrencyChange}
+            data-test="from-currency-select"
             aria-label="from-currency-select"
             className="font-lg h-full w-full py-2 px-4 text-black"
           >
@@ -114,6 +116,7 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
             required
             value={toCurrency}
             onChange={handleToCurrencyChange}
+            data-test="to-currency-select"
             aria-label="to-currency-select"
             className="font-lg h-full w-full py-2 px-4 text-black"
           >

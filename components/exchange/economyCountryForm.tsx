@@ -111,6 +111,7 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
           <label htmlFor="economy-country-select">Country</label>
           <select
             required
+            data-test="economy-country-select"
             aria-label="economy-country-select"
             value={countryName}
             onChange={handleCountryChange}

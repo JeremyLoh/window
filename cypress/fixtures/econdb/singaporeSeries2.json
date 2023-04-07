@@ -1,0 +1,138 @@
+{
+  "count": 20,
+  "pages": 2,
+  "next": null,
+  "previous": "https://www.econdb.com/api/series/?expand=meta&format=json&search=Singapore",
+  "results": [
+    {
+      "ticker": "PRCSG",
+      "description": "Singapore - Private consumption",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_GDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "26:Private Consumption Expenditure",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "CISG",
+      "description": "Singapore - Change in inventories",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_GDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "24:Changes In Inventories",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "IMPSG",
+      "description": "Singapore - Imports of goods and services",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_GDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "31:Imports Of Goods And Services",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "EXPSG",
+      "description": "Singapore - Exports of goods and services",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_GDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "30:Exports Of Goods And Services",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "GSPESG",
+      "description": "Singapore - General government total expenditure",
+      "geography": "Singapore",
+      "frequency": "M",
+      "dataset": "SSG_GFIN_M",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "185:Cash Payments For Operating Activities",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "PUCSG",
+      "description": "Singapore - Public consumption",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_GDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "29:Government Consumption Expenditure",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "URATESG",
+      "description": "Singapore - Unemployment",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_UNEMP",
+      "units": "Per Cent",
+      "additional_metadata": {
+        "3:Indicator": "175:Total Unemployment Rate, (SA)",
+        "2:Units": "34:Per Cent",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "RCISG",
+      "description": "Singapore - Real change in inventories",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_RGDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "24:Changes In Inventories",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "RIMPSG",
+      "description": "Singapore - Real imports of goods and services",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_RGDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "31:Imports Of Goods And Services",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    },
+    {
+      "ticker": "REXPSG",
+      "description": "Singapore - Real exports of goods and services",
+      "geography": "Singapore",
+      "frequency": "Q",
+      "dataset": "SSG_RGDP_EXP",
+      "units": "Million Dollars",
+      "additional_metadata": {
+        "3:Indicator": "30:Exports Of Goods And Services",
+        "2:Units": "1:Million Dollars",
+        "GEO:None": "196:None"
+      }
+    }
+  ]
+}

@@ -67,6 +67,7 @@ const ExchangeRateDisplay: FC<ExchangeRateDisplayProps> = (props) => {
     <div
       className="flex w-4/5 flex-col items-end justify-center gap-4 py-4"
       aria-label="currency-exchange-result"
+      data-test="currency-exchange-result"
     >
       <CurrencyConvertForm
         handleSubmit={handleSubmit}
@@ -74,8 +75,14 @@ const ExchangeRateDisplay: FC<ExchangeRateDisplayProps> = (props) => {
       />
       {exchangeResult && (
         <CardInfo>
-          <h2 className="text-xl">{getCurrencyExchangeText()}</h2>
-          <h2 className="text-xl">{`Exchange Rate: ${exchangeResult.rate}`}</h2>
+          <h2 data-test="exchange-rate-conversion"
+              className="text-xl">
+            {getCurrencyExchangeText()}
+          </h2>
+          <h2 data-test="exchange-rate"
+              className="text-xl">
+            {`Exchange Rate: ${exchangeResult.rate}`}
+          </h2>
         </CardInfo>
       )}
     </div>

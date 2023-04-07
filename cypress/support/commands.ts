@@ -7,10 +7,28 @@ Cypress.Commands.add("getByTestId", (selector) => {
   return cy.get(`[data-test=${selector}]`)
 })
 
+Cypress.Commands.add("submitExpenseTransaction", (name: string, amount: string) => {
+  cy.get("input[id='name']").clear().type(name)
+  cy.get("input[id='amount']").clear().type(amount)
+  cy.get("input[id='expense']").click()
+  cy.getByTestId("add-transaction-form").find("button")
+    .click()
+})
+
+Cypress.Commands.add("submitIncomeTransaction", (name: string, amount: string) => {
+  cy.get("input[id='name']").clear().type(name)
+  cy.get("input[id='amount']").clear().type(amount)
+  cy.get("input[id='income']").click()
+  cy.getByTestId("add-transaction-form").find("button")
+    .click()
+})
+
 declare global {
   namespace Cypress {
     interface Chainable {
       getByTestId(selector: string): Chainable<JQuery<HTMLElement>>
+      submitExpenseTransaction(name: string, amount: string): Chainable<JQuery<HTMLElement>>
+      submitIncomeTransaction(name: string, amount: string): Chainable<JQuery<HTMLElement>>
     }
   }
 }

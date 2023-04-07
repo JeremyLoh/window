@@ -25,7 +25,7 @@ describe("Homepage (/)", () => {
     cy.url().should("include", "/wallet")
   })
 
-  it("should navigate to exchange page when wallet feature is clicked", () => {
+  it("should navigate to exchange page when exchange feature is clicked", () => {
     getExchangeFeatureNavLink().click()
     cy.url().should("include", "/exchange")
   })

@@ -33,6 +33,13 @@ const Wallet: FC<any> = () => {
     Map<String, Array<Transaction>>
   >(new Map())
 
+  function handleDateChange(date: Date | null | (Date | null)[]) {
+    if (date == null || Array.isArray(date)) {
+      return
+    }
+    setDate(date)
+  }
+
   function formatDate(date: Date): string {
     // e.g. "LLL d y" => Dec 1 2022
     return format(date, "LLL d y")
@@ -78,7 +85,7 @@ const Wallet: FC<any> = () => {
       <h1 className="my-6 w-[90%] text-end text-5xl xl:w-[80%]">Wallet</h1>
 
       <div className="flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:items-start">
-        <div aria-label="wallet-transaction-date">
+        <div data-test="wallet-transaction-date" aria-label="wallet-transaction-date">
           <CardInfo ariaLabel="wallet-transaction-date-selection">
             <h2 className="text-xl">Transaction Date</h2>
             <p className="text-lg">{date.toDateString()}</p>
@@ -87,8 +94,9 @@ const Wallet: FC<any> = () => {
         <Calendar
           className="rounded-xl p-3 text-lg"
           navigationAriaLabel="wallet-calendar-date-selection"
-          onChange={setDate}
+          onChange={handleDateChange}
           value={date}
+          selectRange={false}
         />
       </div>
 
@@ -97,12 +105,16 @@ const Wallet: FC<any> = () => {
       >
         <div
           className="mb-4 flex flex-col items-center"
+          data-test="wallet-transactions"
           aria-label="wallet-transactions"
         >
           <WalletSummary />
           <div className="flex w-[80%] flex-col justify-center gap-5 md:flex-row">
             <div className="w-full md:w-1/2 lg:w-1/3">
-              <div className="bg-gray-700" aria-label="add-transaction-form">
+              <div className="bg-gray-700"
+                   data-test="add-transaction-form"
+                   aria-label="add-transaction-form"
+              >
                 <WalletForm
                   handleNewTransaction={displayNewTransaction}
                   transactionDate={date}
