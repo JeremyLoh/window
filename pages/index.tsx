@@ -3,6 +3,21 @@ import Emoji from "../components/emoji"
 import Clock from "../components/clock"
 import CardLink from "../components/cardLink"
 
+interface Feature {
+  href: string
+  ariaLabel: string
+  title: {
+    feature: string
+    emoji: {
+      symbol: string
+      label: string
+    }
+  }
+  description: string
+}
+
+const features: Array<Feature> = getAppFeatures()
+
 export default function Home() {
   return (
     <div className="px-8">
@@ -12,30 +27,63 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center justify-center gap-x-8 sm:flex-row">
-        <div>
+      <main className="flex min-h-screen flex-col justify-center items-center sm:flex-row">
+        <div className="px-4">
           <h1 className="text-left text-6xl">Window</h1>
           <Clock />
         </div>
-        <div className="flex max-w-2xl flex-col flex-wrap items-stretch justify-center sm:flex-row">
-          <section>
-            <CardLink href="/wallet" ariaLabel="wallet-feature">
-              <h2 className="text-xl font-bold">
-                Wallet <Emoji symbol="💵" label="money" /> &rarr;
-              </h2>
-              <p>Track your cash flow!</p>
-            </CardLink>
-          </section>
-          <section>
-            <CardLink href="/exchange" ariaLabel="exchange-feature">
-              <h2 className="text-xl font-bold">
-                Exchange <Emoji symbol="💱" label="currency-exchange" /> &rarr;
-              </h2>
-              <p>The World Exchange</p>
-            </CardLink>
-          </section>
+        <div className="flex max-w-4xl flex-col flex-wrap justify-center items-center sm:flex-row">
+          {
+            features && features.map((feature: Feature) => {
+              return (
+                <section key={feature.href}>
+                  <CardLink href={feature.href} ariaLabel={feature.ariaLabel}>
+                    <h2 className="text-xl font-bold">
+                      <span>{feature.title.feature} </span>
+                      <Emoji symbol={feature.title.emoji.symbol} label={feature.title.emoji.label} />
+                      {" "}
+                      &rarr;
+                    </h2>
+                    <p className="w-32">{feature.description}</p>
+                  </CardLink>
+                </section>
+              )
+            })
+          }
         </div>
       </main>
     </div>
   )
+}
+
+function getAppFeatures() {
+  return [
+    {
+      href: "/wallet",
+      ariaLabel: "wallet-feature",
+      title: {
+        feature: "Wallet",
+        emoji: { symbol: "💵", label: "money" }
+      },
+      description: "Track your cash flow!"
+    },
+    {
+      href: "/exchange",
+      ariaLabel: "exchange-feature",
+      title: {
+        feature: "Exchange",
+        emoji: { symbol: "💱", label: "currency-exchange" }
+      },
+      description: "The World Exchange"
+    },
+    {
+      href: "/life",
+      ariaLabel: "life-feature",
+      title: {
+        feature: "Life",
+        emoji: { symbol: "🗓️", label: "life" }
+      },
+      description: "The Ultimate Game"
+    }
+  ]
 }
