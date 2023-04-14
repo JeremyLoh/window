@@ -27,6 +27,18 @@ describe("life", () => {
       return format(date, "yyyy-LL-dd")
     }
 
+    function assertValidDateOfBirthInput() {
+      getDateOfBirthInput().invoke("prop", "validationMessage")
+        .should("equal", "")
+    }
+
+    function assertInvalidDateOfBirthInputCss() {
+      getDateOfBirthInput().should("have.css", "border-color",
+        "rgb(236, 72, 153)")
+      getDateOfBirthInput().should("have.css", "color",
+        "rgb(220, 38, 38)")
+    }
+
     it("should show date of birth label", () => {
       getDateOfBirthForm().find("label")
         .should("be.visible")
@@ -48,8 +60,13 @@ describe("life", () => {
       getDateOfBirthInput().type("1999-12-31")
       getDateOfBirthInput().invoke("val")
         .should("eq", "1999-12-31")
-      getDateOfBirthInput().invoke("prop", "validationMessage")
-        .should("equal", "")
+      assertValidDateOfBirthInput()
+    })
+
+    it("should allow date of birth of today", () => {
+      const today = new Date()
+      getDateOfBirthInput().type(formatDateOfBirthInput(today))
+      assertValidDateOfBirthInput()
     })
 
     it("should give warning for date of birth of tomorrow", () => {
@@ -61,10 +78,7 @@ describe("life", () => {
       const expectedValidationMessage = `Please select a value that is no later than ${today}.`
       getDateOfBirthInput().invoke("prop", "validationMessage")
         .should("equal", expectedValidationMessage)
-      getDateOfBirthInput().should("have.css", "border-color",
-        "rgb(236, 72, 153)")
-      getDateOfBirthInput().should("have.css", "color",
-        "rgb(220, 38, 38)")
+      assertInvalidDateOfBirthInputCss()
     })
   })
 })
