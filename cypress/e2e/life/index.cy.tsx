@@ -5,6 +5,21 @@ describe("life", () => {
     cy.visit("/life")
   })
 
+  const MAX_YEARS = 80
+  const WEEKS_IN_ONE_YEAR = 52
+
+  function getDateOfBirthForm() {
+    return cy.getByTestId("life-date-of-birth")
+  }
+
+  function getDateOfBirthInput() {
+    return getDateOfBirthForm().find("input[type='date']")
+  }
+
+  function formatDateOfBirthInput(date: Date) {
+    return format(date, "yyyy-LL-dd")
+  }
+
   it("should show navbar", () => {
     cy.getByTestId("navbar").should("be.visible")
   })
@@ -15,18 +30,6 @@ describe("life", () => {
   })
 
   context("date of birth input", () => {
-    function getDateOfBirthForm() {
-      return cy.getByTestId("life-date-of-birth")
-    }
-
-    function getDateOfBirthInput() {
-      return getDateOfBirthForm().find("input[type='date']")
-    }
-
-    function formatDateOfBirthInput(date: Date) {
-      return format(date, "yyyy-LL-dd")
-    }
-
     function assertValidDateOfBirthInput() {
       getDateOfBirthInput().invoke("prop", "validationMessage")
         .should("equal", "")
@@ -47,7 +50,7 @@ describe("life", () => {
 
     it("should show date of birth input", () => {
       const currentDate: Date = new Date()
-      const expectedMinYear: number = currentDate.getFullYear() - 80
+      const expectedMinYear: number = currentDate.getFullYear() - MAX_YEARS
       getDateOfBirthInput().invoke("attr", "min")
         .should("eq", `${expectedMinYear}-01-01`)
 
@@ -79,6 +82,42 @@ describe("life", () => {
       getDateOfBirthInput().invoke("prop", "validationMessage")
         .should("equal", expectedValidationMessage)
       assertInvalidDateOfBirthInputCss()
+    })
+  })
+
+  context("life calendar", () => {
+    function getLifeCalendarContainer() {
+      return cy.getByTestId("life-calendar")
+    }
+
+    function submitDateOfBirth(date: Date) {
+      getDateOfBirthInput().type(formatDateOfBirthInput(date))
+      getDateOfBirthForm().find("[data-test='submit-date-of-birth']")
+        .click()
+    }
+
+    it("should not show when date of birth input is not submitted", () => {
+      getLifeCalendarContainer().should("not.exist")
+      getDateOfBirthInput().type("1999-12-31")
+      getLifeCalendarContainer().should("not.exist")
+    })
+
+    it("should show life calendar when date of birth input is submitted", () => {
+      getLifeCalendarContainer().should("not.exist")
+      submitDateOfBirth(new Date("1999-12-31"))
+      getLifeCalendarContainer().should("be.visible")
+    })
+
+    it("should show life calendar grid of 1 past week", () => {
+      const oneWeekAgo: Date = new Date()
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+      submitDateOfBirth(oneWeekAgo)
+      getLifeCalendarContainer().find(".past")
+        .should("have.length", 1)
+      getLifeCalendarContainer().find(".present")
+        .should("have.length", 1)
+      getLifeCalendarContainer().find(".future")
+        .should("have.length", (MAX_YEARS * WEEKS_IN_ONE_YEAR) - 2)
     })
   })
 })

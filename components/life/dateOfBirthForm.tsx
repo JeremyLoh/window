@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import format from "date-fns/format"
 
 interface DateOfBirthFormProps {
-  handleSubmit: (date: Date) => void
+  handleSubmit: (dateOfBirth: Date) => void
 }
 
 const DateOfBirthForm: FC<DateOfBirthFormProps> = (props) => {
@@ -10,7 +10,7 @@ const DateOfBirthForm: FC<DateOfBirthFormProps> = (props) => {
   const currentDate = new Date()
   const minYear = currentDate.getFullYear() - 80
 
-  function formatDate(date: Date) {
+  function formatDateToIso8601(date: Date): string {
     // e.g. 25th November 2022 => "yyyy-LL-dd" => 2022-11-25
     return format(date, "yyyy-LL-dd")
   }
@@ -41,8 +41,8 @@ const DateOfBirthForm: FC<DateOfBirthFormProps> = (props) => {
                name="birthDate"
                type="date"
                min={`${minYear}-01-01`}
-               max={formatDate(currentDate)}
-               value={formatDate(dateOfBirth)}
+               max={formatDateToIso8601(currentDate)}
+               value={formatDateToIso8601(dateOfBirth)}
                onChange={handleDateChange}
         />
         <button
