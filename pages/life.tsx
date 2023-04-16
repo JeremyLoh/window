@@ -7,7 +7,7 @@ import DateOfBirthForm from "../components/life/dateOfBirthForm"
 import LifeCalendar from "../components/life/lifeCalendar"
 
 const Life: FC<any> = () => {
-  const [date, setDate] = useState<string>(null)
+  const [date, setDate] = useState<string>("")
 
   function handleSubmit(dateOfBirth: Date) {
     setDate(formatDateToIso8601(dateOfBirth))

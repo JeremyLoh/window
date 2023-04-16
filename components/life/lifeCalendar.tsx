@@ -5,7 +5,7 @@ import differenceInCalendarISOWeeks from "date-fns/differenceInCalendarISOWeeks"
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#date_strings
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 interface LifeCalendarProps {
-  dateOfBirth: String
+  dateOfBirth: string
 }
 
 const LifeCalendar: FC<LifeCalendarProps> = (props) => {
