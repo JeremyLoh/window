@@ -1,6 +1,7 @@
 import format from "date-fns/format"
 import sub from "date-fns/sub"
 import differenceInCalendarISOWeeks from "date-fns/differenceInCalendarISOWeeks"
+import add from "date-fns/add"
 
 describe("life", () => {
   beforeEach(() => {
@@ -8,7 +9,6 @@ describe("life", () => {
   })
 
   const MAX_YEARS = 80
-  const WEEKS_IN_ONE_YEAR = 52
 
   function getDateOfBirthForm() {
     return cy.getByTestId("life-date-of-birth")
@@ -112,25 +112,36 @@ describe("life", () => {
     })
 
     it("should show life calendar grid of 1 past week", () => {
-      const oneWeekAgo: Date = sub(new Date(), { weeks: 1 })
-      submitDateOfBirth(oneWeekAgo)
+      const today = new Date()
+      const oneWeekAgoDateOfBirth: Date = sub(today, { weeks: 1 })
+      const expectedEndDate: Date = add(oneWeekAgoDateOfBirth, { years: MAX_YEARS })
+      // Subtract 1 for present week
+      const expectedFutureWeeks: number = differenceInCalendarISOWeeks(expectedEndDate, today) - 1
+      submitDateOfBirth(oneWeekAgoDateOfBirth)
       getLifeCalendarContainer().find(".past")
         .should("have.length", 1)
       getLifeCalendarContainer().find(".present")
         .should("have.length", 1)
       getLifeCalendarContainer().find(".future")
-        .should("have.length", (MAX_YEARS * WEEKS_IN_ONE_YEAR) - 2)
+        .should("have.length", expectedFutureWeeks)
+        .last()
+        .should("not.have.text", "80y")
     })
 
     it("should show life calendar grid of zero past weeks", () => {
       const today: Date = new Date()
+      const expectedEndDate: Date = add(today, { years: MAX_YEARS })
+      // Subtract 1 for present week
+      const expectedFutureWeeks: number = differenceInCalendarISOWeeks(expectedEndDate, today) - 1
       submitDateOfBirth(today)
       getLifeCalendarContainer().find(".past")
         .should("have.length", 0)
       getLifeCalendarContainer().find(".present")
         .should("have.length", 1)
       getLifeCalendarContainer().find(".future")
-        .should("have.length", (MAX_YEARS * WEEKS_IN_ONE_YEAR) - 1)
+        .should("have.length", expectedFutureWeeks)
+        .last()
+        .should("not.have.text", "80y")
     })
 
     it("should show life calendar grid of zero future weeks", () => {
