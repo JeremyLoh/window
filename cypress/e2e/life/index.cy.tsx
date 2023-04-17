@@ -1,4 +1,6 @@
 import format from "date-fns/format"
+import sub from "date-fns/sub"
+import differenceInCalendarISOWeeks from "date-fns/differenceInCalendarISOWeeks"
 
 describe("life", () => {
   beforeEach(() => {
@@ -50,7 +52,8 @@ describe("life", () => {
 
     it("should show date of birth input", () => {
       const currentDate: Date = new Date()
-      const expectedMinYear: number = currentDate.getFullYear() - MAX_YEARS
+      const expectedMinYear: number = sub(currentDate, { years: MAX_YEARS })
+        .getFullYear()
       getDateOfBirthInput().invoke("attr", "min")
         .should("eq", `${expectedMinYear}-01-01`)
 
@@ -109,8 +112,7 @@ describe("life", () => {
     })
 
     it("should show life calendar grid of 1 past week", () => {
-      const oneWeekAgo: Date = new Date()
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+      const oneWeekAgo: Date = sub(new Date(), { weeks: 1 })
       submitDateOfBirth(oneWeekAgo)
       getLifeCalendarContainer().find(".past")
         .should("have.length", 1)
@@ -118,6 +120,31 @@ describe("life", () => {
         .should("have.length", 1)
       getLifeCalendarContainer().find(".future")
         .should("have.length", (MAX_YEARS * WEEKS_IN_ONE_YEAR) - 2)
+    })
+
+    it("should show life calendar grid of zero past weeks", () => {
+      const today: Date = new Date()
+      submitDateOfBirth(today)
+      getLifeCalendarContainer().find(".past")
+        .should("have.length", 0)
+      getLifeCalendarContainer().find(".present")
+        .should("have.length", 1)
+      getLifeCalendarContainer().find(".future")
+        .should("have.length", (MAX_YEARS * WEEKS_IN_ONE_YEAR) - 1)
+    })
+
+    it("should show life calendar grid of zero future weeks", () => {
+      const today = new Date()
+      const maxYearsAgo: Date = sub(today, { years: MAX_YEARS })
+      submitDateOfBirth(maxYearsAgo)
+      getLifeCalendarContainer().find(".past")
+        .should("have.length", differenceInCalendarISOWeeks(today, maxYearsAgo))
+        .last()
+        .should("have.text", `${MAX_YEARS}y`)
+      getLifeCalendarContainer().find(".present")
+        .should("have.length", 1)
+      getLifeCalendarContainer().find(".future")
+        .should("have.length", 0)
     })
   })
 })
