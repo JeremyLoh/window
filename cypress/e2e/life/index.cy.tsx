@@ -111,7 +111,7 @@ describe("life", () => {
       getLifeCalendarContainer().should("be.visible")
     })
 
-    it("should show life calendar grid of 1 past week", () => {
+    it("should show life calendar grid of one past week", () => {
       const today = new Date()
       const oneWeekAgoDateOfBirth: Date = sub(today, { weeks: 1 })
       const expectedEndDate: Date = add(oneWeekAgoDateOfBirth, { years: MAX_YEARS })
@@ -142,6 +142,19 @@ describe("life", () => {
         .should("have.length", expectedFutureWeeks)
         .last()
         .should("not.have.text", "80y")
+    })
+
+    it("should show life calendar grid of one future week", () => {
+      const today = new Date()
+      const maxYearsAgo: Date = sub(today, { years: MAX_YEARS })
+      const dateOfBirth: Date = add(maxYearsAgo, { weeks: 2 })
+      submitDateOfBirth(dateOfBirth)
+      getLifeCalendarContainer().find(".past")
+        .should("have.length", differenceInCalendarISOWeeks(today, dateOfBirth))
+      getLifeCalendarContainer().find(".present")
+        .should("have.length", 1)
+      getLifeCalendarContainer().find(".future")
+        .should("have.length", 1)
     })
 
     it("should show life calendar grid of zero future weeks", () => {
