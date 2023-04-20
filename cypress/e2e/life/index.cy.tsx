@@ -89,6 +89,10 @@ describe("life", () => {
   })
 
   context("life calendar", () => {
+    function getLifeCalendarTitle() {
+      return cy.getByTestId("life-calendar-title")
+    }
+
     function getLifeCalendarContainer() {
       return cy.getByTestId("life-calendar")
     }
@@ -98,6 +102,14 @@ describe("life", () => {
       getDateOfBirthForm().find("[data-test='submit-date-of-birth']")
         .click()
     }
+
+    it("should show title of life calendar", () => {
+      const today: Date = new Date()
+      getLifeCalendarTitle().should("not.exist")
+      submitDateOfBirth(today)
+      getLifeCalendarTitle().should("be.visible")
+        .and("have.text", `Life Calendar (${MAX_YEARS} Years)`)
+    })
 
     it("should not show when date of birth input is not submitted", () => {
       getLifeCalendarContainer().should("not.exist")

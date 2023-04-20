@@ -82,15 +82,22 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
   }
 
   return (
-    <div data-test="life-calendar"
-         className="grid gap-2 p-4 max-w-full md:max-w-[80%] m-auto
-                    grid-rows-[repeat(auto-fit,_32px)]
-                    grid-cols-[repeat(auto-fit,_32px)]
-                    xl:grid-rows-[repeat(auto-fit,_26px)]
-                    xl:grid-cols-[repeat(auto-fit,_26px)]
-                    grid-flow-row-dense"
-    >
-      {generateCalendar()}
+    <div>
+      <h2 data-test="life-calendar-title"
+          className="text-center border-t-2 pt-2 mt-2 text-2xl"
+      >
+        Life Calendar <br /> {`(${MAX_YEARS} Years)`}
+      </h2>
+      <div data-test="life-calendar"
+           className="grid gap-2 p-4 max-w-full md:max-w-[80%] m-auto
+                      grid-rows-[repeat(auto-fit,_32px)]
+                      grid-cols-[repeat(auto-fit,_32px)]
+                      xl:grid-rows-[repeat(auto-fit,_26px)]
+                      xl:grid-cols-[repeat(auto-fit,_26px)]
+                      grid-flow-row-dense"
+      >
+        {generateCalendar()}
+      </div>
     </div>
   )
 }
