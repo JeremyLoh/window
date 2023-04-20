@@ -1,7 +1,7 @@
 import React, { createContext, FC, useState } from "react"
 import Head from "next/head"
 import format from "date-fns/format"
-import produce from "immer"
+import { produce } from "immer"
 import Calendar from "react-calendar"
 import WalletForm from "../components/wallet/walletAddTransactionForm"
 import { WalletSummary } from "../components/wallet/walletSummary"

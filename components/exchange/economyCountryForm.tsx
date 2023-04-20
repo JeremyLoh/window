@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import Select, { ActionMeta, GroupBase, StylesConfig } from "react-select"
-import produce from "immer"
+import { produce } from "immer"
 import CardInfo from "../cardInfo"
 import { getCountrySeries, Series } from "../../lib/exchange/economy/indicators"
 import { Country } from "./economyDisplay"

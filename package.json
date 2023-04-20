@@ -21,7 +21,7 @@
     "dinero.js": "1.9.1",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
-    "immer": "9.0.21",
+    "immer": "10.0.1",
     "nanoid": "4.0.2",
     "next": "13.3.0",
     "p-limit": "4.0.0",
