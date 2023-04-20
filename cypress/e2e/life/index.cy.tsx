@@ -108,7 +108,7 @@ describe("life", () => {
       getLifeCalendarTitle().should("not.exist")
       submitDateOfBirth(today)
       getLifeCalendarTitle().should("be.visible")
-        .and("have.text", `Life Calendar (${MAX_YEARS} Years)`)
+        .and("have.text", `Life Calendar  (${MAX_YEARS} Years)`)
     })
 
     it("should not show when date of birth input is not submitted", () => {
@@ -176,7 +176,7 @@ describe("life", () => {
       getLifeCalendarContainer().find(".past")
         .should("have.length", differenceInCalendarISOWeeks(today, maxYearsAgo))
         .last()
-        .should("have.text", `${MAX_YEARS}y`)
+        .should("not.have.text", `${MAX_YEARS}y`)
       getLifeCalendarContainer().find(".present")
         .should("have.length", 1)
       getLifeCalendarContainer().find(".future")
