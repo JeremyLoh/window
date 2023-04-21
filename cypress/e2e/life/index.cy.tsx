@@ -3,6 +3,7 @@ import sub from "date-fns/sub"
 import differenceInCalendarISOWeeks from "date-fns/differenceInCalendarISOWeeks"
 import add from "date-fns/add"
 import { deleteDownloadsFolder } from "../../support/utils"
+import ViewportPreset = Cypress.ViewportPreset
 
 describe("life", () => {
   beforeEach(() => {
@@ -197,14 +198,54 @@ describe("life", () => {
         .should("have.length", 0)
     })
 
-    it("should download life calendar as png image when download button is clicked", () => {
-      const today = new Date()
-      getLifeCalendarDownloadButton().should("not.exist")
-      submitDateOfBirth(today)
-      getLifeCalendarDownloadButton().should("be.visible")
-        .and("have.text", "Save as Image")
-      getLifeCalendarDownloadButton().click()
-      assertFileExists("life-calendar.png")
+    context("desktop tests", () => {
+      const sizes: (ViewportPreset | [number, number])[] = ["macbook-16", [1366, 768],
+        [1600, 900], [1920, 1080], [2560, 1440], [3840, 2160],
+        [3440, 1440], [5120, 1440]]
+      sizes.forEach((size) => {
+        context(`${size} resolution`, () => {
+          beforeEach(() => {
+            if (Array.isArray(size)) {
+              cy.viewport(size[0], size[1])
+            } else {
+              cy.viewport(size)
+            }
+          })
+
+          it("should download desktop life calendar as png image when download button is" +
+            " clicked", () => {
+            const today = new Date()
+            getLifeCalendarDownloadButton().should("not.exist")
+            submitDateOfBirth(today)
+            getLifeCalendarDownloadButton().should("be.visible")
+              .and("have.text", "Save as Image")
+            getLifeCalendarDownloadButton().click()
+            assertFileExists("life-calendar.png")
+          })
+        })
+      })
+    })
+
+    context("mobile tests", () => {
+      const sizes: ViewportPreset[] = ["iphone-5", "iphone-xr", "ipad-2", "ipad-mini", "samsung-s10"]
+      sizes.forEach((size) => {
+        context(`${size} resolution`, () => {
+          beforeEach(() => {
+            cy.viewport(size)
+          })
+
+          it("should download desktop life calendar as png image when download button is" +
+            " clicked", () => {
+            const today = new Date()
+            getLifeCalendarDownloadButton().should("not.exist")
+            submitDateOfBirth(today)
+            getLifeCalendarDownloadButton().should("be.visible")
+              .and("have.text", "Save as Image")
+            getLifeCalendarDownloadButton().click()
+            assertFileExists("life-calendar.png")
+          })
+        })
+      })
     })
   })
 })
