@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { add, differenceInCalendarISOWeeks, differenceInYears } from "date-fns"
+import { Cell, LifeCalendarModel } from "./lifeCalendarModel"
 
 // Date of birth is in ISO8601 date string format: e.g. 1993-11-01 => November 1, 1993
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#date_strings
@@ -10,75 +10,58 @@ interface LifeCalendarProps {
 
 const LifeCalendar: FC<LifeCalendarProps> = (props) => {
   // todo find way to convert react component into image for saving
-  // todo refactor weeks (cells generation) into own classes
   const MAX_YEARS = 80
+  const today = new Date()
   const dateOfBirth: Date = new Date(props.dateOfBirth)
-  const maxYearsAfterDateOfBirth = add(dateOfBirth, { years: MAX_YEARS })
 
   function generateCalendar() {
-    const totalWeeks = differenceInCalendarISOWeeks(maxYearsAfterDateOfBirth, dateOfBirth)
-    const today: Date = new Date()
-    const pastWeeks = differenceInCalendarISOWeeks(today, dateOfBirth)
-    return [...createPastWeekCells(pastWeeks),
-      createPresentWeekCell(pastWeeks + 1),
-      ...createFutureWeekCells(pastWeeks + 2, totalWeeks)
+    const model: LifeCalendarModel = new LifeCalendarModel(dateOfBirth, today)
+    const pastWeeksCells: Cell[] = model.getPastWeeksText()
+    const presentWeekCell: Cell = model.getPresentWeekText()
+    const futureWeeksCells: Cell[] = model.getFutureWeeksText(MAX_YEARS)
+    return [
+      ...createPastWeekCells(pastWeeksCells),
+      createPresentWeekCell(presentWeekCell),
+      ...createFutureWeekCells(futureWeeksCells)
     ]
   }
 
-  function createPastWeekCells(pastWeeks: number) {
-    const cells = []
-    let previousDifferenceInYears = 0
-    for (let i = 1; i <= pastWeeks; i++) {
-      const currentDate = add(dateOfBirth, { weeks: i })
-      const yearDifference: number = differenceInYears(currentDate, dateOfBirth)
-      cells.push(
+  function createPastWeekCells(cells: Cell[]): JSX.Element[] {
+    return cells.map((cell: Cell, i: number) => {
+      return (
         <div key={`past-week-${i}`}
              className="flex justify-center items-center aspect-square bg-red-700 text-white text-sm
                         hover:animate-bounce duration-700 ease-in
                         past">
-          { (yearDifference !== previousDifferenceInYears &&
-            (yearDifference + "y")) }
+          { cell.text }
         </div>
       )
-      previousDifferenceInYears = (yearDifference !== previousDifferenceInYears)
-        ? yearDifference : previousDifferenceInYears
-    }
-    return cells
+    })
   }
 
-  function createPresentWeekCell(week: number) {
+  function createPresentWeekCell(cell: Cell): JSX.Element {
     return (
       <div key={`present-week`}
            data-test="present-week"
            className="flex justify-center items-center aspect-square bg-amber-500 text-white text-sm
                         hover:animate-bounce
                         present">
-        {week}
+        { cell.text }
       </div>
     )
   }
 
-  function createFutureWeekCells(startWeek: number, totalWeeks: number) {
-    const cells = []
-    let previousDifferenceInYears = differenceInYears(
-      add(dateOfBirth, { weeks: startWeek }),
-      dateOfBirth
-    )
-    for (let j = startWeek; j <= totalWeeks; j++) {
-      const currentDate = add(dateOfBirth, { weeks: j })
-      const yearDifference: number = differenceInYears(currentDate, dateOfBirth)
-      cells.push(
-        <div key={`future-week-${j}`}
+  function createFutureWeekCells(cells: Cell[]): JSX.Element[] {
+    return cells.map((cell: Cell, i: number) => {
+      return (
+        <div key={`future-week-${i}`}
              className="flex justify-center items-center aspect-square bg-green-700 text-white text-sm
                         hover:animate-bounce duration-700 ease-in
                         future">
-          { (yearDifference !== previousDifferenceInYears && (yearDifference + "y")) }
+          { cell.text }
         </div>
       )
-      previousDifferenceInYears = (yearDifference !== previousDifferenceInYears)
-        ? yearDifference : previousDifferenceInYears
-    }
-    return cells
+    })
   }
 
   return (
@@ -96,7 +79,7 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
                       xl:grid-cols-[repeat(auto-fit,_26px)]
                       grid-flow-row-dense"
       >
-        {generateCalendar()}
+        { generateCalendar() }
       </div>
     </div>
   )

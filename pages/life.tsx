@@ -4,7 +4,7 @@ import format from "date-fns/format"
 import Navbar from "../components/navbar"
 import Quote from "../components/life/quote"
 import DateOfBirthForm from "../components/life/dateOfBirthForm"
-import LifeCalendar from "../components/life/lifeCalendar"
+import LifeCalendar from "../components/life/lifeCalendar/lifeCalendar"
 
 const Life: FC<any> = () => {
   const [date, setDate] = useState<string>("")
