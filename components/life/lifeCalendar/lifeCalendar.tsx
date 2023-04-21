@@ -57,6 +57,7 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
                         grid-cols-[repeat(auto-fit,_32px)]
                         xl:grid-rows-[repeat(auto-fit,_26px)]
                         xl:grid-cols-[repeat(auto-fit,_26px)]
+                        justify-center
                         grid-flow-row-dense"
         >
           { generateCalendar() }
