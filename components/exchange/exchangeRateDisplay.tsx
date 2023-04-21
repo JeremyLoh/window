@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import produce from "immer"
+import { produce } from "immer"
 import CardInfo from "../cardInfo"
 import CurrencyConvertForm from "./currencyConvertForm"
 import Currency from "../currency"

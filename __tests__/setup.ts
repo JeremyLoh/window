@@ -2,7 +2,7 @@ import ResizeObserver from "resize-observer-polyfill"
 import { afterAll, afterEach, beforeAll, expect, vi } from "vitest"
 import { cleanup } from "@testing-library/react"
 import matchers from "@testing-library/jest-dom/matchers"
-import { enableAllPlugins } from "immer"
+import { enablePatches, enableMapSet } from "immer"
 import { server } from "./serverSetup"
 
 // Mocking canvas - https://github.com/hustcc/jest-canvas-mock/issues/88
@@ -27,7 +27,8 @@ beforeAll(() => {
   mockNextImage()
   mockResizeObserver()
   mockCanvas()
-  enableAllPlugins()
+  enablePatches()
+  enableMapSet()
 })
 
 // runs a cleanup after each test case (e.g. clearing jsdom)

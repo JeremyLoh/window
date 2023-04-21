@@ -16,6 +16,10 @@ describe("Wallet", () => {
     return format(date, "EEE LLL dd y")
   }
 
+  it("should show navbar", () => {
+    cy.getByTestId("navbar").should("be.visible")
+  })
+
   describe("transaction history", () => {
     function getTransactionHistoryContainer() {
       return cy.getByTestId("transaction-history-container")

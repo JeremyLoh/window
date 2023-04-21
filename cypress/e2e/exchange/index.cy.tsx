@@ -19,6 +19,10 @@ describe("Exchange Page", () => {
     return cy.contains("button", "Convert")
   }
 
+  it("should show navbar", () => {
+    cy.getByTestId("navbar").should("be.visible")
+  })
+
   it("should show amount to convert input", () => {
     getConversionAmountInput().should("be.visible")
     getConversionAmountInput().invoke("attr", "type")

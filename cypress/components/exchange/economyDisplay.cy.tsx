@@ -1,9 +1,10 @@
-import { enableAllPlugins } from "immer"
+import { enablePatches, enableMapSet } from "immer"
 import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
 
 describe("EconomyDisplay", () => {
   before(() => {
-    enableAllPlugins()
+    enablePatches()
+    enableMapSet()
   })
 
   function mockSingaporeCountrySeriesApi() {
