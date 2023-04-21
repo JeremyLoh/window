@@ -2,10 +2,16 @@ import format from "date-fns/format"
 import sub from "date-fns/sub"
 import differenceInCalendarISOWeeks from "date-fns/differenceInCalendarISOWeeks"
 import add from "date-fns/add"
+import { deleteDownloadsFolder } from "../../support/utils"
 
 describe("life", () => {
   beforeEach(() => {
     cy.visit("/life")
+    deleteDownloadsFolder()
+  })
+
+  after(() => {
+    deleteDownloadsFolder()
   })
 
   const MAX_YEARS = 80
@@ -20,6 +26,10 @@ describe("life", () => {
 
   function formatDateOfBirthInput(date: Date) {
     return format(date, "yyyy-LL-dd")
+  }
+
+  function assertFileExists(filename: string) {
+    cy.readFile(`cypress/downloads/${filename}`)
   }
 
   it("should show navbar", () => {
@@ -95,6 +105,10 @@ describe("life", () => {
 
     function getLifeCalendarContainer() {
       return cy.getByTestId("life-calendar")
+    }
+
+    function getLifeCalendarDownloadButton() {
+      return cy.getByTestId("life-calendar-download")
     }
 
     function submitDateOfBirth(date: Date) {
@@ -181,6 +195,16 @@ describe("life", () => {
         .should("have.length", 1)
       getLifeCalendarContainer().find(".future")
         .should("have.length", 0)
+    })
+
+    it.only("should download life calendar as png image when download button is clicked", () => {
+      const today = new Date()
+      getLifeCalendarDownloadButton().should("not.exist")
+      submitDateOfBirth(today)
+      getLifeCalendarDownloadButton().should("be.visible")
+        .and("have.text", "Save as Image")
+      getLifeCalendarDownloadButton().click()
+      assertFileExists("life-calendar.png")
     })
   })
 })
