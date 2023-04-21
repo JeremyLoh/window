@@ -197,7 +197,7 @@ describe("life", () => {
         .should("have.length", 0)
     })
 
-    it.only("should download life calendar as png image when download button is clicked", () => {
+    it("should download life calendar as png image when download button is clicked", () => {
       const today = new Date()
       getLifeCalendarDownloadButton().should("not.exist")
       submitDateOfBirth(today)

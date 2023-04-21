@@ -27,44 +27,6 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
     ]
   }
 
-  function createPastWeekCells(cells: Cell[]): JSX.Element[] {
-    return cells.map((cell: Cell, i: number) => {
-      return (
-        <div key={`past-week-${i}`}
-             className="flex justify-center items-center aspect-square bg-red-700 text-white text-sm
-                        hover:animate-bounce duration-700 ease-in
-                        past">
-          { cell.text }
-        </div>
-      )
-    })
-  }
-
-  function createPresentWeekCell(cell: Cell): JSX.Element {
-    return (
-      <div key={`present-week`}
-           data-test="present-week"
-           className="flex justify-center items-center aspect-square bg-amber-500 text-white text-sm
-                        hover:animate-bounce
-                        present">
-        { cell.text }
-      </div>
-    )
-  }
-
-  function createFutureWeekCells(cells: Cell[]): JSX.Element[] {
-    return cells.map((cell: Cell, i: number) => {
-      return (
-        <div key={`future-week-${i}`}
-             className="flex justify-center items-center aspect-square bg-green-700 text-white text-sm
-                        hover:animate-bounce duration-700 ease-in
-                        future">
-          { cell.text }
-        </div>
-      )
-    })
-  }
-
   const handleDownload = useCallback(async () => {
     if (lifeCalendarRef.current === null) {
       return
@@ -102,6 +64,45 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
       </div>
     </div>
   )
+}
+
+
+function createPastWeekCells(cells: Cell[]): JSX.Element[] {
+  return cells.map((cell: Cell, i: number) => {
+    return (
+      <div key={`past-week-${i}`}
+           className="flex justify-center items-center aspect-square bg-red-700 text-white text-sm
+                        hover:animate-bounce duration-700 ease-in
+                        past">
+        { cell.text }
+      </div>
+    )
+  })
+}
+
+function createPresentWeekCell(cell: Cell): JSX.Element {
+  return (
+    <div key={`present-week`}
+         data-test="present-week"
+         className="flex justify-center items-center aspect-square bg-amber-500 text-white text-sm
+                        hover:animate-bounce
+                        present">
+      { cell.text }
+    </div>
+  )
+}
+
+function createFutureWeekCells(cells: Cell[]): JSX.Element[] {
+  return cells.map((cell: Cell, i: number) => {
+    return (
+      <div key={`future-week-${i}`}
+           className="flex justify-center items-center aspect-square bg-green-700 text-white text-sm
+                        hover:animate-bounce duration-700 ease-in
+                        future">
+        { cell.text }
+      </div>
+    )
+  })
 }
 
 export default LifeCalendar
