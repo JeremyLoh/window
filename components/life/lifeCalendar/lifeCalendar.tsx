@@ -15,7 +15,7 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
   const dateOfBirth: Date = new Date(props.dateOfBirth)
   const lifeCalendarRef = useRef<HTMLDivElement>(null)
 
-  function generateCalendar() {
+  function generateCalendar(): JSX.Element[] {
     const model: LifeCalendarModel = new LifeCalendarModel(dateOfBirth, today)
     const pastWeeksCells: Cell[] = model.getPastWeeksText()
     const presentWeekCell: Cell = model.getPresentWeekText()
@@ -23,7 +23,7 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
     return [
       ...createPastWeekCells(pastWeeksCells),
       createPresentWeekCell(presentWeekCell),
-      ...createFutureWeekCells(futureWeeksCells)
+      ...createFutureWeekCells(futureWeeksCells),
     ]
   }
 
@@ -35,47 +35,48 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
   }, [lifeCalendarRef])
 
   return (
-    <div>
+    <>
       <div className="flex justify-center">
-        <button data-test="life-calendar-download"
-                className="rounded-xl border border-fuchsia-600 bg-secondary px-4 py-2 mt-2 mb-4 text-left
-                           transition-colors hover:bg-fuchsia-600"
-                onClick={handleDownload}
+        <button
+          data-test="life-calendar-download"
+          className="mb-4 mt-2 rounded-xl border border-fuchsia-600 bg-secondary px-4 py-2 text-left
+                     transition-colors hover:bg-fuchsia-600"
+          onClick={handleDownload}
         >
           Save as Image
         </button>
       </div>
       <div ref={lifeCalendarRef}>
-        <h2 data-test="life-calendar-title"
-            className="text-center pt-2 text-2xl bg-gradient-to-r from-secondary to-primary"
+        <h2
+          data-test="life-calendar-title"
+          className="w-screen bg-gradient-to-r from-secondary to-primary pt-2 text-center text-2xl"
         >
           Life Calendar <br /> {`(${MAX_YEARS} Years)`}
         </h2>
-        <div data-test="life-calendar"
-             className="grid gap-2 p-4 max-w-full md:max-w-[80%] m-auto
-                        grid-rows-[repeat(auto-fit,_32px)]
-                        grid-cols-[repeat(auto-fit,_32px)]
-                        xl:grid-rows-[repeat(auto-fit,_26px)]
-                        xl:grid-cols-[repeat(auto-fit,_26px)]
-                        justify-center
-                        grid-flow-row-dense"
+        <div
+          data-test="life-calendar"
+          className="m-auto grid w-full grid-flow-row-dense grid-cols-[repeat(auto-fit,_32px)]
+                     grid-rows-[repeat(auto-fit,_32px)]
+                     justify-center gap-2 p-4
+                     xl:grid-cols-[repeat(auto-fit,_26px)]
+                     xl:grid-rows-[repeat(auto-fit,_26px)]"
         >
-          { generateCalendar() }
+          {generateCalendar()}
         </div>
       </div>
-    </div>
+    </>
   )
 }
-
 
 function createPastWeekCells(cells: Cell[]): JSX.Element[] {
   return cells.map((cell: Cell, i: number) => {
     return (
-      <div key={`past-week-${i}`}
-           className="flex justify-center items-center aspect-square bg-red-700 text-white text-sm
-                        hover:animate-bounce duration-700 ease-in
-                        past">
-        { cell.text }
+      <div
+        key={`past-week-${i}`}
+        className="past flex aspect-square items-center justify-center bg-red-700 text-sm
+                   text-white duration-700 ease-in hover:animate-bounce"
+      >
+        {cell.text}
       </div>
     )
   })
@@ -83,12 +84,13 @@ function createPastWeekCells(cells: Cell[]): JSX.Element[] {
 
 function createPresentWeekCell(cell: Cell): JSX.Element {
   return (
-    <div key={`present-week`}
-         data-test="present-week"
-         className="flex justify-center items-center aspect-square bg-amber-500 text-white text-sm
-                        hover:animate-bounce
-                        present">
-      { cell.text }
+    <div
+      key={`present-week`}
+      data-test="present-week"
+      className="present flex aspect-square items-center justify-center bg-amber-500 text-sm
+                 text-white hover:animate-bounce"
+    >
+      {cell.text}
     </div>
   )
 }
@@ -96,11 +98,12 @@ function createPresentWeekCell(cell: Cell): JSX.Element {
 function createFutureWeekCells(cells: Cell[]): JSX.Element[] {
   return cells.map((cell: Cell, i: number) => {
     return (
-      <div key={`future-week-${i}`}
-           className="flex justify-center items-center aspect-square bg-green-700 text-white text-sm
-                        hover:animate-bounce duration-700 ease-in
-                        future">
-        { cell.text }
+      <div
+        key={`future-week-${i}`}
+        className="future flex aspect-square items-center justify-center bg-green-700 text-sm
+                   text-white duration-700 ease-in hover:animate-bounce"
+      >
+        {cell.text}
       </div>
     )
   })

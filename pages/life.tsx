@@ -1,21 +1,36 @@
 import React, { FC, useState } from "react"
 import Head from "next/head"
-import format from "date-fns/format"
 import Navbar from "../components/navbar"
-import Quote from "../components/life/quote"
-import DateOfBirthForm from "../components/life/dateOfBirthForm"
-import LifeCalendar from "../components/life/lifeCalendar/lifeCalendar"
+import NavTab, { Tab } from "../components/navTab/navTab"
+import LifeCalendarComponent from "../components/life/lifeCalendar/lifeCalendarComponent"
+
+const tabs: Tab[] = [
+  {
+    dataTest: "life-calendar-tab",
+    name: "Life Calendar",
+  },
+  {
+    dataTest: "photography-tab",
+    name: "Photography",
+  },
+]
 
 const Life: FC<any> = () => {
-  const [date, setDate] = useState<string>("")
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
 
-  function handleSubmit(dateOfBirth: Date) {
-    setDate(formatDateToIso8601(dateOfBirth))
+  function setActiveTabContent(activeTabIndex: number): void {
+    setActiveTabIndex(activeTabIndex)
   }
 
-  function formatDateToIso8601(date: Date) {
-    // e.g. 25th November 2022 => "yyyy-LL-dd" => 2022-11-25
-    return format(date, "yyyy-LL-dd")
+  function getActiveContent(): JSX.Element {
+    if (activeTabIndex === 0) {
+      return <LifeCalendarComponent />
+    }
+    if (activeTabIndex === 1) {
+      // TODO replace placeholder JSX element
+      return <>Photography</>
+    }
+    return <></>
   }
 
   return (
@@ -24,18 +39,9 @@ const Life: FC<any> = () => {
         <title>Window - Life</title>
         <meta name="description" content="Manage your Life" />
       </Head>
-
       <Navbar />
-      <Quote dataTest="life-quote">
-        <p className="text-lg -mt-2 p-2 sm:-mt-10">
-          A small night storm blows <br />
-          Saying “Falling is the essence of a flower” <br />
-          Preceding those who hesitate.
-        </p>
-        <p>— Yukio Mishima</p>
-      </Quote>
-      <DateOfBirthForm handleSubmit={handleSubmit} />
-      { date && <LifeCalendar dateOfBirth={date} /> }
+      <NavTab tabs={tabs} setActiveTabContent={setActiveTabContent} />
+      <div className="m-auto w-full p-4 md:w-4/5">{getActiveContent()}</div>
     </div>
   )
 }
