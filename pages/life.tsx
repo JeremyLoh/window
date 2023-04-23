@@ -3,6 +3,7 @@ import Head from "next/head"
 import Navbar from "../components/navbar"
 import NavTab, { Tab } from "../components/navTab/navTab"
 import LifeCalendarComponent from "../components/life/lifeCalendar/lifeCalendarComponent"
+import Travel from "../components/life/travel/travel"
 
 const tabs: Tab[] = [
   {
@@ -10,8 +11,8 @@ const tabs: Tab[] = [
     name: "Life Calendar",
   },
   {
-    dataTest: "photography-tab",
-    name: "Photography",
+    dataTest: "travel-tab",
+    name: "Travel",
   },
 ]
 
@@ -27,8 +28,7 @@ const Life: FC<any> = () => {
       return <LifeCalendarComponent />
     }
     if (activeTabIndex === 1) {
-      // TODO replace placeholder JSX element
-      return <>Photography</>
+      return <Travel />
     }
     return <></>
   }
@@ -41,7 +41,7 @@ const Life: FC<any> = () => {
       </Head>
       <Navbar />
       <NavTab tabs={tabs} setActiveTabContent={setActiveTabContent} />
-      <div className="m-auto w-full p-4 md:w-4/5">{getActiveContent()}</div>
+      <div className="m-auto w-full p-4">{getActiveContent()}</div>
     </div>
   )
 }

@@ -49,7 +49,7 @@ const LifeCalendar: FC<LifeCalendarProps> = (props) => {
       <div ref={lifeCalendarRef}>
         <h2
           data-test="life-calendar-title"
-          className="w-screen bg-gradient-to-r from-secondary to-primary pt-2 text-center text-2xl"
+          className="w-full bg-gradient-to-r from-secondary to-primary pt-2 text-center text-2xl"
         >
           Life Calendar <br /> {`(${MAX_YEARS} Years)`}
         </h2>
