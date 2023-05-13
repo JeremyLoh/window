@@ -8,6 +8,18 @@ Hosted
 using [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
 from the creators of Next.js.
 
+# Environment Variables
+
+- Create a `.env.local` file in the project root and add the following environment variables:
+  ```text
+  NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
+  ```
+  We are using `NEXT_PUBLIC_` for accessing this public key in React components.
+    - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
+    - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client
+      side as they can be seen during
+      network requests!
+
 # References
 
 - [How to write component tests with Cypress](https://www.youtube.com/watch?v=vJ0rDP4CG-w)
@@ -17,4 +29,5 @@ from the creators of Next.js.
 - [How do I get the content in Javascript popups with Cypress?](https://stackoverflow.com/a/66630041)
 - [Idiomatic way to append an element in jsx](https://stackoverflow.com/questions/42790969/idiomatic-way-to-append-an-element-in-jsx)
 - [Create tabs with React](https://www.youtube.com/watch?v=WkREeDy2WQ4)
-- [ Type your functions in TypeScript and SAVE TIME ](https://www.youtube.com/watch?v=Gcr4t6cH-lU)
+- [Type your functions in TypeScript and SAVE TIME](https://www.youtube.com/watch?v=Gcr4t6cH-lU)
+- [Keeping Your Data Secure: Environment Variables in NextJS / React](https://www.youtube.com/watch?v=v3O3kxI_9ZM)

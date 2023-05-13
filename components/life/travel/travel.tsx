@@ -1,11 +1,13 @@
 import { FC } from "react"
+import TravelMap from "./TravelMap"
 
-//https://www.youtube.com/watch?v=6QnTNKOJk5A
+// todo remove https://www.youtube.com/watch?v=6QnTNKOJk5A
+// todo 16:00 Getting Started with Mapbox GL JS Part I https://youtu.be/Ldw3mFGyjDE?t=964
 const Travel: FC<any> = () => {
   return (
-    <>
-      <h1>Travel Map</h1>
-    </>
+    <div className="h-screen w-full">
+      <TravelMap />
+    </div>
   )
 }
 
