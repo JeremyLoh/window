@@ -1,5 +1,5 @@
-import "../styles/globals.css"
 import "mapbox-gl/dist/mapbox-gl.css"
+import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import { enableMapSet, enablePatches } from "immer"
 import { Special_Elite } from "next/font/google"
