@@ -17,7 +17,6 @@ export default async function handler(
   if (requestMethod !== "GET") {
     return
   }
-  console.log(req.query)
   const { longitude, latitude } = req.query
   // https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
   const url = "https://api.tomtom.com/search/2/nearbySearch/.json"
