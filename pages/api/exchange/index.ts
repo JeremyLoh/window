@@ -47,7 +47,6 @@ export default async function handler(
       )
       res.status(200).json(output)
     } catch (error) {
-      // TODO handle error
       return res.status(400).json({ error: "Exchange Rate API Call Failed" })
     }
   }

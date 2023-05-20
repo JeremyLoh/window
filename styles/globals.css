@@ -41,23 +41,22 @@ a {
 
 /* Override Mapbox styles */
 .mapboxgl-ctrl-geocoder {
-  /*display: flex;*/
-  /*flex-direction: row;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
   /* https://tailwindcss.com/docs/customizing-colors */
   background-color: #a8a29e;
   padding: 0.25rem;
   border-radius: 0.375rem;
+  width: 100%;
 }
 
 .mapboxgl-ctrl-geocoder--input {
   color: black;
+  width: 100%;
 }
 
 .mapboxgl-ctrl-top-left {
   display: flex;
   flex-direction: column;
+  width: max(40vw, 300px);
 }
 
 .mapboxgl-ctrl-geocoder--pin-right {

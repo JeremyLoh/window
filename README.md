@@ -13,12 +13,14 @@ from the creators of Next.js.
 - Create a `.env.local` file in the project root and add the following environment variables:
   ```text
   NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
+  TOMTOM_API_KEY=???
   ```
   We are using `NEXT_PUBLIC_` for accessing this public key in React components.
     - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
     - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client
       side as they can be seen during
       network requests!
+- TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
 
 # References
 
