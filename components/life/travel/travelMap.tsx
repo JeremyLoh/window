@@ -7,20 +7,28 @@ import { NearbyPlaceData, Place } from "../../../pages/api/travel/nearbyPlace"
 import { HttpResponse, XmlHttpRequest } from "../../../lib/request"
 import GeocoderControl from "./geocoderControl"
 
-const TravelMap: FC<any> = () => {
+type TravelMapProps = {
+  onResult: (places: Place[]) => void
+}
+
+const TravelMap: FC<TravelMapProps> = (props) => {
   const [places, setPlaces] = useState<Place[]>([])
 
-  const setNearbyPlaces = useCallback(async (event: MapboxGeocoder.Result) => {
-    const [longitude, latitude] = event.geometry.coordinates
-    const url: string = "/api/travel/nearbyPlace"
-    const params = { longitude, latitude }
-    const response: HttpResponse = await XmlHttpRequest.get(url, params)
-    if (response.status === 200) {
-      const data: NearbyPlaceData = response.data
-      // console.log(JSON.stringify(data.points, null, 2))
-      setPlaces(data.points)
-    }
-  }, [])
+  const setNearbyPlaces = useCallback(
+    async (event: MapboxGeocoder.Result) => {
+      const [longitude, latitude] = event.geometry.coordinates
+      const url: string = "/api/travel/nearbyPlace"
+      const params = { longitude, latitude }
+      const response: HttpResponse = await XmlHttpRequest.get(url, params)
+      if (response.status === 200) {
+        const data: NearbyPlaceData = response.data
+        // console.log(JSON.stringify(data.points, null, 2))
+        setPlaces(data.points)
+        props.onResult(data.points)
+      }
+    },
+    [props]
+  )
 
   return (
     <Map
@@ -45,7 +53,7 @@ const TravelMap: FC<any> = () => {
         }}
       />
       {places &&
-        places.map((place: Place) => {
+        places.map((place: Place, index: number) => {
           const icon = (
             <Image
               src="/marker-stroked.svg"
@@ -61,6 +69,9 @@ const TravelMap: FC<any> = () => {
               latitude={place.position.lat}
             >
               {icon}
+              <p className="w-fit rounded-full bg-pink-500 px-2 text-center text-lg text-black">
+                {index + 1}
+              </p>
             </Marker>
           )
         })}
