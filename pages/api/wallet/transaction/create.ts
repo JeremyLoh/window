@@ -2,17 +2,13 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { nanoid } from "nanoid"
 
 export type Data = {
-  id?: string,
-  name?: string,
-  amount?: number,
-  isExpense?: boolean,
-  transactionDate?: Date,
+  id?: string
+  name?: string
+  amount?: number
+  isExpense?: boolean
+  transactionDate?: Date
   error?: string
 }
-
-// TODO https://nextjs.org/docs/guides/building-forms#part-3-setting-up-a-nextjs-form-api-route
-
-// TODO https://www.youtube.com/watch?v=syEWlxVFUrY
 
 export default function handler(
   req: NextApiRequest,
@@ -20,9 +16,17 @@ export default function handler(
 ) {
   const requestMethod = req.method
   if (requestMethod === "POST") {
-    const {name, amount, isExpense, transactionDate}:
-      {name: string, amount: number, isExpense: boolean, transactionDate: Date}
-      = req.body
+    const {
+      name,
+      amount,
+      isExpense,
+      transactionDate,
+    }: {
+      name: string
+      amount: number
+      isExpense: boolean
+      transactionDate: Date
+    } = req.body
     if (isInvalidName(name)) {
       return res.status(400).json({ error: "Invalid name" })
     }
@@ -34,7 +38,7 @@ export default function handler(
       name,
       amount,
       isExpense,
-      transactionDate
+      transactionDate,
     })
   }
 }

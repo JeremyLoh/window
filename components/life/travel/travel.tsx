@@ -4,9 +4,6 @@ import { Place } from "../../../pages/api/travel/nearbyPlace"
 import { nanoid } from "nanoid"
 import Emoji from "../../emoji"
 
-// todo remove https://www.youtube.com/watch?v=6QnTNKOJk5A
-// todo 21:00 Getting Started with Mapbox GL JS Part I https://youtu.be/Ldw3mFGyjDE?t=964
-// todo https://www.youtube.com/watch?v=JJatzkPcmoI
 const Travel: FC<any> = () => {
   const [sidebar, setSidebar] = useState<JSX.Element>(
     <div className="text-lg">
