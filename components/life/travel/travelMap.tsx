@@ -22,7 +22,6 @@ const TravelMap: FC<TravelMapProps> = (props) => {
       const response: HttpResponse = await XmlHttpRequest.get(url, params)
       if (response.status === 200) {
         const data: NearbyPlaceData = response.data
-        // console.log(JSON.stringify(data.points, null, 2))
         setPlaces(data.points)
         props.onResult(data.points)
       }

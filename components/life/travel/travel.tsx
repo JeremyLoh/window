@@ -37,7 +37,7 @@ function getPlaceElement(count: number, place: Place) {
   return (
     <div
       key={`place-${nanoid()}`}
-      className="border-b-2 p-4 odd:bg-stone-700 even:bg-stone-600"
+      className="border-b-2 border-b-pink-500 p-4 odd:bg-transparent even:bg-secondary"
     >
       <p className="float-right w-fit rounded-full bg-pink-500 px-2 text-black">
         {count}
