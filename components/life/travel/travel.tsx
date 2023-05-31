@@ -11,14 +11,21 @@ const Travel: FC<any> = () => {
     </div>
   )
   const handlePlaces = useCallback((places: Place[]) => {
+    const isEmpty = places.length === 0
     setSidebar(
       <div className="h-full">
         <p className="rounded bg-white p-2 text-lg text-black">
           Nearby Places of Interest
         </p>
-        {places.map((place: Place, index: number) => {
-          return getPlaceElement(index + 1, place)
-        })}
+        {isEmpty ? (
+          <p className="border-b-2 border-b-pink-500 p-4 text-center text-lg">
+            Data is not available. Please try another location!
+          </p>
+        ) : (
+          places.map((place: Place, index: number) => {
+            return getPlaceElement(index + 1, place)
+          })
+        )}
       </div>
     )
   }, [])
