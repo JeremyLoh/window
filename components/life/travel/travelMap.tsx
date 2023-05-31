@@ -18,7 +18,8 @@ const TravelMap: FC<TravelMapProps> = (props) => {
     async (event: MapboxGeocoder.Result) => {
       const [longitude, latitude] = event.geometry.coordinates
       const url: string = "/api/travel/nearbyPlace"
-      const params = { longitude, latitude }
+      const searchRadiusMeters: number = 5000
+      const params = { longitude, latitude, searchRadiusMeters }
       const response: HttpResponse = await XmlHttpRequest.get(url, params)
       if (response.status === 200) {
         const data: NearbyPlaceData = response.data

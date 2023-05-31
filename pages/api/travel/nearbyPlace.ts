@@ -15,26 +15,30 @@ export default async function handler(
 ) {
   const requestMethod = req.method
   if (requestMethod !== "GET") {
+    res.status(400).json({
+      points: [],
+      error: "Nearby Points of Interest API Call Failed",
+    })
     return
   }
-  const { longitude, latitude } = req.query
   // https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
   const url = "https://api.tomtom.com/search/2/nearbySearch/.json"
-  const params = {
-    key: process.env.TOMTOM_API_KEY,
-    lat: latitude,
-    lon: longitude,
-    radius: 1000,
-    limit: 20,
-    language: "en-GB",
-    openingHours: "nextSevenDays",
-  }
+  const { longitude, latitude, searchRadiusMeters } = req.query
   try {
+    const params = {
+      key: process.env.TOMTOM_API_KEY,
+      lat: latitude,
+      lon: longitude,
+      radius: searchRadiusMeters ? Math.abs(Number(searchRadiusMeters)) : 1000,
+      limit: 20,
+      language: "en-GB",
+      openingHours: "nextSevenDays",
+    }
     const response = await XmlHttpRequest.get(url, params)
     const places = parseNearbyPointsOfInterest(response.data.results)
     res.status(200).json({ points: places })
   } catch (error) {
-    return res.status(400).json({
+    res.status(400).json({
       points: [],
       error: "Nearby Points of Interest API Call Failed",
     })
