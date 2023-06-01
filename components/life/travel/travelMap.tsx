@@ -1,37 +1,59 @@
-import { FC, useCallback, useState } from "react"
+import { FC, useCallback, useMemo, useState } from "react"
 import Image from "next/image"
 import { nanoid } from "nanoid"
 import Map, { Marker } from "react-map-gl"
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
-import { NearbyPlaceData, Place } from "../../../pages/api/travel/nearbyPlace"
-import { HttpResponse, XmlHttpRequest } from "../../../lib/request"
+import { Place } from "../../../pages/api/travel/nearbyPlace"
 import GeocoderControl from "./geocoderControl"
 
 type TravelMapProps = {
   onResult: (places: Place[]) => void
+  getNearbyPlaces: (longitude: number, latitude: number) => Promise<Place[]>
 }
 
 const TravelMap: FC<TravelMapProps> = (props) => {
   const [places, setPlaces] = useState<Place[]>([])
-
+  const { getNearbyPlaces } = props
   const setNearbyPlaces = useCallback(
     async (event: MapboxGeocoder.Result) => {
       const [longitude, latitude] = event.geometry.coordinates
-      const url: string = "/api/travel/nearbyPlace"
-      const searchRadiusMeters: number = 5000
-      const params = { longitude, latitude, searchRadiusMeters }
-      const response: HttpResponse = await XmlHttpRequest.get(url, params)
-      if (response.status === 200) {
-        const data: NearbyPlaceData = response.data
-        setPlaces(data.points)
-        props.onResult(data.points)
-      }
+      const data: Place[] = await getNearbyPlaces(longitude, latitude)
+      setPlaces(data)
     },
-    [props]
+    [getNearbyPlaces]
+  )
+  const markers = useMemo(
+    () =>
+      places.map((place: Place, index: number) => {
+        const icon = (
+          <Image
+            src="/marker-stroked.svg"
+            alt="Marker Icon"
+            width={40}
+            height={40}
+          />
+        )
+        return (
+          <Marker
+            key={`place-${nanoid()}`}
+            longitude={place.position.lon}
+            latitude={place.position.lat}
+          >
+            <div className="flex flex-col items-center justify-center">
+              {icon}
+              <p className="w-fit rounded-full bg-pink-500 px-2 text-center text-lg text-black">
+                {index + 1}
+              </p>
+            </div>
+          </Marker>
+        )
+      }),
+    [places]
   )
 
   return (
     <Map
+      key={`map-${nanoid()}`}
       data-test="travel-map"
       reuseMaps
       initialViewState={{
@@ -52,29 +74,7 @@ const TravelMap: FC<TravelMapProps> = (props) => {
           // todo handle error
         }}
       />
-      {places &&
-        places.map((place: Place, index: number) => {
-          const icon = (
-            <Image
-              src="/marker-stroked.svg"
-              alt="Marker Icon"
-              width={40}
-              height={40}
-            />
-          )
-          return (
-            <Marker
-              key={`place-${nanoid()}`}
-              longitude={place.position.lon}
-              latitude={place.position.lat}
-            >
-              {icon}
-              <p className="w-fit rounded-full bg-pink-500 px-2 text-center text-lg text-black">
-                {index + 1}
-              </p>
-            </Marker>
-          )
-        })}
+      {places && markers}
     </Map>
   )
 }
