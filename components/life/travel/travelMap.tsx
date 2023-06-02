@@ -13,14 +13,15 @@ type TravelMapProps = {
 
 const TravelMap: FC<TravelMapProps> = (props) => {
   const [places, setPlaces] = useState<Place[]>([])
-  const { getNearbyPlaces } = props
+  const { onResult, getNearbyPlaces } = props
   const setNearbyPlaces = useCallback(
     async (event: MapboxGeocoder.Result) => {
       const [longitude, latitude] = event.geometry.coordinates
       const data: Place[] = await getNearbyPlaces(longitude, latitude)
       setPlaces(data)
+      onResult(data)
     },
-    [getNearbyPlaces]
+    [getNearbyPlaces, onResult]
   )
   const markers = useMemo(
     () =>

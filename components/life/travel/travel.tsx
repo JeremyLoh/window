@@ -1,17 +1,13 @@
 import { ChangeEvent, FC, useCallback, useState } from "react"
 import TravelMap from "./travelMap"
 import { NearbyPlaceData, Place } from "../../../pages/api/travel/nearbyPlace"
-import { nanoid } from "nanoid"
-import Emoji from "../../emoji"
 import { HttpResponse, XmlHttpRequest } from "../../../lib/request"
+import TravelSidebar from "./travelSidebar"
 
 const Travel: FC<any> = () => {
   const [searchRadiusMeters, setSearchRadiusMeters] = useState<number>(1000)
-  const [sidebar, setSidebar] = useState<JSX.Element>(
-    <div className="text-lg">
-      Search for a location to find nearby places of interest!
-    </div>
-  )
+  const [places, setPlaces] = useState<Place[]>([])
+
   const handleRadiusChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setSearchRadiusMeters(Number(event.target.value))
@@ -19,25 +15,8 @@ const Travel: FC<any> = () => {
     []
   )
   const handlePlaces = useCallback((places: Place[]) => {
-    const isEmpty = places.length === 0
-    setSidebar(
-      <div className="h-full">
-        <p className="rounded bg-white p-2 text-lg text-black">
-          Nearby Places of Interest
-        </p>
-        {isEmpty ? (
-          <p className="border-b-2 border-b-pink-500 p-4 text-center text-lg">
-            Data is not available. Please try another location!
-          </p>
-        ) : (
-          places.map((place: Place, index: number) => {
-            return getPlaceElement(index + 1, place)
-          })
-        )}
-      </div>
-    )
+    setPlaces(places)
   }, [])
-
   const getNearbyPlaces = useCallback(
     async (longitude: number, latitude: number) => {
       const url: string = "/api/travel/nearbyPlace"
@@ -70,29 +49,9 @@ const Travel: FC<any> = () => {
             onChange={handleRadiusChange}
           />
         </label>
-        {sidebar}
+        <TravelSidebar places={places} />
       </div>
       <TravelMap onResult={handlePlaces} getNearbyPlaces={getNearbyPlaces} />
-    </div>
-  )
-}
-
-function getPlaceElement(count: number, place: Place) {
-  return (
-    <div
-      key={`place-${nanoid()}`}
-      className="border-b-2 border-b-pink-500 p-4 odd:bg-transparent even:bg-secondary"
-    >
-      <p className="float-right w-fit rounded-full bg-pink-500 px-2 text-black">
-        {count}
-      </p>
-      <p className="text-lg">{place.name}</p>
-      <p className="">
-        <Emoji symbol={"📍"} /> {place.address.freeformAddress}
-      </p>
-      <p>
-        <Emoji symbol={"🕿"} /> {place.phone || "Not Available"}
-      </p>
     </div>
   )
 }
