@@ -4,8 +4,7 @@ Application that has "mini-apps" that I am interested in building
 
 Made using Next.js, TailwindCSS and Cypress
 
-Hosted
-using [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
+Hosted using [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
 from the creators of Next.js.
 
 # Environment Variables
@@ -17,9 +16,8 @@ from the creators of Next.js.
   ```
   We are using `NEXT_PUBLIC_` for accessing this public key in React components.
     - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
-    - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client
-      side as they can be seen during
-      network requests!
+    - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client side as they can
+      be seen during network requests!
 - TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
 
 # References
@@ -33,3 +31,8 @@ from the creators of Next.js.
 - [Create tabs with React](https://www.youtube.com/watch?v=WkREeDy2WQ4)
 - [Type your functions in TypeScript and SAVE TIME](https://www.youtube.com/watch?v=Gcr4t6cH-lU)
 - [Keeping Your Data Secure: Environment Variables in NextJS / React](https://www.youtube.com/watch?v=v3O3kxI_9ZM)
+- [All useEffect Mistakes Every Junior React Developer Makes](https://www.youtube.com/watch?v=QQYeipc_cik)
+- [How to open a link in a new tab](https://stackoverflow.com/questions/65632698/how-to-open-a-link-in-a-new-tab-in-nextjs)
+- [Noreferrer noopener](https://www.reliablesoft.net/noreferrer-noopener/)
+- [External link is not working in nextjs when you want to use link component](https://stackoverflow.com/questions/61059111/external-link-is-not-working-in-next-js-when-you-want-to-use-link-component)
+    - We need to add "//" before the url so that navigation is done to external url. e.g. `<a href={"//" + place.url} target="_blank" rel="noopener noreferrer">`
