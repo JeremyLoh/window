@@ -5,10 +5,6 @@ import Emoji from "./emoji"
 const Clock: FC<any> = () => {
   const [date, setDate] = useState<Date>(new Date())
 
-  function updateClock(): void {
-    setDate(new Date())
-  }
-
   function getCurrentTimeEmoji(): string {
     const now = new Date(date)
     const evening = new Date(now.setHours(18, 0, 0, 0))
@@ -24,7 +20,7 @@ const Clock: FC<any> = () => {
 
   useEffect(() => {
     const intervalId: ReturnType<typeof setInterval> = setInterval(() => {
-      updateClock()
+      setDate(new Date())
     }, 1000)
     return () => {
       clearInterval(intervalId)
