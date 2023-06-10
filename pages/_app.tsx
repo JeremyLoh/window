@@ -1,6 +1,7 @@
+import "mapbox-gl/dist/mapbox-gl.css"
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
-import { enablePatches, enableMapSet } from "immer"
+import { enableMapSet, enablePatches } from "immer"
 import { Special_Elite } from "next/font/google"
 import Image from "next/image"
 import profilePicture from "../public/profilePicture.jpg"

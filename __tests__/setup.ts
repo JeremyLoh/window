@@ -2,15 +2,12 @@ import ResizeObserver from "resize-observer-polyfill"
 import { afterAll, afterEach, beforeAll, expect, vi } from "vitest"
 import { cleanup } from "@testing-library/react"
 import matchers from "@testing-library/jest-dom/matchers"
-import { enablePatches, enableMapSet } from "immer"
+import { enableMapSet, enablePatches } from "immer"
 import { server } from "./serverSetup"
 
 // Mocking canvas - https://github.com/hustcc/jest-canvas-mock/issues/88
 // @ts-expect-error: Global type missing
 global.jest = vi
-// eslint-disable-next-line import/first
-// @ts-ignore
-import getCanvasWindow from "jest-canvas-mock/lib/window"
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
@@ -26,7 +23,6 @@ beforeAll(() => {
   mockNextFont()
   mockNextImage()
   mockResizeObserver()
-  mockCanvas()
   enablePatches()
   enableMapSet()
 })
@@ -67,24 +63,4 @@ function mockNextImage() {
 
 function mockResizeObserver() {
   global.ResizeObserver = ResizeObserver
-}
-
-function mockCanvas() {
-  const apis = [
-    "Path2D",
-    "CanvasGradient",
-    "CanvasPattern",
-    "CanvasRenderingContext2D",
-    "DOMMatrix",
-    "ImageData",
-    "TextMetrics",
-    "ImageBitmap",
-    "createImageBitmap",
-  ] as const
-  const canvasWindow = getCanvasWindow({ document: window.document })
-
-  apis.forEach((api) => {
-    global[api] = canvasWindow[api]
-    global.window[api] = canvasWindow[api]
-  })
 }
