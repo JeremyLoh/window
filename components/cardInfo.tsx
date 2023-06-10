@@ -9,7 +9,7 @@ interface CardInfoProps {
 const CardInfo: FC<CardInfoProps> = (props) => {
   return (
     <div
-      className="rounded bg-gradient-to-r from-secondary to-pink-800 px-6 py-4 text-left"
+      className="rounded bg-secondary px-6 py-4 text-left"
       aria-label={props.ariaLabel}
       data-test={props["data-test"]}
     >
