@@ -2,6 +2,7 @@ describe("navbar", () => {
   const homepageUrl = Cypress.config().baseUrl + "/"
   const exchangeUrl = "/exchange"
   const lifeUrl = "/life"
+  const bugTrackerUrl = "/bugTracker"
 
   function getNavbar() {
     return cy.get("#navbar")
@@ -24,6 +25,17 @@ describe("navbar", () => {
       const navbar = getNavbar()
       navbar.should("be.visible")
       cy.url().should("include", lifeUrl)
+      navbar.contains("Window").click()
+      cy.url().should("eq", homepageUrl)
+    })
+  })
+
+  describe("bug tracker page", () => {
+    it("should navigate to homepage when navbar app name is clicked", () => {
+      cy.visit(bugTrackerUrl)
+      const navbar = getNavbar()
+      navbar.should("be.visible")
+      cy.url().should("include", bugTrackerUrl)
       navbar.contains("Window").click()
       cy.url().should("eq", homepageUrl)
     })

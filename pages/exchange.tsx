@@ -34,7 +34,7 @@ export default function Exchange(props: ExchangeProps) {
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
       <Head>
-        <title>Window</title>
+        <title>Window - Exchange</title>
         <meta name="description" content="Exchange Rate" />
       </Head>
 
