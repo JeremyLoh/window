@@ -15,19 +15,6 @@ const Navbar: FC<any> = () => {
       <Link href="/" className="hover:text-gray-300 lg:text-3xl">
         <Emoji symbol="🗔" /> Window
       </Link>
-      <div className="mb-2 flex justify-between gap-x-4 lg:mb-0">
-        <Link
-          href="/exchange"
-          passHref
-          className="hover:text-gray-300 lg:text-xl"
-        >
-          Exchange
-        </Link>
-        <Link href="/life" passHref className="hover:text-gray-300 lg:text-xl">
-          Life
-        </Link>
-      </div>
-
       <Clock />
     </nav>
   )
