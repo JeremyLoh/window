@@ -36,3 +36,5 @@ from the creators of Next.js.
 - [Noreferrer noopener](https://www.reliablesoft.net/noreferrer-noopener/)
 - [External link is not working in nextjs when you want to use link component](https://stackoverflow.com/questions/61059111/external-link-is-not-working-in-next-js-when-you-want-to-use-link-component)
     - We need to add "//" before the url so that navigation is done to external url. e.g. `<a href={"//" + place.url} target="_blank" rel="noopener noreferrer">`
+- [This is the Only Right Way to Write React clean-code - SOLID](https://www.youtube.com/watch?v=MSq_DCRxOxw)
+- [React Formik Tutorial with Yup (React Form Validation)](https://www.youtube.com/watch?v=7Ophfq0lEAY)
