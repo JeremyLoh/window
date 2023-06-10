@@ -54,13 +54,11 @@ export default async function handler(
 
 function getConvertCurrencyParams(requestData: RequestData): object {
   const { fromCurrencyCode, toCurrencyCode, amount }: RequestData = requestData
-  const source: string = "imf"
   return {
     from: fromCurrencyCode,
     to: toCurrencyCode,
     places: 3,
     amount,
-    source,
   }
 }
 
