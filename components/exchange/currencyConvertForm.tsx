@@ -71,69 +71,67 @@ const CurrencyConvertForm: FC<CurrencyConvertFormProps> = (props) => {
   }
 
   return (
-    <>
-      <form
-        action="/api/exchange"
-        method="post"
-        onSubmit={handleSubmit}
-        className="flex w-full flex-col justify-end gap-4 lg:flex-row"
-        aria-label="exchange-currency-form"
-      >
-        <div className="flex flex-col">
-          <label htmlFor="conversion-amount">Conversion Amount</label>
-          <input
-            data-test="conversion-amount"
-            type="number"
-            required
-            id="conversion-amount"
-            min="0.01"
-            max="99999999"
-            step="0.01"
-            value={amount}
-            onChange={handleChangeAmount}
-            className="font-lg h-full w-full py-2 px-4 text-black"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="from-currency-select">From</label>
-          <select
-            required
-            value={fromCurrency}
-            onChange={handleFromCurrencyChange}
-            data-test="from-currency-select"
-            aria-label="from-currency-select"
-            className="font-lg h-full w-full py-2 px-4 text-black"
-          >
-            <option value="" aria-label="default-from-currency" disabled hidden>
-              -- select an option --
-            </option>
-            {props.symbols && getCurrencyInputOptions("from")}
-          </select>
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="to-currency-select">To</label>
-          <select
-            required
-            value={toCurrency}
-            onChange={handleToCurrencyChange}
-            data-test="to-currency-select"
-            aria-label="to-currency-select"
-            className="font-lg h-full w-full py-2 px-4 text-black"
-          >
-            <option value="" aria-label="default-to-currency" disabled hidden>
-              -- select an option --
-            </option>
-            {props.symbols && getCurrencyInputOptions("to")}
-          </select>
-        </div>
-        <button
-          type="submit"
-          className="items-center rounded bg-cyan-400 py-3 px-4 text-black transition-colors hover:bg-cyan-500"
+    <form
+      action="/api/exchange"
+      method="post"
+      onSubmit={handleSubmit}
+      className="flex w-full flex-col justify-center gap-4 lg:flex-row"
+      aria-label="exchange-currency-form"
+    >
+      <div className="flex flex-col">
+        <label htmlFor="conversion-amount">Conversion Amount</label>
+        <input
+          data-test="conversion-amount"
+          type="number"
+          required
+          id="conversion-amount"
+          min="0.01"
+          max="99999999"
+          step="0.01"
+          value={amount}
+          onChange={handleChangeAmount}
+          className="font-lg h-full w-full px-4 py-2 text-black"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="from-currency-select">From</label>
+        <select
+          required
+          value={fromCurrency}
+          onChange={handleFromCurrencyChange}
+          data-test="from-currency-select"
+          aria-label="from-currency-select"
+          className="font-lg h-full w-full px-4 py-2 text-black"
         >
-          Convert
-        </button>
-      </form>
-    </>
+          <option value="" aria-label="default-from-currency" disabled hidden>
+            -- select an option --
+          </option>
+          {props.symbols && getCurrencyInputOptions("from")}
+        </select>
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="to-currency-select">To</label>
+        <select
+          required
+          value={toCurrency}
+          onChange={handleToCurrencyChange}
+          data-test="to-currency-select"
+          aria-label="to-currency-select"
+          className="font-lg h-full w-full px-4 py-2 text-black"
+        >
+          <option value="" aria-label="default-to-currency" disabled hidden>
+            -- select an option --
+          </option>
+          {props.symbols && getCurrencyInputOptions("to")}
+        </select>
+      </div>
+      <button
+        type="submit"
+        className="items-center rounded bg-cyan-600 px-4 py-2 text-white transition-colors hover:bg-cyan-700"
+      >
+        Convert
+      </button>
+    </form>
   )
 }
 

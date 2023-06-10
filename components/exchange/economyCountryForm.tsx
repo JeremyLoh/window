@@ -60,6 +60,7 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
         )
       })
     }
+
     setCountryOptions(getCountryInputOptions())
   }, [props.countries])
 
@@ -108,7 +109,9 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
         aria-label="exchange-economy-form"
       >
         <div className="flex w-full flex-col">
-          <label htmlFor="economy-country-select">Country</label>
+          <label className="text-white" htmlFor="economy-country-select">
+            Country
+          </label>
           <select
             required
             data-test="economy-country-select"
@@ -124,7 +127,9 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
         </div>
         {
           <div className="flex w-full flex-col">
-            <label htmlFor="economy-country-series">Series</label>
+            <label className="text-white" htmlFor="economy-country-series">
+              Series
+            </label>
             <Select
               aria-label="economy-country-series"
               name="economy-country-series"
@@ -140,7 +145,8 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
         }
         <button
           type="submit"
-          className="rounded-md bg-cyan-300 px-3.5 py-2 text-base text-black transition-colors hover:bg-cyan-500 sm:w-full md:w-4/12"
+          className="rounded-md bg-cyan-600 px-2 py-3 text-base text-white transition-colors
+                     hover:bg-cyan-700 sm:w-full md:w-3/12"
         >
           Get Economic Data
         </button>
