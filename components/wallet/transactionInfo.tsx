@@ -1,8 +1,8 @@
 import React, { FC, useContext } from "react"
 import {
-  Transaction,
   DeleteTransactionContext,
   DeleteTransactionType,
+  Transaction,
 } from "../../pages/wallet"
 
 interface TransactionInfoProps {
@@ -14,31 +14,31 @@ const TransactionInfo: FC<TransactionInfoProps> = (props) => {
     DeleteTransactionContext
   )
   const transactionTypeStyle: string = props.transaction.isExpense
-    ? "bg-gradient-to-b from-red-600 to-red-800 break-all"
-    : "bg-gradient-to-b from-green-600 to-green-800 break-all"
+    ? "bg-red-700"
+    : "bg-green-700"
   const containerStyle =
-    "mb-4 flex flex-col items-start justify-center rounded-2xl p-4 py-4 last:mb-0 " +
-    "sm:flex-row md:items-center md:gap-3"
+    "flex flex-col items-start justify-start rounded-2xl gap-3 p-4 py-4 mb-1 last:mb-0 " +
+    "sm:flex-row md:items-center"
 
   return (
     <div
       className={`${containerStyle} ${transactionTypeStyle}`}
       aria-label="transaction"
     >
-      <h1 className="mb-4 w-full max-w-prose break-all text-xl">
+      <h1 className="mr-auto max-w-prose break-all">
         {props.transaction.name}
       </h1>
-      <div className="flex w-full flex-col items-end gap-2 md:w-1/4">
-        <h2 className="w-full rounded py-2 text-center text-lg text-white">
+      <div className="flex flex-col">
+        <h2 className="w-full whitespace-nowrap text-center font-bold text-white xl:text-xl">
           {props.transaction.amount.format()}
         </h2>
-        <h3 className="w-full rounded py-1 px-4 text-center text-white">
+        <h3 className="w-full whitespace-nowrap text-center text-white">
           {props.transaction.transactionDate.toLocaleDateString()}
         </h3>
       </div>
       <button
-        className="my-4 inline-flex aspect-square items-center rounded-full border-2 border-cyan-600
-                   bg-cyan-500 p-3 text-lg hover:bg-cyan-400"
+        className="inline-flex aspect-square items-center rounded-full
+                   bg-white p-3 text-lg font-extrabold text-black hover:bg-gray-300"
         data-test="delete-transaction"
         aria-label="delete-transaction"
         onClick={() =>
