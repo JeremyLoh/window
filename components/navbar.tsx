@@ -9,20 +9,13 @@ const Navbar: FC<any> = () => {
       data-test="navbar"
       id="navbar"
       className="flex w-full flex-col items-center justify-center gap-x-8 bg-gradient-to-r
-                  from-primary via-secondary pt-4 pb-2
+                  from-primary via-secondary pb-2 pt-4
                   text-white shadow-lg lg:flex-row"
     >
       <Link href="/" className="hover:text-gray-300 lg:text-3xl">
         <Emoji symbol="🗔" /> Window
       </Link>
-      <div className="flex justify-between gap-x-4 mb-2 lg:mb-0">
-        <Link
-          href="/wallet"
-          passHref
-          className="hover:text-gray-300 lg:text-xl"
-        >
-          Wallet
-        </Link>
+      <div className="mb-2 flex justify-between gap-x-4 lg:mb-0">
         <Link
           href="/exchange"
           passHref
@@ -30,11 +23,7 @@ const Navbar: FC<any> = () => {
         >
           Exchange
         </Link>
-        <Link
-          href="/life"
-          passHref
-          className="hover:text-gray-300 lg:text-xl"
-        >
+        <Link href="/life" passHref className="hover:text-gray-300 lg:text-xl">
           Life
         </Link>
       </div>

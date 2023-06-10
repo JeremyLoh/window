@@ -1,7 +1,7 @@
 describe("navbar", () => {
   const homepageUrl = Cypress.config().baseUrl + "/"
   const exchangeUrl = "/exchange"
-  const walletUrl = "/wallet"
+  const lifeUrl = "/life"
 
   function getNavbar() {
     return cy.get("#navbar")
@@ -13,12 +13,12 @@ describe("navbar", () => {
       cy.visit(startUrl)
     })
 
-    it("should navigate to wallet page when navbar wallet feature is clicked", () => {
+    it("should navigate to life page when navbar life feature is clicked", () => {
       const navbar = getNavbar()
       navbar.should("be.visible")
       cy.url().should("include", startUrl)
-      navbar.contains("Wallet").click()
-      cy.url().should("include", walletUrl)
+      navbar.contains("Life").click()
+      cy.url().should("include", lifeUrl)
     })
 
     it("should navigate to homepage when navbar app name is clicked", () => {
@@ -30,8 +30,8 @@ describe("navbar", () => {
     })
   })
 
-  describe("wallet page", () => {
-    const startUrl = walletUrl
+  describe("life page", () => {
+    const startUrl = lifeUrl
     beforeEach(() => {
       cy.visit(startUrl)
     })
