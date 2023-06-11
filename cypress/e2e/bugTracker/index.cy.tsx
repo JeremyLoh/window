@@ -4,7 +4,7 @@ describe("Bug Tracker", () => {
   })
 
   function getLoginButton() {
-    return cy.getByTestId("bug-tracker-signUp-btn")
+    return cy.getByTestId("bug-tracker-login-btn")
   }
 
   function getSignUpButton() {
