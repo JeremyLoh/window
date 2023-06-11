@@ -13,12 +13,15 @@ from the creators of Next.js.
   ```text
   NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
   TOMTOM_API_KEY=???
+  NEXT_PUBLIC_SUPABASE_URL=???your-supabase-url???
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=???your-supabase-anon-key???
   ```
   We are using `NEXT_PUBLIC_` for accessing this public key in React components.
     - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
     - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client side as they can
       be seen during network requests!
 - TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
+- SUPABASE - https://supabase.com/docs/guides/auth/auth-helpers/nextjs
 
 # References
 
@@ -38,3 +41,4 @@ from the creators of Next.js.
     - We need to add "//" before the url so that navigation is done to external url. e.g. `<a href={"//" + place.url} target="_blank" rel="noopener noreferrer">`
 - [This is the Only Right Way to Write React clean-code - SOLID](https://www.youtube.com/watch?v=MSq_DCRxOxw)
 - [React Formik Tutorial with Yup (React Form Validation)](https://www.youtube.com/watch?v=7Ophfq0lEAY)
+- [Supabase auth helpers nextjs](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)

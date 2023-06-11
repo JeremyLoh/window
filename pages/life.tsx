@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react"
 import Head from "next/head"
-import Navbar from "../components/navbar"
 import NavTab, { Tab } from "../components/navTab/navTab"
 import LifeCalendarComponent from "../components/life/lifeCalendar/lifeCalendarComponent"
 import Travel from "../components/life/travel/travel"
@@ -39,7 +38,6 @@ const Life: FC<any> = () => {
         <title>Window - Life</title>
         <meta name="description" content="Manage your Life" />
       </Head>
-      <Navbar />
       <NavTab tabs={tabs} setActiveTabContent={setActiveTabContent} />
       <div className="m-auto w-full p-4">{getActiveContent()}</div>
     </div>

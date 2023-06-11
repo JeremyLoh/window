@@ -32,8 +32,8 @@ describe("Homepage (/)", () => {
     getLifeFeatureNavLink().click()
     cy.url().should("include", "/life")
   })
-  
-  it("should navigate to bug tracker login page when bug tracker feature is clicked", () => {
+
+  it("should navigate to bug tracker signUp page when bug tracker feature is clicked", () => {
     getBugTrackerFeatureNavLink().click()
     cy.url().should("include", "/bugTracker")
   })

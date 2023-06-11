@@ -4,7 +4,7 @@ describe("Bug Tracker", () => {
   })
 
   function getLoginButton() {
-    return cy.getByTestId("bug-tracker-login-btn")
+    return cy.getByTestId("bug-tracker-signUp-btn")
   }
 
   function getSignUpButton() {
@@ -12,7 +12,7 @@ describe("Bug Tracker", () => {
   }
 
   context("Anonymous User", () => {
-    it("should show login and sign up button", () => {
+    it("should show signUp and sign up button", () => {
       getLoginButton().should("be.visible").and("have.text", "Login")
       getSignUpButton().should("be.visible").and("have.text", "Sign Up")
     })

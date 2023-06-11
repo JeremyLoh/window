@@ -5,6 +5,8 @@ import { enableMapSet, enablePatches } from "immer"
 import { Special_Elite } from "next/font/google"
 import Image from "next/image"
 import profilePicture from "../public/profilePicture.jpg"
+import Navbar from "../components/navbar"
+import React from "react"
 
 enablePatches()
 enableMapSet()
@@ -18,6 +20,7 @@ export const specialElite = Special_Elite({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className={`${specialElite.className} bg-primary`}>
+      <Navbar />
       <Component {...pageProps} />
       <footer
         className="flex items-center justify-center border-zinc-400

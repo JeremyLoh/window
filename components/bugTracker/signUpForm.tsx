@@ -1,24 +1,36 @@
+"use client"
+
 import React, { FC } from "react"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
+import { redirect } from "next/navigation"
 
-async function handleSignUpFormSubmit(
-  values: {
-    email: string
-    password: string
-    confirmPassword: string
-  },
-  actions: FormikHelpers<{
-    email: string
-    password: string
-    confirmPassword: string
-  }>
-) {
-  // todo create api for http://www.passportjs.org/tutorials/email/prompt/ action="/api/bugTracker/signUp"
-  actions.resetForm()
+type SignUpFormValues = {
+  email: string
+  password: string
+  confirmPassword: string
 }
 
-const SignUpForm: FC<any> = () => {
+type SignUpFormProps = {
+  handleSignUp: (
+    email: string,
+    password: string,
+    redirectUrl: string
+  ) => Promise<void>
+}
+
+const SignUpForm: FC<SignUpFormProps> = (props) => {
+  async function handleSignUp(
+    values: SignUpFormValues,
+    actions: FormikHelpers<SignUpFormValues>
+  ) {
+    actions.resetForm()
+    // we need to get the location.origin in client component
+    const redirectUrl: string = `${location.origin}/auth/callback`
+    await props.handleSignUp(values.email, values.password, redirectUrl)
+    redirect("/bugTracker/login")
+  }
+
   const {
     isSubmitting,
     values,
@@ -34,7 +46,7 @@ const SignUpForm: FC<any> = () => {
       confirmPassword: "",
     },
     validationSchema: SignUpSchema,
-    onSubmit: handleSignUpFormSubmit,
+    onSubmit: handleSignUp,
   })
 
   const defaultStyle: string =

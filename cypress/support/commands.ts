@@ -27,7 +27,9 @@ declare global {
   namespace Cypress {
     interface Chainable {
       getByTestId(selector: string): Chainable<JQuery<HTMLElement>>
+
       submitExpenseTransaction(name: string, amount: string): Chainable<JQuery<HTMLElement>>
+
       submitIncomeTransaction(name: string, amount: string): Chainable<JQuery<HTMLElement>>
     }
   }
@@ -45,7 +47,7 @@ declare global {
 // ***********************************************
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+// Cypress.Commands.add('signUp', (email, password) => { ... })
 //
 //
 // -- This is a child command --
@@ -62,7 +64,7 @@ declare global {
 // declare global {
 //   namespace Cypress {
 //     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
+//       signUp(email: string, password: string): Chainable<void>
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>

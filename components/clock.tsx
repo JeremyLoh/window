@@ -1,3 +1,5 @@
+"use client"
+
 import React, { FC, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Emoji from "./emoji"
