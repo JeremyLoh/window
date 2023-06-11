@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { useFormik } from "formik"
+import { FormikHelpers, useFormik } from "formik"
 import * as Yup from "yup"
 
 // Min 8 chars, 1 uppercase letter, 1 lowercase letter, 1 numeric digit
@@ -21,23 +21,40 @@ const SignUpSchema = Yup.object().shape({
     .required("Required"),
 })
 
-// todo React Formik Tutorial with Yup (React Form Validation) https://www.youtube.com/watch?v=7Ophfq0lEAY
-// 16:06
-function handleSignUpFormSubmit() {
+async function handleSignUpFormSubmit(
+  values: {
+    email: string
+    password: string
+    confirmPassword: string
+  },
+  actions: FormikHelpers<{
+    email: string
+    password: string
+    confirmPassword: string
+  }>
+) {
   // todo create api for http://www.passportjs.org/tutorials/email/prompt/ action="/api/bugTracker/signUp"
+  actions.resetForm()
 }
 
 const SignUpForm: FC<any> = () => {
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
-      validationSchema: SignUpSchema,
-      onSubmit: handleSignUpFormSubmit,
-    })
+  const {
+    isSubmitting,
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: SignUpSchema,
+    onSubmit: handleSignUpFormSubmit,
+  })
 
   const defaultStyle: string =
     "rounded-lg text-black shadow-sm focus:border-cyan-500" +
@@ -116,8 +133,9 @@ const SignUpForm: FC<any> = () => {
 
       <button
         className="rounded border-b-4 border-indigo-700 bg-indigo-500 px-4 py-2 font-bold text-white
-                     hover:border-indigo-500 hover:bg-indigo-400"
+                     hover:border-indigo-500 hover:bg-indigo-400 disabled:opacity-40"
         type="submit"
+        disabled={isSubmitting}
       >
         Submit
       </button>
