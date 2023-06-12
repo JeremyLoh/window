@@ -3,6 +3,7 @@ import React, { FC } from "react"
 import LoginForm from "../../../components/bugTracker/loginForm"
 import { signInWithEmail } from "../../../lib/auth/login"
 import { AuthTokenResponse } from "@supabase/gotrue-js"
+import { isEmailNotConfirmed } from "../../../lib/auth/session"
 
 export const metadata: Metadata = {
   title: "Bug Tracker Sign Up",
@@ -13,6 +14,15 @@ const Login: FC<any> = () => {
     // https://stackoverflow.com/questions/75676177/error-functions-cannot-be-passed-directly-to-client-components-unless-you-expli
     "use server"
     const response: AuthTokenResponse = await signInWithEmail(email, password)
+    if (isEmailNotConfirmed(response)) {
+      // JSON.stringify(response.error, null, 2)
+      // {
+      //   "name": "AuthApiError",
+      //   "message": "Email not confirmed",
+      //   "status": 400
+      // }
+      // todo fire alert that user should confirm their email
+    }
     // If email is not confirmed, we will get this AuthTokenResponse
     //{
     //   data: { user: null, session: null },
@@ -29,9 +39,6 @@ const Login: FC<any> = () => {
     <div className="flex min-h-screen w-full flex-col items-center">
       <h1 className="my-4 text-2xl">Login</h1>
       <LoginForm handleLogin={handleLogin} />
-      {/*{getSession().then((data) => (*/}
-      {/*  <p>{JSON.stringify(data)}</p>*/}
-      {/*))}*/}
     </div>
   )
 }

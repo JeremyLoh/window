@@ -11,6 +11,16 @@ describe("Bug Tracker", () => {
     return cy.getByTestId("bug-tracker-sign-up-btn")
   }
 
+  context("Existing User", () => {
+    it.only("should prevent login when user has not confirmed email", () => {
+      getLoginButton().click()
+      cy.url().should("include", "/bugTracker/login")
+      // todo attempt login with existing user
+      // todo show warning that user has not confirm their email
+      cy.login("qa-createNewAccount@example.com", "Password42")
+    })
+  })
+
   context("Anonymous User", () => {
     it("should show signUp and sign up button", () => {
       getLoginButton().should("be.visible").and("have.text", "Login")
@@ -58,6 +68,17 @@ describe("Bug Tracker", () => {
         getConfirmPasswordInput().clear().type(validPassword)
         clickSubmit()
         assertInputValidationIsInvalid(getEmailInput())
+      })
+
+      it.skip("should create a new account", () => {
+        const email = "qa-createNewAccount@example.com"
+        const password = "Password42"
+        getEmailInput().clear().type(email)
+        getPasswordInput().clear().type(password)
+        getConfirmPasswordInput().clear().type(password)
+        // todo show alert requesting user to confirm email
+        clickSubmit()
+        // cy.url().should("include", "/bugTracker/login")
       })
     })
   })

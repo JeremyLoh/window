@@ -1,5 +1,5 @@
 import { defineConfig } from "cypress"
-import { existsSync, rm } from "fs"
+import { deleteFolder, getBugTrackerUserSession } from "./cypress/support/tasks"
 
 export default defineConfig({
   e2e: {
@@ -7,7 +7,8 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on("task", {
-        deleteFolder: deleteFolder
+        deleteFolder: deleteFolder,
+        getBugTrackerUserSession: getBugTrackerUserSession,
       })
     },
     experimentalRunAllSpecs: true,
@@ -22,20 +23,3 @@ export default defineConfig({
     },
   },
 })
-
-async function deleteFolder(path: string) {
-  return new Promise((resolve, reject) => {
-    if (!existsSync(path)) {
-      console.log("Folder does not exist: %s", path)
-      resolve(null)
-    }
-    rm(path, { maxRetries: 2, recursive: true }, (error) => {
-      if (error) {
-        console.error(error)
-        return reject(error)
-      }
-      console.log("Deleted folder %s", path)
-      resolve(null)
-    })
-  })
-}

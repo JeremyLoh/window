@@ -1,36 +1,52 @@
 // To remove Type error: 'commands.ts' cannot be compiled under '--isolatedModules'
 // because it is considered a global script file.
 // Add an import, export, or an empty 'export {}' statement to make it a module.
+import { Session } from "@supabase/supabase-js"
+
 export {}
 
 Cypress.Commands.add("getByTestId", (selector) => {
   return cy.get(`[data-test=${selector}]`)
 })
 
-Cypress.Commands.add("submitExpenseTransaction", (name: string, amount: string) => {
-  cy.get("input[id='name']").clear().type(name)
-  cy.get("input[id='amount']").clear().type(amount)
-  cy.get("input[id='expense']").click()
-  cy.getByTestId("add-transaction-form").find("button")
-    .click()
+Cypress.Commands.add("login", (email: string, password: string) => {
+  cy.task("getBugTrackerUserSession", { email, password }).then(
+    (session: Session) => {
+      cy.setCookie("supabase-auth-token", JSON.stringify(session))
+    }
+  )
 })
 
-Cypress.Commands.add("submitIncomeTransaction", (name: string, amount: string) => {
-  cy.get("input[id='name']").clear().type(name)
-  cy.get("input[id='amount']").clear().type(amount)
-  cy.get("input[id='income']").click()
-  cy.getByTestId("add-transaction-form").find("button")
-    .click()
-})
+Cypress.Commands.add(
+  "submitExpenseTransaction",
+  (name: string, amount: string) => {
+    cy.get("input[id='name']").clear().type(name)
+    cy.get("input[id='amount']").clear().type(amount)
+    cy.get("input[id='expense']").click()
+    cy.getByTestId("add-transaction-form").find("button").click()
+  }
+)
+
+Cypress.Commands.add(
+  "submitIncomeTransaction",
+  (name: string, amount: string) => {
+    cy.get("input[id='name']").clear().type(name)
+    cy.get("input[id='amount']").clear().type(amount)
+    cy.get("input[id='income']").click()
+    cy.getByTestId("add-transaction-form").find("button").click()
+  }
+)
 
 declare global {
   namespace Cypress {
     interface Chainable {
-      getByTestId(selector: string): Chainable<JQuery<HTMLElement>>
+      getByTestId(selector: string): Chainable
 
-      submitExpenseTransaction(name: string, amount: string): Chainable<JQuery<HTMLElement>>
+      login(email: string, password: string): Chainable
 
-      submitIncomeTransaction(name: string, amount: string): Chainable<JQuery<HTMLElement>>
+      submitExpenseTransaction(name: string, amount: string): Chainable
+
+      submitIncomeTransaction(name: string, amount: string): Chainable
     }
   }
 }

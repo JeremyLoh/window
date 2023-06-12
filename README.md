@@ -9,19 +9,19 @@ from the creators of Next.js.
 
 # Environment Variables
 
-- Create a `.env.local` file in the project root and add the following environment variables:
-  ```text
-  NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
-  TOMTOM_API_KEY=???
-  NEXT_PUBLIC_SUPABASE_URL=???your-supabase-url???
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=???your-supabase-anon-key???
-  ```
-  We are using `NEXT_PUBLIC_` for accessing this public key in React components.
+1. Create a `.env.local` file in the project root and add the following environment variables:
+   ```text
+   NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
+   TOMTOM_API_KEY=???
+   NEXT_PUBLIC_SUPABASE_URL=???your-supabase-url???
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=???your-supabase-anon-key???
+   ```
+    - We are using `NEXT_PUBLIC_` for accessing this public key in React components.
     - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
     - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client side as they can
       be seen during network requests!
-- TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
-- SUPABASE - https://supabase.com/docs/guides/auth/auth-helpers/nextjs
+    - TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
+    - SUPABASE - https://supabase.com/docs/guides/auth/auth-helpers/nextjs
 
 # References
 

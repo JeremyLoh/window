@@ -23,6 +23,7 @@
     "date-fns": "2.30.0",
     "dinero.js": "1.9.1",
     "dom-to-image": "2.6.0",
+    "dotenv": "16.1.4",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "file-saver": "2.0.5",
