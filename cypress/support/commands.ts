@@ -1,8 +1,6 @@
 // To remove Type error: 'commands.ts' cannot be compiled under '--isolatedModules'
 // because it is considered a global script file.
 // Add an import, export, or an empty 'export {}' statement to make it a module.
-import { Session } from "@supabase/supabase-js"
-
 export {}
 
 Cypress.Commands.add("getByTestId", (selector) => {
@@ -10,11 +8,9 @@ Cypress.Commands.add("getByTestId", (selector) => {
 })
 
 Cypress.Commands.add("login", (email: string, password: string) => {
-  cy.task("getBugTrackerUserSession", { email, password }).then(
-    (session: Session) => {
-      cy.setCookie("supabase-auth-token", JSON.stringify(session))
-    }
-  )
+  cy.task("getBugTrackerUserSession", { email, password }).then((session) => {
+    cy.setCookie("supabase-auth-token", JSON.stringify(session))
+  })
 })
 
 Cypress.Commands.add(
