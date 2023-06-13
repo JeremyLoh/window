@@ -13,6 +13,14 @@ Cypress.Commands.add("login", (email: string, password: string) => {
   })
 })
 
+Cypress.Commands.add("assertAlertTitle", (text: string) => {
+  cy.get(".swal2-title").should("have.text", text)
+})
+
+Cypress.Commands.add("assertAlertBody", (text: string) => {
+  cy.get(".swal2-html-container").should("have.text", text)
+})
+
 Cypress.Commands.add(
   "submitExpenseTransaction",
   (name: string, amount: string) => {
@@ -39,6 +47,10 @@ declare global {
       getByTestId(selector: string): Chainable
 
       login(email: string, password: string): Chainable
+
+      assertAlertTitle(text: string): Chainable
+
+      assertAlertBody(text: string): Chainable
 
       submitExpenseTransaction(name: string, amount: string): Chainable
 
