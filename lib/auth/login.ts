@@ -5,7 +5,6 @@ export async function signUpUsingEmail(
   password: string,
   redirectUrl: string
 ) {
-  "use server"
   const supabase = createClientComponentClient()
   await supabase.auth.signUp({
     email: email,
@@ -17,7 +16,6 @@ export async function signUpUsingEmail(
 }
 
 export async function signInWithEmail(email: string, password: string) {
-  "use server"
   const supabase = createClientComponentClient()
   return supabase.auth.signInWithPassword({
     email,
@@ -26,13 +24,11 @@ export async function signInWithEmail(email: string, password: string) {
 }
 
 export async function signOut() {
-  "use server"
   const supabase = createClientComponentClient()
   await supabase.auth.signOut()
 }
 
 export async function resendSignUpConfirmEmail(email: string) {
-  "use server"
   const supabase = createClientComponentClient()
   return await supabase.auth.resend({
     type: "signup",

@@ -11,11 +11,9 @@ describe("Bug Tracker", () => {
     return cy.getByTestId("bug-tracker-sign-up-btn")
   }
 
-  function loginWithEmailAndPassword() {
-    cy.getByTestId("login-input").type("qa-createNewAccount@example.com")
-    cy.getByTestId("password-input").type(
-      "qa-createNewAccount@example.comPassword42"
-    )
+  function loginWithEmailAndPassword(email: string, password: string) {
+    cy.getByTestId("login-input").type(email)
+    cy.getByTestId("password-input").type(password)
     cy.getByTestId("login-submit-btn").click()
   }
 
@@ -30,8 +28,20 @@ describe("Bug Tracker", () => {
     it("should prevent login when user has not confirmed email", () => {
       getLoginButton().click()
       cy.url().should("include", "/bugTracker/login")
-      loginWithEmailAndPassword()
+      loginWithEmailAndPassword(
+        "qa-createNewAccount@example.com",
+        "qa-createNewAccount@example.comPassword42"
+      )
       assertConfirmEmailWarning()
+    })
+
+    it.skip("should allow login when user has confirmed email", () => {
+      getLoginButton().click()
+      loginWithEmailAndPassword(
+        "lrjmaiuyi@exelica.com",
+        "lrjmaiuyi@exelica.comPassword42"
+      )
+      // todo test for redirect to dashboard page
     })
   })
 

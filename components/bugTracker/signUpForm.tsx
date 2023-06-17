@@ -3,7 +3,8 @@
 import React, { FC } from "react"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
+import { signUpUsingEmail } from "../../lib/auth/login"
 
 type SignUpFormValues = {
   email: string
@@ -11,15 +12,9 @@ type SignUpFormValues = {
   confirmPassword: string
 }
 
-type SignUpFormProps = {
-  handleSignUp: (
-    email: string,
-    password: string,
-    redirectUrl: string
-  ) => Promise<void>
-}
+const SignUpForm: FC<any> = () => {
+  const router = useRouter()
 
-const SignUpForm: FC<SignUpFormProps> = (props) => {
   async function handleSignUp(
     values: SignUpFormValues,
     actions: FormikHelpers<SignUpFormValues>
@@ -27,8 +22,9 @@ const SignUpForm: FC<SignUpFormProps> = (props) => {
     actions.resetForm()
     // we need to get the location.origin in client component
     const redirectUrl: string = `${location.origin}/auth/callback`
-    await props.handleSignUp(values.email, values.password, redirectUrl)
-    redirect("/bugTracker/login")
+    await signUpUsingEmail(values.email, values.password, redirectUrl)
+    router.refresh()
+    router.push("/bugTracker/login")
   }
 
   const {

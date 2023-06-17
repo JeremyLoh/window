@@ -1,37 +1,34 @@
 "use client"
 
 import React, { FC } from "react"
-import { User } from "@supabase/gotrue-js"
-import { Session } from "@supabase/supabase-js"
+import { useRouter } from "next/navigation"
+import { AuthTokenResponse } from "@supabase/supabase-js"
 import { FormikHelpers, useFormik } from "formik"
 import EmailLoginSchema from "./formSchema/emailLoginSchema"
 import { getWarningToast } from "../alert/warning"
+import { resendSignUpConfirmEmail, signInWithEmail } from "../../lib/auth/login"
 
 type LoginFormValues = {
   email: string
   password: string
 }
 
-export type LoginResponse = {
-  data: { user: User; session: Session } | { user: null; session: null }
-  errorMessage: string
-}
+const LoginForm: FC<any> = () => {
+  const router = useRouter()
 
-type LoginFormProps = {
-  handleLogin: (email: string, password: string) => Promise<LoginResponse>
-  handleResendConfirmEmail: (email: string) => Promise<void>
-}
-
-const LoginForm: FC<LoginFormProps> = (props) => {
   async function handleLogin(
     values: LoginFormValues,
     actions: FormikHelpers<LoginFormValues>
   ) {
     actions.resetForm()
-    const response = await props.handleLogin(values.email, values.password)
+    const response = await signInWithEmail(values.email, values.password)
     if (isEmailNotConfirmed(response)) {
       await showConfirmEmailWarning(values.email)
+      return
     }
+    router.refresh()
+    // todo redirect to dashboard
+    router.push("/bugTracker/dashboard")
   }
 
   async function showConfirmEmailWarning(email: string) {
@@ -43,7 +40,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
       confirmButtonText: "Resend Email",
     })
     if (result.isConfirmed) {
-      await props.handleResendConfirmEmail(email)
+      await resendSignUpConfirmEmail(email)
     }
   }
 
@@ -133,11 +130,11 @@ const LoginForm: FC<LoginFormProps> = (props) => {
   )
 }
 
-function isEmailNotConfirmed(loginResponse: LoginResponse): boolean {
-  if (!loginResponse.errorMessage) {
+function isEmailNotConfirmed(loginResponse: AuthTokenResponse): boolean {
+  if (!loginResponse.error) {
     return false
   }
-  return loginResponse.errorMessage === "Email not confirmed"
+  return loginResponse.error.message === "Email not confirmed"
 }
 
 export default LoginForm
