@@ -21,26 +21,6 @@ Cypress.Commands.add("assertAlertBody", (text: string) => {
   cy.get(".swal2-html-container").should("have.text", text)
 })
 
-Cypress.Commands.add(
-  "submitExpenseTransaction",
-  (name: string, amount: string) => {
-    cy.get("input[id='name']").clear().type(name)
-    cy.get("input[id='amount']").clear().type(amount)
-    cy.get("input[id='expense']").click()
-    cy.getByTestId("add-transaction-form").find("button").click()
-  }
-)
-
-Cypress.Commands.add(
-  "submitIncomeTransaction",
-  (name: string, amount: string) => {
-    cy.get("input[id='name']").clear().type(name)
-    cy.get("input[id='amount']").clear().type(amount)
-    cy.get("input[id='income']").click()
-    cy.getByTestId("add-transaction-form").find("button").click()
-  }
-)
-
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -51,10 +31,6 @@ declare global {
       assertAlertTitle(text: string): Chainable
 
       assertAlertBody(text: string): Chainable
-
-      submitExpenseTransaction(name: string, amount: string): Chainable
-
-      submitIncomeTransaction(name: string, amount: string): Chainable
     }
   }
 }
