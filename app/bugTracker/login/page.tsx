@@ -1,8 +1,11 @@
 import { Metadata } from "next"
 import React, { FC } from "react"
-import LoginForm from "../../../components/bugTracker/loginForm"
-import { signInWithEmail } from "../../../lib/auth/login"
 import { AuthTokenResponse } from "@supabase/gotrue-js"
+import LoginForm from "../../../components/bugTracker/loginForm"
+import {
+  resendSignUpConfirmEmail,
+  signInWithEmail,
+} from "../../../lib/auth/login"
 
 export const metadata: Metadata = {
   title: "Bug Tracker Sign Up",
@@ -19,10 +22,18 @@ const Login: FC<any> = () => {
     }
   }
 
+  async function handleResendConfirmEmail(email: string) {
+    "use server"
+    await resendSignUpConfirmEmail(email)
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
       <h1 className="my-4 text-2xl">Login</h1>
-      <LoginForm handleLogin={handleLogin} />
+      <LoginForm
+        handleLogin={handleLogin}
+        handleResendConfirmEmail={handleResendConfirmEmail}
+      />
     </div>
   )
 }

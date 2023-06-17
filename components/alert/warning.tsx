@@ -11,8 +11,6 @@ export function getWarningToast(title: string, message: string): typeof Swal {
     position: "top",
     showConfirmButton: true,
     confirmButtonText: "Ok",
-    timer: 3000,
-    timerProgressBar: true,
     width: "42em",
   })
 }

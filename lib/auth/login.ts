@@ -30,3 +30,12 @@ export async function signOut() {
   const supabase = createClientComponentClient()
   await supabase.auth.signOut()
 }
+
+export async function resendSignUpConfirmEmail(email: string) {
+  "use server"
+  const supabase = createClientComponentClient()
+  return await supabase.auth.resend({
+    type: "signup",
+    email: email,
+  })
+}

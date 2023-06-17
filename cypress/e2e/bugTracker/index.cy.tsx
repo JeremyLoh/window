@@ -23,6 +23,8 @@ describe("Bug Tracker", () => {
     function assertConfirmEmailWarning() {
       cy.assertAlertTitle("Confirm email to login")
       cy.assertAlertBody("Please confirm your email before login")
+      cy.get(".swal2-confirm").should("have.text", "Resend Email")
+      cy.get(".swal2-cancel").should("be.visible").and("have.text", "Cancel")
     }
 
     it("should prevent login when user has not confirmed email", () => {
@@ -30,7 +32,6 @@ describe("Bug Tracker", () => {
       cy.url().should("include", "/bugTracker/login")
       loginWithEmailAndPassword()
       assertConfirmEmailWarning()
-      // todo have resend email link here, click "ok" to dismiss alert
     })
   })
 

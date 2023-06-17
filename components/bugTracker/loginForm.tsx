@@ -1,11 +1,11 @@
 "use client"
 
 import React, { FC } from "react"
+import { User } from "@supabase/gotrue-js"
+import { Session } from "@supabase/supabase-js"
 import { FormikHelpers, useFormik } from "formik"
 import EmailLoginSchema from "./formSchema/emailLoginSchema"
-import { User } from "@supabase/gotrue-js"
 import { getWarningToast } from "../alert/warning"
-import { Session } from "@supabase/supabase-js"
 
 type LoginFormValues = {
   email: string
@@ -19,6 +19,7 @@ export type LoginResponse = {
 
 type LoginFormProps = {
   handleLogin: (email: string, password: string) => Promise<LoginResponse>
+  handleResendConfirmEmail: (email: string) => Promise<void>
 }
 
 const LoginForm: FC<LoginFormProps> = (props) => {
@@ -29,10 +30,20 @@ const LoginForm: FC<LoginFormProps> = (props) => {
     actions.resetForm()
     const response = await props.handleLogin(values.email, values.password)
     if (isEmailNotConfirmed(response)) {
-      await getWarningToast(
-        "Confirm email to login",
-        "Please confirm your email before login"
-      ).fire()
+      await showConfirmEmailWarning(values.email)
+    }
+  }
+
+  async function showConfirmEmailWarning(email: string) {
+    const result = await getWarningToast(
+      "Confirm email to login",
+      "Please confirm your email before login"
+    ).fire({
+      showCancelButton: true,
+      confirmButtonText: "Resend Email",
+    })
+    if (result.isConfirmed) {
+      await props.handleResendConfirmEmail(email)
     }
   }
 
