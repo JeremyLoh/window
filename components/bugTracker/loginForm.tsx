@@ -3,14 +3,22 @@
 import React, { FC } from "react"
 import { FormikHelpers, useFormik } from "formik"
 import EmailLoginSchema from "./formSchema/emailLoginSchema"
+import { User } from "@supabase/gotrue-js"
+import { getWarningToast } from "../alert/warning"
+import { Session } from "@supabase/supabase-js"
 
 type LoginFormValues = {
   email: string
   password: string
 }
 
+export type LoginResponse = {
+  data: { user: User; session: Session } | { user: null; session: null }
+  errorMessage: string
+}
+
 type LoginFormProps = {
-  handleLogin: (email: string, password: string) => Promise<void>
+  handleLogin: (email: string, password: string) => Promise<LoginResponse>
 }
 
 const LoginForm: FC<LoginFormProps> = (props) => {
@@ -19,8 +27,13 @@ const LoginForm: FC<LoginFormProps> = (props) => {
     actions: FormikHelpers<LoginFormValues>
   ) {
     actions.resetForm()
-    await props.handleLogin(values.email, values.password)
-    // TODO redirect to bug tracker homepage, which only shows for logged in users
+    const response = await props.handleLogin(values.email, values.password)
+    if (isEmailNotConfirmed(response)) {
+      await getWarningToast(
+        "Confirm email to login",
+        "Please confirm your email before login"
+      ).fire()
+    }
   }
 
   const {
@@ -55,6 +68,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
           Email
         </label>
         <input
+          data-test="login-input"
           className={`${defaultStyle} ${
             errors.email && touched.email ? "border-red-600 text-red-800" : ""
           }`}
@@ -75,6 +89,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
           Password
         </label>
         <input
+          data-test="password-input"
           className={`${defaultStyle} ${
             errors.password && touched.password
               ? "border-red-600 text-red-800"
@@ -94,6 +109,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
         )}
 
         <button
+          data-test="login-submit-btn"
           className="rounded border-b-4 border-indigo-700 bg-indigo-500 px-4 py-2 font-bold text-white
                      hover:border-indigo-500 hover:bg-indigo-400 disabled:opacity-40"
           type="submit"
@@ -104,6 +120,13 @@ const LoginForm: FC<LoginFormProps> = (props) => {
       </form>
     </>
   )
+}
+
+function isEmailNotConfirmed(loginResponse: LoginResponse): boolean {
+  if (!loginResponse.errorMessage) {
+    return false
+  }
+  return loginResponse.errorMessage === "Email not confirmed"
 }
 
 export default LoginForm

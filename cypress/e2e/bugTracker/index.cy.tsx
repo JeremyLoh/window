@@ -11,13 +11,26 @@ describe("Bug Tracker", () => {
     return cy.getByTestId("bug-tracker-sign-up-btn")
   }
 
+  function loginWithEmailAndPassword() {
+    cy.getByTestId("login-input").type("qa-createNewAccount@example.com")
+    cy.getByTestId("password-input").type(
+      "qa-createNewAccount@example.comPassword42"
+    )
+    cy.getByTestId("login-submit-btn").click()
+  }
+
   context("Existing User", () => {
-    it.only("should prevent login when user has not confirmed email", () => {
+    function assertConfirmEmailWarning() {
+      cy.assertAlertTitle("Confirm email to login")
+      cy.assertAlertBody("Please confirm your email before login")
+    }
+
+    it("should prevent login when user has not confirmed email", () => {
       getLoginButton().click()
       cy.url().should("include", "/bugTracker/login")
-      // todo attempt login with existing user
-      // todo show warning that user has not confirm their email
-      cy.login("qa-createNewAccount@example.com", "Password42")
+      loginWithEmailAndPassword()
+      assertConfirmEmailWarning()
+      // todo have resend email link here, click "ok" to dismiss alert
     })
   })
 
@@ -72,7 +85,7 @@ describe("Bug Tracker", () => {
 
       it.skip("should create a new account", () => {
         const email = "qa-createNewAccount@example.com"
-        const password = "Password42"
+        const password = "qa-createNewAccount@example.comPassword42"
         getEmailInput().clear().type(email)
         getPasswordInput().clear().type(password)
         getConfirmPasswordInput().clear().type(password)
