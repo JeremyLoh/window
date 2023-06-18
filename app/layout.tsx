@@ -3,7 +3,6 @@ import "../styles/globals.css"
 import React from "react"
 import { Special_Elite } from "next/font/google"
 import { enableMapSet, enablePatches } from "immer"
-import Navbar from "../components/navbar"
 import Footer from "../components/footer"
 
 enablePatches()
@@ -28,7 +27,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${specialElite.className} bg-primary`}>
-        <Navbar />
         {children}
         <Footer />
       </body>
