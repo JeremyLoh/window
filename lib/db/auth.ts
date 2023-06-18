@@ -1,4 +1,4 @@
-import { getClient } from "../db/supabaseClient"
+import { getClient } from "./supabaseClient"
 
 export async function signUpUsingEmail(
   email: string,
@@ -25,12 +25,12 @@ export async function signInWithEmail(email: string, password: string) {
 
 export async function signOut() {
   const supabase = getClient()
-  await supabase.auth.signOut()
+  return supabase.auth.signOut()
 }
 
 export async function resendSignUpConfirmEmail(email: string) {
   const supabase = getClient()
-  return await supabase.auth.resend({
+  return supabase.auth.resend({
     type: "signup",
     email: email,
   })

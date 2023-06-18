@@ -6,7 +6,7 @@ import { AuthTokenResponse } from "@supabase/supabase-js"
 import { FormikHelpers, useFormik } from "formik"
 import EmailLoginSchema from "./formSchema/emailLoginSchema"
 import { getWarningToast } from "../alert/warning"
-import { resendSignUpConfirmEmail, signInWithEmail } from "../../lib/auth/login"
+import { resendSignUpConfirmEmail, signInWithEmail } from "../../lib/db/auth"
 
 type LoginFormValues = {
   email: string

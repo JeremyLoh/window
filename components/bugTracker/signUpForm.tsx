@@ -4,7 +4,7 @@ import React, { FC } from "react"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
 import { useRouter } from "next/navigation"
-import { signUpUsingEmail } from "../../lib/auth/login"
+import { signUpUsingEmail } from "../../lib/db/auth"
 
 type SignUpFormValues = {
   email: string
