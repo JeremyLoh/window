@@ -44,3 +44,4 @@ from the creators of Next.js.
 - [Supabase auth helpers nextjs](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
 - [Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use
   server"](https://stackoverflow.com/questions/75676177/error-functions-cannot-be-passed-directly-to-client-components-unless-you-expli)
+- [Nextjs 13: Can't resolve 'src/app/dashboard/layout.tsx' (deleted optional layout)](https://stackoverflow.com/questions/76482218/nextjs-13-cant-resolve-src-app-dashboard-layout-tsx-deleted-optional-layout)
