@@ -7,7 +7,8 @@ export function getClient() {
   return createClientComponentClient()
 }
 
-export async function getSession() {
+export async function getClientSession() {
   const supabase = createClientComponentClient()
-  return await supabase.auth.getSession()
+  const response = await supabase.auth.getSession()
+  return response.data.session
 }
