@@ -1,3 +1,5 @@
+import { loginWithEmailAndPassword, loginWithValidAccount } from "./login"
+
 describe("Bug Tracker", () => {
   beforeEach(() => {
     cy.visit("/bugTracker")
@@ -9,12 +11,6 @@ describe("Bug Tracker", () => {
 
   function getSignUpButton() {
     return cy.getByTestId("bug-tracker-sign-up-btn")
-  }
-
-  function loginWithEmailAndPassword(email: string, password: string) {
-    cy.getByTestId("login-input").type(email)
-    cy.getByTestId("password-input").type(password)
-    cy.getByTestId("login-submit-btn").click()
   }
 
   context("Existing User", () => {
@@ -37,10 +33,7 @@ describe("Bug Tracker", () => {
 
     it.skip("should allow login when user has confirmed email", () => {
       getLoginButton().click()
-      loginWithEmailAndPassword(
-        "lrjmaiuyi@exelica.com",
-        "lrjmaiuyi@exelica.comPassword42"
-      )
+      loginWithValidAccount()
       // todo test for redirect to dashboard page
     })
   })

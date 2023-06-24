@@ -22,7 +22,7 @@ const Life: FC<any> = () => {
     setActiveTabIndex(activeTabIndex)
   }
 
-  function getActiveContent(): JSX.Element {
+  function getActiveContent(): React.JSX.Element {
     if (activeTabIndex === 0) {
       return <LifeCalendarComponent />
     }
