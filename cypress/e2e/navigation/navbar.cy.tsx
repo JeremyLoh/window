@@ -2,52 +2,40 @@ describe("navbar", () => {
   const homepageUrl = Cypress.config().baseUrl + "/"
   const exchangeUrl = "/exchange"
   const lifeUrl = "/life"
+  const bugTrackerUrl = "/bugTracker"
 
   function getNavbar() {
     return cy.get("#navbar")
   }
 
   describe("exchange page", () => {
-    const startUrl = exchangeUrl
-    beforeEach(() => {
-      cy.visit(startUrl)
-    })
-
-    it("should navigate to life page when navbar life feature is clicked", () => {
-      const navbar = getNavbar()
-      navbar.should("be.visible")
-      cy.url().should("include", startUrl)
-      navbar.contains("Life").click()
-      cy.url().should("include", lifeUrl)
-    })
-
     it("should navigate to homepage when navbar app name is clicked", () => {
+      cy.visit(exchangeUrl)
       const navbar = getNavbar()
       navbar.should("be.visible")
-      cy.url().should("include", startUrl)
+      cy.url().should("include", exchangeUrl)
       navbar.contains("Window").click()
       cy.url().should("eq", homepageUrl)
     })
   })
 
   describe("life page", () => {
-    const startUrl = lifeUrl
-    beforeEach(() => {
-      cy.visit(startUrl)
-    })
-
-    it("should navigate to exchange page when navbar exchange feature is clicked", () => {
-      const navbar = getNavbar()
-      navbar.should("be.visible")
-      cy.url().should("include", startUrl)
-      navbar.contains("Exchange").click()
-      cy.url().should("include", exchangeUrl)
-    })
-
     it("should navigate to homepage when navbar app name is clicked", () => {
+      cy.visit(lifeUrl)
       const navbar = getNavbar()
       navbar.should("be.visible")
-      cy.url().should("include", startUrl)
+      cy.url().should("include", lifeUrl)
+      navbar.contains("Window").click()
+      cy.url().should("eq", homepageUrl)
+    })
+  })
+
+  describe("bug tracker page", () => {
+    it("should navigate to homepage when navbar app name is clicked", () => {
+      cy.visit(bugTrackerUrl)
+      const navbar = getNavbar()
+      navbar.should("be.visible")
+      cy.url().should("include", bugTrackerUrl)
       navbar.contains("Window").click()
       cy.url().should("eq", homepageUrl)
     })

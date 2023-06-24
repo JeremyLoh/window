@@ -60,6 +60,15 @@ export default function Home() {
 function getAppFeatures() {
   return [
     {
+      href: "/bugTracker",
+      ariaLabel: "bugTracker-feature",
+      title: {
+        feature: "Bug Tracker",
+        emoji: { symbol: "🪲", label: "bug-tracker" },
+      },
+      description: "Squash your tasks",
+    },
+    {
       href: "/exchange",
       ariaLabel: "exchange-feature",
       title: {

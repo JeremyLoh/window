@@ -103,7 +103,6 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
       <h2 className="text-xl">View Economic Data</h2>
       <form
         className="flex flex-col justify-center gap-4 text-black sm:w-full"
-        action="/api/exchange/economy/country"
         method="post"
         onSubmit={handleSubmit}
         aria-label="exchange-economy-form"

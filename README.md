@@ -9,16 +9,19 @@ from the creators of Next.js.
 
 # Environment Variables
 
-- Create a `.env.local` file in the project root and add the following environment variables:
-  ```text
-  NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
-  TOMTOM_API_KEY=???
-  ```
-  We are using `NEXT_PUBLIC_` for accessing this public key in React components.
+1. Create a `.env.local` file in the project root and add the following environment variables:
+   ```text
+   NEXT_PUBLIC_MAPBOX_PK_API_KEY=???
+   TOMTOM_API_KEY=???
+   NEXT_PUBLIC_SUPABASE_URL=???your-supabase-url???
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=???your-supabase-anon-key???
+   ```
+    - We are using `NEXT_PUBLIC_` for accessing this public key in React components.
     - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
     - This should *NOT* be done for PRIVATE KEYS! Private keys should not be exposed to the client side as they can
       be seen during network requests!
-- TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
+    - TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
+    - SUPABASE - https://supabase.com/docs/guides/auth/auth-helpers/nextjs
 
 # References
 
@@ -36,3 +39,9 @@ from the creators of Next.js.
 - [Noreferrer noopener](https://www.reliablesoft.net/noreferrer-noopener/)
 - [External link is not working in nextjs when you want to use link component](https://stackoverflow.com/questions/61059111/external-link-is-not-working-in-next-js-when-you-want-to-use-link-component)
     - We need to add "//" before the url so that navigation is done to external url. e.g. `<a href={"//" + place.url} target="_blank" rel="noopener noreferrer">`
+- [This is the Only Right Way to Write React clean-code - SOLID](https://www.youtube.com/watch?v=MSq_DCRxOxw)
+- [React Formik Tutorial with Yup (React Form Validation)](https://www.youtube.com/watch?v=7Ophfq0lEAY)
+- [Supabase auth helpers nextjs](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
+- [Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use
+  server"](https://stackoverflow.com/questions/75676177/error-functions-cannot-be-passed-directly-to-client-components-unless-you-expli)
+- [Nextjs 13: Can't resolve 'src/app/dashboard/layout.tsx' (deleted optional layout)](https://stackoverflow.com/questions/76482218/nextjs-13-cant-resolve-src-app-dashboard-layout-tsx-deleted-optional-layout)

@@ -25,22 +25,21 @@ describe("Exchange Page", () => {
 
   it("should show amount to convert input", () => {
     getConversionAmountInput().should("be.visible")
-    getConversionAmountInput().invoke("attr", "type")
-      .should("eq", "number")
-    getConversionAmountInput().invoke("attr", "min")
-      .should("eq", "0.01")
-    getConversionAmountInput().invoke("attr", "max")
-      .should("eq", "99999999")
+    getConversionAmountInput().invoke("attr", "type").should("eq", "number")
+    getConversionAmountInput().invoke("attr", "min").should("eq", "0.01")
+    getConversionAmountInput().invoke("attr", "max").should("eq", "99999999")
   })
 
   describe("from currency", () => {
     function assertFromCurrencyText(expectedText: string): void {
-      getFromCurrencyDropdown().find("option:selected")
+      getFromCurrencyDropdown()
+        .find("option:selected")
         .should("have.text", expectedText)
     }
 
     it("should show 'from' currency dropdown with default value", () => {
-      getFromCurrencyDropdown().should("be.visible")
+      getFromCurrencyDropdown()
+        .should("be.visible")
         .should("have.attr", "required")
       assertFromCurrencyText("-- select an option --")
     })
@@ -54,12 +53,14 @@ describe("Exchange Page", () => {
 
   describe("to currency", () => {
     function assertToCurrencyText(expectedText: string): void {
-      getToCurrencyDropdown().find("option:selected")
+      getToCurrencyDropdown()
+        .find("option:selected")
         .should("have.text", expectedText)
     }
 
     it("should show 'to' currency dropdown", () => {
-      getToCurrencyDropdown().should("be.visible")
+      getToCurrencyDropdown()
+        .should("be.visible")
         .should("have.attr", "required")
       assertToCurrencyText("-- select an option --")
     })
@@ -72,7 +73,11 @@ describe("Exchange Page", () => {
   })
 
   describe("convert currency", () => {
-    function convertCurrency(amount: string, fromCurrency: string, toCurrency: string): void {
+    function convertCurrency(
+      amount: string,
+      fromCurrency: string,
+      toCurrency: string
+    ): void {
       getConversionAmountInput().clear().type(amount)
       getFromCurrencyDropdown().select(fromCurrency)
       getToCurrencyDropdown().select(toCurrency)
@@ -92,8 +97,8 @@ describe("Exchange Page", () => {
         body: {
           date: "2023-04-04T00:00:00.000Z",
           rate: "0.800",
-          result: "0.008"
-        }
+          result: "0.008",
+        },
       }).as(alias)
     }
 
@@ -103,22 +108,16 @@ describe("Exchange Page", () => {
       cy.get(`@${alias}.all`).should("have.length", times)
     }
 
-    function assertSwalTitle(text: string): void {
-      cy.get(".swal2-title").should("have.text", text)
-    }
-
-    function assertSwalBody(text: string): void {
-      cy.get(".swal2-html-container").should("have.text",text)
-    }
-
     it("should submit valid exchange request", () => {
       mockExchangeRate("exchangeRate")
       convertCurrency("0.01", "SGD", "USD")
       cy.wait("@exchangeRate")
       assertRouteCalled("exchangeRate", 1)
-      getExchangeRateConversionElement().should("be.visible")
+      getExchangeRateConversionElement()
+        .should("be.visible")
         .and("have.text", "0.01 SGD = 0.008 USD")
-      getExchangeRateElement().should("be.visible")
+      getExchangeRateElement()
+        .should("be.visible")
         .and("have.text", "Exchange Rate: 0.800")
     })
 
@@ -138,8 +137,8 @@ describe("Exchange Page", () => {
       mockExchangeRate("exchangeRate")
       convertCurrency("0.01", "USD", "USD")
       assertRouteCalled("exchangeRate", 0)
-      assertSwalTitle("Invalid currency chosen")
-      assertSwalBody("Currency chosen for conversion should be different")
+      cy.assertAlertTitle("Invalid currency chosen")
+      cy.assertAlertBody("Currency chosen for conversion should be different")
     })
   })
 })
