@@ -45,3 +45,21 @@ from the creators of Next.js.
 - [Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use
   server"](https://stackoverflow.com/questions/75676177/error-functions-cannot-be-passed-directly-to-client-components-unless-you-expli)
 - [Nextjs 13: Can't resolve 'src/app/dashboard/layout.tsx' (deleted optional layout)](https://stackoverflow.com/questions/76482218/nextjs-13-cant-resolve-src-app-dashboard-layout-tsx-deleted-optional-layout)
+
+## Database reference
+
+- [Normalization - 1NF, 2NF, 3NF and 4NF](https://www.youtube.com/watch?v=UrYLYV7WSHM)
+    - 1st Normal Form (1NF)
+        - Each column to be single valued (e.g. cannot be "a,b")
+        - Entries in a column are same type
+        - Rows can be uniquely identified - add unique id, or add more columns to make unique
+            - The order of the rows and the order of the columns are not relevant
+    - 2nd Normal Form (2NF)
+        - All attributes (non-key columns) are dependent on key
+    - 3rd Normal Form (3NF)
+        - All fields (columns) can be determined only by the key in the table and no other column
+    - 4th Normal Form (4NF)
+        - No multi-valued dependencies
+- [Supabase - One to Many Relationship - SupabaseTips](https://www.youtube.com/watch?v=5VrF9OVQ6rg)
+- [Supabase Docs (Database) - Tables and Data](https://supabase.com/docs/guides/database/tables)
+- [Implement Authorization using Row Level Security with Supabase](https://www.youtube.com/watch?v=Ow_Uzedfohk)
