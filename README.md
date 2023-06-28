@@ -44,7 +44,10 @@ from the creators of Next.js.
 - [Supabase auth helpers nextjs](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
 - [Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use
   server"](https://stackoverflow.com/questions/75676177/error-functions-cannot-be-passed-directly-to-client-components-unless-you-expli)
-- [Nextjs 13: Can't resolve 'src/app/dashboard/layout.tsx' (deleted optional layout)](https://stackoverflow.com/questions/76482218/nextjs-13-cant-resolve-src-app-dashboard-layout-tsx-deleted-optional-layout)
+- [Next.js 13: Can't resolve 'src/app/dashboard/layout.tsx'(deleted optional layout)](https://stackoverflow.com/questions/76482218/nextjs-13-cant-resolve-src-app-dashboard-layout-tsx-deleted-optional-layout)
+- [Next.js: Router.push with state](https://stackoverflow.com/questions/55182529/next-js-router-push-with-state)
+- [Next.js 13: Dynamic routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)
+- [File Conventions - page.js](https://nextjs.org/docs/app/api-reference/file-conventions/page)
 
 ## Database reference
 
@@ -60,6 +63,7 @@ from the creators of Next.js.
         - All fields (columns) can be determined only by the key in the table and no other column
     - 4th Normal Form (4NF)
         - No multi-valued dependencies
-- [Supabase - One to Many Relationship - SupabaseTips](https://www.youtube.com/watch?v=5VrF9OVQ6rg)
+- [Supabase - One-to-Many Relationship - SupabaseTips](https://www.youtube.com/watch?v=5VrF9OVQ6rg)
 - [Supabase Docs (Database) - Tables and Data](https://supabase.com/docs/guides/database/tables)
 - [Implement Authorization using Row Level Security with Supabase](https://www.youtube.com/watch?v=Ow_Uzedfohk)
+- [Adding a new row to table for new user sign up, using triggers](https://supabase.com/docs/guides/auth/managing-user-data#using-triggers)
