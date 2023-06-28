@@ -4,12 +4,12 @@ import DashboardNavigation from "../../../components/bugTracker/dashboard/dashbo
 
 export const metadata: Metadata = {
   title: "Bug Tracker Dashboard",
+  description: "Overview of bugs",
 }
 
 const Dashboard: FC<any> = async () => {
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
-      <h1 className="text-xl">Dashboard</h1>
       <DashboardNavigation />
     </div>
   )

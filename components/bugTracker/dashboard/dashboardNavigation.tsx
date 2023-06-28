@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from "react"
 import NavTab, { Tab } from "../../navTab/navTab"
-import Project from "./project"
+import ProjectManagement from "./projectManagement"
 
 const tabs: Tab[] = [
   {
@@ -20,7 +20,7 @@ const DashboardNavigation: FC<any> = () => {
 
   function getActiveContent(): React.JSX.Element {
     if (activeTabIndex === 0) {
-      return <Project />
+      return <ProjectManagement />
     }
     return <></>
   }
