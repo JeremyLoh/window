@@ -1,16 +1,13 @@
-"use client"
-
 import Swal from "sweetalert2"
 
-export function getWarningToast(title: string, message: string): typeof Swal {
+export function getSuccessToast(title: string, message: string): typeof Swal {
   return Swal.mixin({
-    icon: "warning",
+    icon: "success",
     titleText: title,
     text: message,
     toast: true,
     position: "top",
     showConfirmButton: true,
-    showCancelButton: true,
     confirmButtonText: "Ok",
     width: "42em",
   })

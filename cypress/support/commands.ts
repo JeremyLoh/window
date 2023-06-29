@@ -21,6 +21,14 @@ Cypress.Commands.add("assertAlertBody", (text: string) => {
   cy.get(".swal2-html-container").should("have.text", text)
 })
 
+Cypress.Commands.add("clickAlertConfirm", () => {
+  cy.get(".swal2-confirm").click()
+})
+
+Cypress.Commands.add("clickAlertCancel", () => {
+  cy.get(".swal2-cancel").click()
+})
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -31,6 +39,10 @@ declare global {
       assertAlertTitle(text: string): Chainable
 
       assertAlertBody(text: string): Chainable
+
+      clickAlertConfirm(): Chainable
+
+      clickAlertCancel(): Chainable
     }
   }
 }
