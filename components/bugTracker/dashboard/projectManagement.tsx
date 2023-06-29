@@ -32,7 +32,7 @@ const ProjectManagement: FC<any> = () => {
       }
       setSession(session)
       const response = await getCreatedProjects()
-      if (response.data) {
+      if (response.data && response.data.length > 0) {
         // @ts-ignore
         setProjects(response.data)
       } else {
