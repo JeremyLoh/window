@@ -64,6 +64,7 @@ export default function ProjectIdPage({
               {project.name}
             </h1>
             <TrashIcon
+              data-test="delete-project-btn"
               className="ml-auto h-6 w-6 text-gray-300 hover:cursor-pointer hover:text-red-400 md:h-8 md:w-8"
               onClick={handleDelete}
             />
