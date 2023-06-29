@@ -1,6 +1,7 @@
 import { FC } from "react"
-import { Project } from "../dashboard/projectManagement"
+import Link from "next/link"
 import { DocumentIcon, UserIcon } from "@heroicons/react/24/solid"
+import { Project } from "../dashboard/projectManagement"
 
 type ProjectCardProps = {
   project: Project
@@ -16,10 +17,13 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
           <UserIcon className="mr-2 inline h-6 w-6 text-sky-400" />
           <p className="break-words text-xl">{project.user.display_name}</p>
         </div>
-        <div className="mt-2 flex items-stretch">
-          <DocumentIcon className="mr-2 inline h-6 w-6 text-gray-200" />
+        <Link
+          href={`/bugTracker/project/${project.id}`}
+          className="mt-2 flex items-stretch hover:text-blue-400"
+        >
+          <DocumentIcon className="mr-2 inline h-6 w-6" />
           <p className="break-words text-xl">{project.name}</p>
-        </div>
+        </Link>
       </div>
       {project.description && (
         <h3 className="break-words pl-2 pt-2 indent-2">
