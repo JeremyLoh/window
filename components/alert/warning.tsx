@@ -10,6 +10,7 @@ export function getWarningToast(title: string, message: string): typeof Swal {
     toast: true,
     position: "top",
     showConfirmButton: true,
+    showCancelButton: true,
     confirmButtonText: "Ok",
     width: "42em",
   })

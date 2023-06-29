@@ -40,7 +40,6 @@ const ProjectManagement: FC<any> = () => {
           title: "Could not find your project(s)! Please try again later",
         })
       }
-      // todo display the list of projects as clickable list, navigate to that project
     })
   }, [])
 

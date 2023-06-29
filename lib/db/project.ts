@@ -30,3 +30,10 @@ export async function getCreatedProjects() {
     .select("id, created_at, name, description, user(display_name)")
     .order("created_at", { ascending: false })
 }
+
+export async function getProject(id: string) {
+  return getClient()
+    .from("project")
+    .select("id, created_at, name, description")
+    .eq("id", id)
+}
