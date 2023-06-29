@@ -6,13 +6,14 @@ import { getClientSession } from "../../../lib/db/supabaseClient"
 import { useRouter } from "next/navigation"
 import { getCreatedProjects } from "../../../lib/db/project"
 import { InvalidDataToast } from "../../alert/error"
+import ProjectCard from "../project/projectCard"
 
-type Project = {
+export type Project = {
   id: string
   name: string
   description: string
   created_at: string
-  user: User[]
+  user: User
 }
 
 type User = {
@@ -32,6 +33,7 @@ const ProjectManagement: FC<any> = () => {
       setSession(session)
       const response = await getCreatedProjects()
       if (response.data) {
+        // @ts-ignore
         setProjects(response.data)
       } else {
         await InvalidDataToast.fire({
@@ -62,18 +64,9 @@ const ProjectManagement: FC<any> = () => {
       {projects ? (
         <div className="w-full">
           <h1 className="text-center text-lg">Your Projects</h1>
-          {projects.map((project) => {
-            return (
-              <div
-                key={project.id}
-                className="m-auto my-2 w-full border-b-2 border-slate-400 bg-slate-500 p-2 hover:bg-slate-400 md:w-1/2"
-              >
-                <h2>{project.name}</h2>
-                <h2>{project.description}</h2>
-                <h2>{new Date(project.created_at).toLocaleDateString()}</h2>
-              </div>
-            )
-          })}
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </div>
       ) : (
         <h1 className="text-center text-lg">
