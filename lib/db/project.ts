@@ -37,3 +37,8 @@ export async function getProject(id: string) {
     .select("id, created_at, name, description")
     .eq("id", id)
 }
+
+export async function deleteProject(id: string): Promise<boolean> {
+  const response = await getClient().from("project").delete().eq("id", id)
+  return !response.error
+}

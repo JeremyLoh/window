@@ -98,7 +98,7 @@ export default function CreateProjectForm() {
     <form
       onSubmit={handleSubmit}
       method="post"
-      className="m-auto flex w-4/5 flex-col items-stretch gap-y-1 rounded bg-slate-600 px-8 py-4 "
+      className="flex h-full w-full flex-col gap-y-1 rounded bg-slate-600 px-8 py-4"
     >
       <label htmlFor="name" className="mr-2 text-lg">
         Project Name
@@ -126,7 +126,7 @@ export default function CreateProjectForm() {
       </label>
       <textarea
         data-test="project-description-input"
-        className={`${defaultStyle} bg-white p-2 ${
+        className={`${defaultStyle} bg-white pb-32 ${
           errors.description && touched.description
             ? "border-red-600 text-red-800"
             : ""
