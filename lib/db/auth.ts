@@ -35,3 +35,7 @@ export async function resendSignUpConfirmEmail(email: string) {
     email: email,
   })
 }
+
+export async function deleteProfile(userId: string) {
+  return getClient().from("delete_user_request").insert({ id: userId })
+}
