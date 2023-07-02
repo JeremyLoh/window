@@ -8,6 +8,7 @@ import { getClientSession } from "../../lib/db/supabaseClient"
 import { signOut } from "../../lib/db/auth"
 import { getWarningToast } from "../alert/warning"
 import Emoji from "../emoji"
+import { ArrowRightCircleIcon, UserCircleIcon } from "@heroicons/react/24/solid"
 
 const Navbar: FC<any> = () => {
   const router = useRouter()
@@ -19,15 +20,20 @@ const Navbar: FC<any> = () => {
         setSession(session)
       }
     })
-  }, [])
+  })
 
   async function handleSignOut() {
     const response = await signOut()
     if (response.error) {
       await getWarningToast("Unable to sign out", "Please try again").fire()
     } else {
+      setSession(null)
       router.push("/bugTracker")
     }
+  }
+
+  function handleNavigateToProfile() {
+    router.push("/bugTracker/profile")
   }
 
   return (
@@ -45,12 +51,16 @@ const Navbar: FC<any> = () => {
         Bug Tracker
       </Link>
       {session && (
-        <button
-          className="ml-auto border-2 px-2 py-1 text-sm transition-colors hover:bg-pink-700"
-          onClick={handleSignOut}
-        >
-          Sign Out
-        </button>
+        <div className="flew-row ml-auto mr-2 flex items-center gap-x-4">
+          <UserCircleIcon
+            className="h-6 w-6 transition-colors hover:text-gray-500"
+            onClick={handleNavigateToProfile}
+          />
+          <ArrowRightCircleIcon
+            className="h-6 w-6 transition-colors hover:text-gray-500"
+            onClick={handleSignOut}
+          />
+        </div>
       )}
     </nav>
   )

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Overview of bugs",
 }
 
-const Dashboard: FC<any> = async () => {
+const Dashboard: FC<any> = () => {
   return (
     <div className="flex min-h-screen w-full flex-col items-center">
       <DashboardNavigation />
