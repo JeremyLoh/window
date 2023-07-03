@@ -1,10 +1,11 @@
 "use client"
 
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
 import { useRouter } from "next/navigation"
 import { signUpUsingEmail } from "../../lib/db/auth"
+import { getClientSession } from "../../lib/db/supabaseClient"
 
 type SignUpFormValues = {
   email: string
@@ -14,6 +15,14 @@ type SignUpFormValues = {
 
 const SignUpForm: FC<any> = () => {
   const router = useRouter()
+
+  useEffect(() => {
+    getClientSession().then(async (session) => {
+      if (session) {
+        router.push("/bugTracker/dashboard")
+      }
+    })
+  }, [])
 
   async function handleSignUp(
     values: SignUpFormValues,

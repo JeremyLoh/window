@@ -1,7 +1,12 @@
-import Head from "next/head"
+import { Metadata } from "next"
 import Emoji from "../components/emoji"
 import Clock from "../components/clock"
 import CardLink from "../components/cardLink"
+
+export const metadata: Metadata = {
+  title: "Window",
+  description: "Homepage",
+}
 
 interface Feature {
   href: string
@@ -21,12 +26,6 @@ const features: Array<Feature> = getAppFeatures()
 export default function Home() {
   return (
     <div className="px-8">
-      <Head>
-        <title>Window</title>
-        <meta name="description" content="Manage your finances" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className="flex min-h-screen flex-col items-center justify-center sm:flex-row">
         <div className="px-4">
           <h1 className="text-left text-6xl">Window</h1>

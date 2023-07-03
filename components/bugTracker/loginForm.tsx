@@ -1,12 +1,13 @@
 "use client"
 
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { AuthTokenResponse } from "@supabase/supabase-js"
 import { FormikHelpers, useFormik } from "formik"
 import EmailLoginSchema from "./formSchema/emailLoginSchema"
 import { getWarningToast } from "../alert/warning"
 import { resendSignUpConfirmEmail, signInWithEmail } from "../../lib/db/auth"
+import { getClientSession } from "../../lib/db/supabaseClient"
 
 type LoginFormValues = {
   email: string
@@ -15,6 +16,14 @@ type LoginFormValues = {
 
 const LoginForm: FC<any> = () => {
   const router = useRouter()
+
+  useEffect(() => {
+    getClientSession().then(async (session) => {
+      if (session) {
+        router.push("/bugTracker/dashboard")
+      }
+    })
+  }, [])
 
   async function handleLogin(
     values: LoginFormValues,
