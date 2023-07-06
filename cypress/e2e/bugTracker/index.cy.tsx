@@ -1,4 +1,4 @@
-import { loginWithEmailAndPassword, loginWithValidAccount } from "./login"
+import { loginWithNoEmailConfirmed, loginWithValidAccount } from "./login"
 
 describe("Bug Tracker", () => {
   beforeEach(() => {
@@ -21,20 +21,25 @@ describe("Bug Tracker", () => {
       cy.get(".swal2-cancel").should("be.visible").and("have.text", "Cancel")
     }
 
+    function assertUrlIsDashboardPage() {
+      cy.url({ timeout: 5000 }).should("include", "/bugTracker/dashboard")
+    }
+
     it("should prevent login when user has not confirmed email", () => {
       getLoginButton().click()
       cy.url().should("include", "/bugTracker/login")
-      loginWithEmailAndPassword(
-        "qa-createNewAccount@example.com",
-        "qa-createNewAccount@example.comPassword42"
-      )
+      loginWithNoEmailConfirmed()
       assertConfirmEmailWarning()
     })
 
-    it.skip("should allow login when user has confirmed email", () => {
+    it("should redirect user from login/sign up page to dashboard if already logged in", () => {
       getLoginButton().click()
       loginWithValidAccount()
-      // todo test for redirect to dashboard page
+      assertUrlIsDashboardPage()
+      cy.visit("/bugTracker/login")
+      assertUrlIsDashboardPage()
+      cy.visit("/bugTracker/signUp")
+      assertUrlIsDashboardPage()
     })
   })
 
@@ -95,7 +100,7 @@ describe("Bug Tracker", () => {
         getConfirmPasswordInput().clear().type(password)
         // todo show alert requesting user to confirm email
         clickSubmit()
-        // cy.url().should("include", "/bugTracker/login")
+        cy.url().should("include", "/bugTracker/login")
       })
     })
   })

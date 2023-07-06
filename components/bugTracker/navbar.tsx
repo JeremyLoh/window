@@ -15,6 +15,9 @@ const Navbar: FC<any> = () => {
   const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
+    if (session) {
+      return
+    }
     getClientSession().then((session) => {
       if (session) {
         setSession(session)
