@@ -106,6 +106,15 @@ describe("Bug Tracker", () => {
         )
       })
 
+      it("should not submit for no username", () => {
+        getUsernameInput().clear()
+        getEmailInput().type(validEmail)
+        getPasswordInput().type(validPassword)
+        getConfirmPasswordInput().type(validPassword)
+        clickSubmit()
+        assertErrorValidationIsPresent(getUsernameInput(), "Required")
+      })
+
       it("should not submit for invalid username that is too long", () => {
         const invalidLongUsername: string = "a".repeat(41)
         getUsernameInput().type(invalidLongUsername)
