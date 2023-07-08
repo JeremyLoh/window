@@ -1,36 +1,41 @@
 import { getClient } from "./supabaseClient"
 
+type UserDetails = {
+  username: string
+  email: string
+  password: string
+}
+
 export async function signUpUsingEmail(
-  email: string,
-  password: string,
+  details: UserDetails,
   redirectUrl: string
 ) {
-  const supabase = getClient()
-  await supabase.auth.signUp({
+  const { username, email, password } = details
+  return await getClient().auth.signUp({
     email: email,
     password: password,
     options: {
       emailRedirectTo: redirectUrl,
+      data: {
+        username,
+      },
     },
   })
 }
 
 export async function signInWithEmail(email: string, password: string) {
-  const supabase = getClient()
-  return supabase.auth.signInWithPassword({
+  return getClient().auth.signInWithPassword({
     email,
     password,
   })
 }
 
 export async function signOut() {
-  const supabase = getClient()
-  return supabase.auth.signOut()
+  return getClient().auth.signOut()
 }
 
 export async function resendSignUpConfirmEmail(email: string) {
-  const supabase = getClient()
-  return supabase.auth.resend({
+  return getClient().auth.resend({
     type: "signup",
     email: email,
   })

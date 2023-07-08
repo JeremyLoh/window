@@ -55,12 +55,18 @@ describe("Bug Tracker", () => {
     })
 
     context("sign up as new user", () => {
+      const validEmail: string = "qa-validEmail@example.com"
       const invalidEmail: string = "invalid@"
-      const validPassword: string = "12345678"
+      const validPassword: string = "Aa345678"
+      const validUsername: string = "qa-test"
 
       beforeEach(() => {
         getSignUpButton().click()
       })
+
+      function getUsernameInput() {
+        return cy.get("input[id='username']")
+      }
 
       function getEmailInput() {
         return cy.get("input[id='email']")
@@ -78,23 +84,66 @@ describe("Bug Tracker", () => {
         cy.getByTestId("bugTracker-sign-up-form").find("button").click()
       }
 
-      function assertInputValidationIsInvalid(
-        element: Cypress.Chainable<JQuery<HTMLElement>>
+      function assertErrorValidationIsPresent(
+        element: Cypress.Chainable<JQuery<HTMLElement>>,
+        message: string
       ) {
-        element.invoke("prop", "validationMessage").should("not.equal", "")
+        element
+          .next()
+          .contains(new RegExp("^" + message + "$"))
+          .should("be.visible")
       }
 
       it("should not submit for invalid email", () => {
-        getEmailInput().clear().type(invalidEmail)
-        getPasswordInput().clear().type(validPassword)
-        getConfirmPasswordInput().clear().type(validPassword)
+        getUsernameInput().type(validUsername)
+        getEmailInput().type(invalidEmail)
+        getPasswordInput().type(validPassword)
+        getConfirmPasswordInput().type(validPassword)
         clickSubmit()
-        assertInputValidationIsInvalid(getEmailInput())
+        assertErrorValidationIsPresent(
+          getEmailInput(),
+          "please enter a valid email"
+        )
+      })
+
+      it("should not submit for no username", () => {
+        getUsernameInput().clear()
+        getEmailInput().type(validEmail)
+        getPasswordInput().type(validPassword)
+        getConfirmPasswordInput().type(validPassword)
+        clickSubmit()
+        assertErrorValidationIsPresent(getUsernameInput(), "Required")
+      })
+
+      it("should not submit for invalid username that is too long", () => {
+        const invalidLongUsername: string = "a".repeat(41)
+        getUsernameInput().type(invalidLongUsername)
+        getEmailInput().type(validEmail)
+        getPasswordInput().type(validPassword)
+        getConfirmPasswordInput().type(validPassword)
+        clickSubmit()
+        assertErrorValidationIsPresent(
+          getUsernameInput(),
+          "max is 40 characters"
+        )
+      })
+
+      it("should not submit for not matching confirm password", () => {
+        getUsernameInput().type(validUsername)
+        getEmailInput().type(validEmail)
+        getPasswordInput().type(validPassword)
+        getConfirmPasswordInput().type(validPassword + "A")
+        clickSubmit()
+        assertErrorValidationIsPresent(
+          getConfirmPasswordInput(),
+          "passwords must match"
+        )
       })
 
       it.skip("should create a new account", () => {
-        const email = "qa-createNewAccount@example.com"
-        const password = "qa-createNewAccount@example.comPassword42"
+        const email: string = "qa-createNewAccount@example.com"
+        const password: string = "qa-createNewAccount@example.comPassword42"
+        getUsernameInput().type("QA USERNAME")
         getEmailInput().clear().type(email)
         getPasswordInput().clear().type(password)
         getConfirmPasswordInput().clear().type(password)

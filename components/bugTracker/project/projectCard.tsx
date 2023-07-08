@@ -16,7 +16,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
       <div className="bg-slate-700 p-2">
         <div className="flex items-stretch">
           <UserIcon className="mr-2 h-6 w-6 text-sky-400" />
-          <p className="break-words text-xl">{project.user.display_name}</p>
+          <p className="break-words text-xl">{project.user.username}</p>
         </div>
         <Link
           href={`/bugTracker/project/${project.id}`}
