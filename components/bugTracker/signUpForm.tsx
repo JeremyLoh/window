@@ -8,6 +8,7 @@ import { signUpUsingEmail } from "../../lib/db/auth"
 import { getClientSession } from "../../lib/db/supabaseClient"
 
 type SignUpFormValues = {
+  username: string
   email: string
   password: string
   confirmPassword: string
@@ -31,7 +32,14 @@ const SignUpForm: FC<any> = () => {
     actions.resetForm()
     // we need to get the location.origin in client component
     const redirectUrl: string = `${location.origin}/auth/callback`
-    await signUpUsingEmail(values.email, values.password, redirectUrl)
+    await signUpUsingEmail(
+      {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      },
+      redirectUrl
+    )
     router.refresh()
     router.push("/bugTracker/login")
   }
@@ -46,6 +54,7 @@ const SignUpForm: FC<any> = () => {
     handleSubmit,
   } = useFormik({
     initialValues: {
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -65,6 +74,28 @@ const SignUpForm: FC<any> = () => {
       method="post"
       className="flex w-4/5 flex-col gap-y-1 rounded bg-slate-600 px-8 py-4 md:w-1/3"
     >
+      <label htmlFor="username" className="mr-2 text-lg">
+        Username
+      </label>
+      <input
+        className={`${defaultStyle} ${
+          errors.username && touched.username
+            ? "border-red-600 text-red-800"
+            : ""
+        }`}
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Enter a unique username"
+        value={values.username}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        required
+      />
+      {errors.username && touched.username && (
+        <p className="text-red-500">{errors.username}</p>
+      )}
+
       <label htmlFor="email" className="mr-2 text-lg">
         Email
       </label>

@@ -1,16 +1,25 @@
 import { getClient } from "./supabaseClient"
 
+type UserDetails = {
+  username: string
+  email: string
+  password: string
+}
+
 export async function signUpUsingEmail(
-  email: string,
-  password: string,
+  details: UserDetails,
   redirectUrl: string
 ) {
+  const { username, email, password } = details
   const supabase = getClient()
   await supabase.auth.signUp({
     email: email,
     password: password,
     options: {
       emailRedirectTo: redirectUrl,
+      data: {
+        username,
+      },
     },
   })
 }

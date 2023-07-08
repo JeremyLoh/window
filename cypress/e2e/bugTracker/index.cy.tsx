@@ -62,6 +62,10 @@ describe("Bug Tracker", () => {
         getSignUpButton().click()
       })
 
+      function getUsernameInput() {
+        return cy.get("input[id='username']")
+      }
+
       function getEmailInput() {
         return cy.get("input[id='email']")
       }
@@ -85,6 +89,7 @@ describe("Bug Tracker", () => {
       }
 
       it("should not submit for invalid email", () => {
+        getUsernameInput().type("QA USERNAME")
         getEmailInput().clear().type(invalidEmail)
         getPasswordInput().clear().type(validPassword)
         getConfirmPasswordInput().clear().type(validPassword)
@@ -95,6 +100,7 @@ describe("Bug Tracker", () => {
       it.skip("should create a new account", () => {
         const email = "qa-createNewAccount@example.com"
         const password = "qa-createNewAccount@example.comPassword42"
+        getUsernameInput().type("QA USERNAME")
         getEmailInput().clear().type(email)
         getPasswordInput().clear().type(password)
         getConfirmPasswordInput().clear().type(password)

@@ -17,7 +17,7 @@ export type Project = {
 }
 
 type User = {
-  display_name: string
+  username: string
 }
 
 const ProjectManagement: FC<any> = () => {

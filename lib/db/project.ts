@@ -27,7 +27,7 @@ export async function getProjectCount(name: string) {
 export async function getCreatedProjects() {
   return getClient()
     .from("project")
-    .select("id, created_at, name, description, user(display_name)")
+    .select("id, created_at, name, description, user(username)")
     .order("created_at", { ascending: false })
 }
 

@@ -2,9 +2,13 @@ import * as Yup from "yup"
 import { passwordErrorMessage, passwordRule } from "./password"
 
 const SignUpSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(1)
+    .max(40, "max is 40 characters")
+    .required("Required"),
   email: Yup.string().email("please enter a valid email").required("Required"),
   password: Yup.string()
-    .min(8)
+    .min(8, "min length of 8 characters")
     .matches(passwordRule, {
       message: passwordErrorMessage,
     })
