@@ -40,7 +40,6 @@ const LoginForm: FC<any> = () => {
       return
     }
     router.refresh()
-    // todo redirect to dashboard
     router.push("/bugTracker/dashboard")
   }
 
