@@ -31,6 +31,10 @@ const LoginForm: FC<any> = () => {
   ) {
     actions.resetForm()
     const response = await signInWithEmail(values.email, values.password)
+    if (response.error) {
+      await getWarningToast("Could not login", "Please try again").fire()
+      return
+    }
     if (isEmailNotConfirmed(response)) {
       await showConfirmEmailWarning(values.email)
       return
