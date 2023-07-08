@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FC, useEffect } from "react"
+import { FC, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { AuthTokenResponse } from "@supabase/supabase-js"
 import { FormikHelpers, useFormik } from "formik"
@@ -27,16 +27,19 @@ const LoginForm: FC<any> = () => {
 
   async function handleLogin(
     values: LoginFormValues,
-    actions: FormikHelpers<LoginFormValues>
+    actions: FormikHelpers<LoginFormValues>,
   ) {
     actions.resetForm()
     const response = await signInWithEmail(values.email, values.password)
-    if (response.error) {
-      await getWarningToast("Could not login", "Please try again").fire()
-      return
-    }
     if (isEmailNotConfirmed(response)) {
       await showConfirmEmailWarning(values.email)
+      return
+    }
+    if (isInvalidLoginCredentials(response)) {
+      await getWarningToast(
+        "Invalid login credentials",
+        "Please try again",
+      ).fire()
       return
     }
     router.refresh()
@@ -46,7 +49,7 @@ const LoginForm: FC<any> = () => {
   async function showConfirmEmailWarning(email: string) {
     const result = await getWarningToast(
       "Confirm email to login",
-      "Please confirm your email before login"
+      "Please confirm your email before login",
     ).fire({
       showCancelButton: true,
       confirmButtonText: "Resend Email",
@@ -147,6 +150,13 @@ function isEmailNotConfirmed(loginResponse: AuthTokenResponse): boolean {
     return false
   }
   return loginResponse.error.message === "Email not confirmed"
+}
+
+function isInvalidLoginCredentials(loginResponse: AuthTokenResponse): boolean {
+  if (!loginResponse.error) {
+    return false
+  }
+  return loginResponse.error.message === "Invalid login credentials"
 }
 
 export default LoginForm
