@@ -11,8 +11,7 @@ export async function signUpUsingEmail(
   redirectUrl: string
 ) {
   const { username, email, password } = details
-  const supabase = getClient()
-  await supabase.auth.signUp({
+  return await getClient().auth.signUp({
     email: email,
     password: password,
     options: {
@@ -25,21 +24,18 @@ export async function signUpUsingEmail(
 }
 
 export async function signInWithEmail(email: string, password: string) {
-  const supabase = getClient()
-  return supabase.auth.signInWithPassword({
+  return getClient().auth.signInWithPassword({
     email,
     password,
   })
 }
 
 export async function signOut() {
-  const supabase = getClient()
-  return supabase.auth.signOut()
+  return getClient().auth.signOut()
 }
 
 export async function resendSignUpConfirmEmail(email: string) {
-  const supabase = getClient()
-  return supabase.auth.resend({
+  return getClient().auth.resend({
     type: "signup",
     email: email,
   })

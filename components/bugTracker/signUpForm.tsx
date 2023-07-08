@@ -4,8 +4,9 @@ import React, { FC, useEffect } from "react"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
 import { useRouter } from "next/navigation"
-import { signUpUsingEmail } from "../../lib/db/auth"
 import { getClientSession } from "../../lib/db/supabaseClient"
+import { signUpUsingEmail } from "../../lib/db/auth"
+import { getWarningToast } from "../alert/warning"
 
 type SignUpFormValues = {
   username: string
@@ -32,7 +33,7 @@ const SignUpForm: FC<any> = () => {
     actions.resetForm()
     // we need to get the location.origin in client component
     const redirectUrl: string = `${location.origin}/auth/callback`
-    await signUpUsingEmail(
+    const response = await signUpUsingEmail(
       {
         username: values.username,
         email: values.email,
@@ -40,6 +41,13 @@ const SignUpForm: FC<any> = () => {
       },
       redirectUrl
     )
+    if (response.error) {
+      await getWarningToast(
+        "Could not create an account",
+        "Please try again later"
+      ).fire()
+      return
+    }
     router.refresh()
     router.push("/bugTracker/login")
   }
@@ -72,9 +80,9 @@ const SignUpForm: FC<any> = () => {
       data-test="bugTracker-sign-up-form"
       onSubmit={handleSubmit}
       method="post"
-      className="flex w-4/5 flex-col gap-y-1 rounded bg-slate-600 px-8 py-4 md:w-1/3"
+      className="flex w-full flex-col gap-y-1 rounded bg-slate-600 px-8 py-4 md:w-2/3 lg:w-1/2"
     >
-      <label htmlFor="username" className="mr-2 text-lg">
+      <label htmlFor="username" className="mr-2 md:text-lg">
         Username
       </label>
       <input
@@ -96,7 +104,7 @@ const SignUpForm: FC<any> = () => {
         <p className="text-red-500">{errors.username}</p>
       )}
 
-      <label htmlFor="email" className="mr-2 text-lg">
+      <label htmlFor="email" className="mr-2 md:text-lg">
         Email
       </label>
       <input
@@ -116,7 +124,7 @@ const SignUpForm: FC<any> = () => {
         <p className="text-red-500">{errors.email}</p>
       )}
 
-      <label htmlFor="password" className="mr-2 text-lg">
+      <label htmlFor="password" className="mr-2 md:text-lg">
         Password
       </label>
       <input
@@ -138,7 +146,7 @@ const SignUpForm: FC<any> = () => {
         <p className="text-red-500">{errors.password}</p>
       )}
 
-      <label htmlFor="confirmPassword" className="mr-2 text-lg">
+      <label htmlFor="confirmPassword" className="mr-2 md:text-lg">
         Confirm Password
       </label>
       <input

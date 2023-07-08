@@ -79,9 +79,9 @@ const LoginForm: FC<any> = () => {
       <form
         onSubmit={handleSubmit}
         method="post"
-        className="flex w-4/5 flex-col gap-y-1 rounded bg-slate-600 px-8 py-4 md:w-1/3"
+        className="flex w-full flex-col gap-y-1 rounded bg-slate-600 px-8 py-4 md:w-2/3 lg:w-1/2"
       >
-        <label htmlFor="email" className="mr-2 text-lg">
+        <label htmlFor="email" className="mr-2 md:text-lg">
           Email
         </label>
         <input
@@ -102,7 +102,7 @@ const LoginForm: FC<any> = () => {
           <p className="text-red-500">{errors.email}</p>
         )}
 
-        <label htmlFor="password" className="mr-2 text-lg">
+        <label htmlFor="password" className="mr-2 md:text-lg">
           Password
         </label>
         <input
