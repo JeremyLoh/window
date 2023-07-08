@@ -1,18 +1,18 @@
-import React, { FC } from "react"
+import { FC } from "react"
 import Link from "next/link"
 import Quote from "../life/quote"
 
 const BugTrackerFeature: FC<any> = () => {
   return (
     <section className="flex w-full flex-col items-center justify-center py-2">
-      <p className="mx-4 pt-2 text-xl hover:line-through">
+      <p className="mx-4 pt-2 text-md lg:text-xl hover:line-through">
         Squash your <span className="bg-stone-600 p-2">bugs</span> from a single
         source of truth
       </p>
       <Quote dataTest="agile-manifesto-quote">
-        <ul className="group pb-4">
+        <ul className="group pb-4 text-start pl-2 lg:text-center lg:pl-0">
           <li>
-            <span className="bg-teal-700 p-2 text-xl font-bold">
+            <span className="bg-teal-700 p-2 lg:text-xl font-bold">
               Individuals and interactions
             </span>{" "}
             <span className="transition group-hover:blur-sm">
@@ -20,7 +20,7 @@ const BugTrackerFeature: FC<any> = () => {
             </span>
           </li>
           <li>
-            <span className="bg-teal-700 p-2 text-xl font-bold">
+            <span className="bg-teal-700 p-2 lg:text-xl font-bold">
               Working software
             </span>{" "}
             <span className="transition group-hover:blur-sm">
@@ -28,7 +28,7 @@ const BugTrackerFeature: FC<any> = () => {
             </span>
           </li>
           <li>
-            <span className="bg-teal-700 p-2 text-xl font-bold">
+            <span className="bg-teal-700 p-2 lg:text-xl font-bold">
               Customer collaboration
             </span>{" "}
             <span className="transition group-hover:blur-sm">
@@ -36,7 +36,7 @@ const BugTrackerFeature: FC<any> = () => {
             </span>
           </li>
           <li>
-            <span className="bg-teal-700 p-2 text-xl font-bold">
+            <span className="bg-teal-700 p-2 lg:text-xl font-bold">
               Responding to change
             </span>{" "}
             <span className="transition group-hover:blur-sm">
