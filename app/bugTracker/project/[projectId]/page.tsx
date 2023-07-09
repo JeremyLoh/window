@@ -16,7 +16,7 @@ export default async function ProjectIdPage({
   return (
     <div className="flex h-screen w-full flex-col items-start justify-start gap-y-2">
       <ProjectInfo projectId={projectId} />
-      <div className="mx-auto w-full lg:w-2/3">
+      <div className="mx-auto w-full lg:px-40">
         <h2 className="border-[1px] border-b-0 px-2 w-fit lg:text-lg">
           Issues
         </h2>
