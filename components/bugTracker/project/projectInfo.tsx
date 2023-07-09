@@ -61,7 +61,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
   return (
     <>
       {project && (
-        <div className="mt-4 flex w-full h-full flex-col gap-y-2 divide-y-2 divide-slate-300 px-2 lg:px-40">
+        <div className="mt-4 flex w-full flex-col gap-y-2 divide-y-2 divide-slate-300 px-2 lg:px-40">
           <div className="flex flex-col md:flex-row">
             <DocumentIcon className="mr-2 h-6 w-6" />
             <h1 className="break-all pr-8 text-lg md:text-xl">
