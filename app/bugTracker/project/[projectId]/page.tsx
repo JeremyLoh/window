@@ -35,6 +35,7 @@ async function getData(): Promise<Issue[]> {
       name: "test issue 1",
       description: "new issue description",
       priority: "Low",
+      status: "New",
     },
   ]
 }

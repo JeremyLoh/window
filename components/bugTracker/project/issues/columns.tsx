@@ -8,9 +8,14 @@ export type Issue = {
   name: string
   description: string
   priority: "Lowest" | "Low" | "Medium" | "High" | "Highest"
+  status: "New" | "Backlog" | "Ready" | "In Progress" | "In Review" | "Done"
 }
 
 export const columns: ColumnDef<Issue>[] = [
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
   {
     accessorKey: "name",
     header: "Name",
