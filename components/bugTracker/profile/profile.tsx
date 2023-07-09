@@ -56,6 +56,7 @@ const Profile: FC<any> = () => {
       } else {
         await getSuccessToast("Your account is deleted", "Goodbye!").fire()
         router.push("/bugTracker")
+        router.refresh()
       }
     }
   }
