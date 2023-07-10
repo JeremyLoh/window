@@ -19,8 +19,15 @@ export type Issue = {
   created_at: Date
   name: string
   description: string
-  priority: "Lowest" | "Low" | "Medium" | "High" | "Highest"
-  status: "New" | "Backlog" | "Ready" | "In Progress" | "In Review" | "Done"
+  priority: "None" | "Lowest" | "Low" | "Medium" | "High" | "Highest"
+  status:
+    | "None"
+    | "New"
+    | "Backlog"
+    | "Ready"
+    | "In Progress"
+    | "In Review"
+    | "Done"
 }
 
 export const columns: ColumnDef<Issue>[] = [
