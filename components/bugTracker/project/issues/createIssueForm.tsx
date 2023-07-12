@@ -1,9 +1,15 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import { Session } from "@supabase/supabase-js"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
+import { getClientSession } from "../../../../lib/db/supabaseClient"
+import { createIssue } from "../../../../lib/db/issue"
+import { getWarningToast } from "../../../alert/warning"
+import { InvalidDataToast } from "../../../alert/error"
 
 type CreateIssueFormValues = {
   name: string
@@ -23,7 +29,22 @@ const statusValues = [
   "Done",
 ]
 
-export default function CreateIssueForm() {
+type CreateIssueFormProps = {
+  projectId: string
+}
+
+export default function CreateIssueForm(props: CreateIssueFormProps) {
+  const { projectId } = props
+  const [session, setSession] = useState<Session | null>()
+
+  useEffect(() => {
+    getClientSession().then((session) => {
+      if (session) {
+        setSession(session)
+      }
+    })
+  }, [])
+
   const {
     values,
     errors,
@@ -43,12 +64,22 @@ export default function CreateIssueForm() {
     onSubmit: handleCreateIssue,
   })
 
-  function handleCreateIssue(
+  async function handleCreateIssue(
     values: CreateIssueFormValues,
     actions: FormikHelpers<CreateIssueFormValues>
   ) {
+    if (!session) {
+      await getWarningToast("Please Login to continue", "").fire()
+      return
+    }
     actions.resetForm()
-    // todo create a new issue
+    const response = await createIssue(projectId, session.user.id, values)
+    if (response.error) {
+      await InvalidDataToast.fire({
+        title: "Could not create issue",
+        text: response.statusText,
+      })
+    }
   }
 
   return (
