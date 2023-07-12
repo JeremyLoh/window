@@ -7,6 +7,7 @@ const CreateIssueSchema = Yup.object().shape({
     .required("Required"),
   description: Yup.string().max(1000, "max is 1000 characters").optional(),
   priority: Yup.string().required("Required"),
+  status: Yup.string().min(1).required("Required"),
 })
 
 export default CreateIssueSchema

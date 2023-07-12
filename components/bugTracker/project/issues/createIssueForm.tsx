@@ -9,9 +9,19 @@ type CreateIssueFormValues = {
   name: string
   description: string
   priority: string
+  status: string
 }
 
 const priorityValues = ["None", "Lowest", "Low", "Medium", "High", "Highest"]
+const statusValues = [
+  "None",
+  "New",
+  "Backlog",
+  "Ready",
+  "In Progress",
+  "In Review",
+  "Done",
+]
 
 export default function CreateIssueForm() {
   const {
@@ -27,6 +37,7 @@ export default function CreateIssueForm() {
       name: "",
       description: "",
       priority: "",
+      status: "",
     },
     validationSchema: CreateIssueSchema,
     onSubmit: handleCreateIssue,
@@ -109,8 +120,29 @@ export default function CreateIssueForm() {
       {errors.priority && touched.priority && (
         <p className="text-red-500">{errors.priority}</p>
       )}
-      
-      {/* TODO add issue status */}
+
+      <label htmlFor="status" className="mr-2 md:text-lg">
+        Status
+      </label>
+      <select
+        className="font-mono text-black"
+        name="status"
+        value={values.status}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      >
+        <option value="" label="Select a status" disabled>
+          Select a status
+        </option>
+        {statusValues.map((s) => (
+          <option value={s} key={s}>
+            {s}
+          </option>
+        ))}
+      </select>
+      {errors.status && touched.status && (
+        <p className="text-red-500">{errors.status}</p>
+      )}
 
       <button
         data-test="create-issue-submit-btn"
