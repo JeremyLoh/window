@@ -60,7 +60,15 @@ export async function createIssue(
   userId: string,
   issue: Issue
 ) {
-  return getClient()
+  const supabase = getClient()
+  const response = await supabase.rpc("get_issue_count", {
+    project_id_input: projectId,
+  })
+  if (response.error) {
+    throw new Error("Could not get project issue count")
+  }
+  const issueNumber: bigint = response.data + 1
+  return supabase
     .from("issue")
     .insert({
       project_id: projectId,
@@ -69,6 +77,7 @@ export async function createIssue(
       description: issue.description,
       priority: issue.priority,
       status: issue.status,
+      issue_number: issueNumber,
     })
     .select()
 }
