@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Session } from "@supabase/supabase-js"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -10,6 +11,7 @@ import { getClientSession } from "../../../../lib/db/supabaseClient"
 import { createIssue } from "../../../../lib/db/issue"
 import { getWarningToast } from "../../../alert/warning"
 import { InvalidDataToast } from "../../../alert/error"
+import { getSuccessToast } from "../../../alert/success"
 
 type CreateIssueFormValues = {
   name: string
@@ -35,6 +37,7 @@ type CreateIssueFormProps = {
 
 export default function CreateIssueForm(props: CreateIssueFormProps) {
   const { projectId } = props
+  const router = useRouter()
   const [session, setSession] = useState<Session | null>()
 
   useEffect(() => {
@@ -69,7 +72,7 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
     actions: FormikHelpers<CreateIssueFormValues>
   ) {
     if (!session) {
-      await getWarningToast("Please Login to continue", "").fire()
+      await getWarningToast("Please Login to Create an Issue", "").fire()
       return
     }
     actions.resetForm()
@@ -79,6 +82,22 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
         title: "Could not create issue",
         text: response.statusText,
       })
+      return
+    }
+    await handleOptionalNavigation()
+  }
+
+  async function handleOptionalNavigation() {
+    const result = await getSuccessToast(
+      "Created Issue",
+      "Navigate back to project issues?"
+    ).fire({
+      showCancelButton: true,
+      confirmButtonText: "Back to issues",
+    })
+    if (result.isConfirmed) {
+      router.push(`/bugTracker/project/${projectId}`)
+      router.refresh()
     }
   }
 
