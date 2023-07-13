@@ -18,6 +18,7 @@ export const IssueStatus = [
   "In Progress",
   "In Review",
   "Done",
+  "Closed",
 ] as const
 
 type GetIssueResponseData = {
