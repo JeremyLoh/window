@@ -13,21 +13,15 @@ import {
 import { Button } from "@/components/ui/button"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { formatTableDate } from "../../../../lib/date"
+import { IssuePriority, IssueStatus } from "../../../../lib/db/issue"
 
 export type Issue = {
   id: string
   created_at: Date
   name: string
   description: string
-  priority: "None" | "Lowest" | "Low" | "Medium" | "High" | "Highest"
-  status:
-    | "None"
-    | "New"
-    | "Backlog"
-    | "Ready"
-    | "In Progress"
-    | "In Review"
-    | "Done"
+  priority: (typeof IssuePriority)[number]
+  status: (typeof IssueStatus)[number]
 }
 
 export const columns: ColumnDef<Issue>[] = [

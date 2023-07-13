@@ -1,26 +1,38 @@
 import { getClient } from "./supabaseClient"
 import { getServer } from "./supabaseServer"
 
+export const IssuePriority = [
+  "None",
+  "Lowest",
+  "Low",
+  "Medium",
+  "High",
+  "Highest",
+] as const
+
+export const IssueStatus = [
+  "None",
+  "New",
+  "Backlog",
+  "Ready",
+  "In Progress",
+  "In Review",
+  "Done",
+] as const
+
 type GetIssueResponseData = {
   id: string
   created_at: string
   name: string
   description: string
   issue_priority: {
-    priority: "None" | "Lowest" | "Low" | "Medium" | "High" | "Highest"
+    priority: (typeof IssuePriority)[number]
   }
   user: {
     username: string
   }
   issue_status: {
-    status:
-      | "None"
-      | "New"
-      | "Backlog"
-      | "Ready"
-      | "In Progress"
-      | "In Review"
-      | "Done"
+    status: (typeof IssueStatus)[number]
   }
 }
 

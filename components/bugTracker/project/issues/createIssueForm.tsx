@@ -8,7 +8,11 @@ import { Input } from "@/components/ui/input"
 import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
 import { getClientSession } from "../../../../lib/db/supabaseClient"
-import { createIssue } from "../../../../lib/db/issue"
+import {
+  createIssue,
+  IssuePriority,
+  IssueStatus,
+} from "../../../../lib/db/issue"
 import { getWarningToast } from "../../../alert/warning"
 import { InvalidDataToast } from "../../../alert/error"
 import { getSuccessToast } from "../../../alert/success"
@@ -19,17 +23,6 @@ type CreateIssueFormValues = {
   priority: string
   status: string
 }
-
-const priorityValues = ["None", "Lowest", "Low", "Medium", "High", "Highest"]
-const statusValues = [
-  "None",
-  "New",
-  "Backlog",
-  "Ready",
-  "In Progress",
-  "In Review",
-  "Done",
-]
 
 type CreateIssueFormProps = {
   projectId: string
@@ -161,7 +154,7 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
         <option value="" label="Select a priority" disabled>
           Select a priority
         </option>
-        {priorityValues.map((p) => (
+        {IssuePriority.map((p) => (
           <option value={p} key={p}>
             {p}
           </option>
@@ -184,7 +177,7 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
         <option value="" label="Select a status" disabled>
           Select a status
         </option>
-        {statusValues.map((s) => (
+        {IssueStatus.map((s) => (
           <option value={s} key={s}>
             {s}
           </option>
