@@ -28,7 +28,9 @@ export default async function ProjectIdPage({
         <h2 className="w-fit border-[1px] border-b-0 px-2 lg:text-lg">
           Issues
         </h2>
-        <DataTable columns={columns} data={data} />
+        <div className="h-full">
+          <DataTable columns={columns} data={data} />
+        </div>
       </div>
     </div>
   )
@@ -43,8 +45,8 @@ async function getData(projectId: string): Promise<Issue[]> {
     return {
       id: issue.id,
       created_at: new Date(issue.created_at),
-      name: issue.name,
-      description: issue.description,
+      name: issue.name + "3".repeat(50),
+      description: issue.description + "line-clamp-3line-clamp-3".repeat(30),
       priority: issue.issue_priority.priority,
       status: issue.issue_status.status,
       issue_number: issue.issue_number,

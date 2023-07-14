@@ -55,10 +55,24 @@ export const columns: ColumnDef<Issue>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ row }) => {
+      return (
+        <div className="line-clamp-2 md:line-clamp-3 lg:line-clamp-4">
+          {row.original.name}
+        </div>
+      )
+    },
   },
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      return (
+        <div className="line-clamp-2 md:line-clamp-3 lg:line-clamp-4">
+          {row.original.description}
+        </div>
+      )
+    },
   },
   {
     accessorKey: "priority",
