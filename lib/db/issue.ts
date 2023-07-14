@@ -26,6 +26,7 @@ type GetIssueResponseData = {
   created_at: string
   name: string
   description: string
+  issue_number: string
   issue_priority: {
     priority: (typeof IssuePriority)[number]
   }
@@ -42,7 +43,7 @@ export async function getAllIssues(projectId: string) {
   return supabase
     .from("issue")
     .select(
-      "id, created_at, name, description, issue_priority(priority), user(username)," +
+      "id, created_at, name, description, issue_number, issue_priority(priority), user(username)," +
         "issue_status(status)"
     )
     .eq("project_id", projectId)

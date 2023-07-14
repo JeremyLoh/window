@@ -17,6 +17,7 @@ import { IssuePriority, IssueStatus } from "../../../../lib/db/issue"
 
 export type Issue = {
   id: string
+  issue_number: string
   created_at: Date
   name: string
   description: string
@@ -25,6 +26,10 @@ export type Issue = {
 }
 
 export const columns: ColumnDef<Issue>[] = [
+  {
+    accessorKey: "issue_number",
+    header: "Issue #",
+  },
   {
     accessorKey: "created_at",
     header: ({ column }) => {

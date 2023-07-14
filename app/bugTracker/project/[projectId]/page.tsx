@@ -47,6 +47,7 @@ async function getData(projectId: string): Promise<Issue[]> {
       description: issue.description,
       priority: issue.issue_priority.priority,
       status: issue.issue_status.status,
+      issue_number: issue.issue_number,
     }
   })
 }
