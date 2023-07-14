@@ -34,7 +34,7 @@ export async function getCreatedProjects() {
 export async function getProject(id: string) {
   return getClient()
     .from("project")
-    .select("id, created_at, name, description")
+    .select("id, created_at, name, description, user(username)")
     .eq("id", id)
 }
 

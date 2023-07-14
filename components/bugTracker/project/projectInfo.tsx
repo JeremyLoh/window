@@ -18,6 +18,7 @@ type Project = {
   name: string
   description: string
   created_at: string
+  user: { username: string }
 }
 
 const ProjectInfo: FC<ProjectInfoProps> = (props) => {
@@ -30,6 +31,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
       if (project.error) {
         return
       }
+      // @ts-ignore
       setProject(project.data[0])
     })
   }, [projectId])
@@ -40,7 +42,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
     }
     const result = await getWarningToast(
       "Confirm delete project?",
-      "Are you sure you want to delete the project? It cannot be undone!",
+      "Are you sure you want to delete the project? It cannot be undone!"
     ).fire()
     if (result.isConfirmed) {
       const isDeleted = await deleteProject(project.id)
@@ -50,7 +52,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
       }
       const deleteToastResponse = await getSuccessToast(
         "Deleted project",
-        "",
+        ""
       ).fire()
       if (deleteToastResponse.isConfirmed) {
         router.push("/bugTracker/dashboard")
@@ -65,7 +67,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
           <div className="flex flex-col md:flex-row">
             <DocumentIcon className="mr-2 h-6 w-6" />
             <h1 className="break-all pr-8 text-lg md:text-xl">
-              {project.name}
+              {project.user.username} / {project.name}
             </h1>
             <TrashIcon
               data-test="delete-project-btn"
