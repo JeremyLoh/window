@@ -1,0 +1,11 @@
+.idea/
+README.md
+
+# cypress
+cypress.zip
+cypress.env.json
+cypress.config.ts
+cypress/**
+
+__tests__/**
+vitest.config.ts
