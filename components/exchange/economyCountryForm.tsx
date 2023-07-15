@@ -2,8 +2,9 @@ import React, { FC, useEffect, useState } from "react"
 import Select, { ActionMeta, GroupBase, StylesConfig } from "react-select"
 import { produce } from "immer"
 import CardInfo from "../cardInfo"
-import { getCountrySeries, Series } from "../../lib/exchange/economy/indicators"
+import { Series } from "../../lib/exchange/economy/indicators"
 import { Country } from "./economyDisplay"
+import { HttpRequest } from "../../lib/request"
 
 type EconomyCountryFormProps = {
   handleSubmit: (selectedSeries: Array<string>) => void
@@ -82,7 +83,11 @@ const EconomyCountryForm: FC<EconomyCountryFormProps> = (props) => {
     // @ts-ignore
     const countrySeries: Series[] = allSeries.has(countryName)
       ? allSeries.get(countryName)
-      : await getCountrySeries(countryName)
+      : (
+          await HttpRequest.get(
+            `${location.origin}/api/exchange/economy/country?country=${countryName}`
+          )
+        ).data
     setAllSeries(
       produce((draft) => {
         draft.set(countryName, countrySeries)
