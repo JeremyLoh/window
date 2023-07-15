@@ -29,6 +29,20 @@ Cypress.Commands.add("clickAlertCancel", () => {
   cy.get(".swal2-cancel").click()
 })
 
+Cypress.Commands.add("clickOutside", () => {
+  cy.get("body").click(0, 0)
+})
+
+Cypress.Commands.add(
+  "assertInputErrorValidation",
+  (element: Cypress.Chainable, message: string) => {
+    element
+      .next()
+      .contains(new RegExp("^" + message + "$"))
+      .should("be.visible")
+  }
+)
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -43,6 +57,13 @@ declare global {
       clickAlertConfirm(): Chainable
 
       clickAlertCancel(): Chainable
+
+      clickOutside(): Chainable
+
+      assertInputErrorValidation(
+        element: Cypress.Chainable,
+        message: string
+      ): Chainable
     }
   }
 }
