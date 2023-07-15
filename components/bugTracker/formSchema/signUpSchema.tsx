@@ -5,6 +5,7 @@ const SignUpSchema = Yup.object().shape({
   username: Yup.string()
     .min(1)
     .max(40, "max is 40 characters")
+    .matches(/^\S+$/, "whitespace is not allowed")
     .required("Required"),
   email: Yup.string().email("please enter a valid email").required("Required"),
   password: Yup.string()
