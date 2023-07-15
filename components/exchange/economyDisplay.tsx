@@ -1,13 +1,11 @@
 import React, { FC, useState } from "react"
 import pLimit from "p-limit"
-import {
-  EconomySeries,
-  getEconomySeries,
-} from "../../lib/exchange/economy/indicators"
+import { EconomySeries } from "../../lib/exchange/economy/indicators"
 import LineChart from "../chart/lineChart"
 import EconomyCountryForm from "./economyCountryForm"
 import { InvalidDataToast } from "../alert/error"
 import Carousel from "../carousel"
+import { HttpRequest } from "../../lib/request"
 
 export type Country = {
   alpha2Code: string
@@ -26,7 +24,13 @@ const EconomyDisplay: FC<EconomyDisplayProps> = (props) => {
 
   async function handleSubmit(series: Array<string>) {
     // todo if returned data has "values" or "dates" that are empty, there is no data present
-    const promises = series.map((s) => limit(() => getEconomySeries(s)))
+    const promises = series.map((s) =>
+      limit(() =>
+        HttpRequest.get(
+          `${location.origin}/api/exchange/economy/series?series=${s}`
+        ).then((response) => response.data as EconomySeries)
+      )
+    )
     try {
       const result = await Promise.all(promises)
       setData(result)

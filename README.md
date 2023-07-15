@@ -15,6 +15,7 @@ from the creators of Next.js.
    TOMTOM_API_KEY=???
    NEXT_PUBLIC_SUPABASE_URL=???your-supabase-url???
    NEXT_PUBLIC_SUPABASE_ANON_KEY=???your-supabase-anon-key???
+   ECONDB_API_KEY=???????[Key from https://www.econdb.com/api/series/?page=1]  
    ```
     - We are using `NEXT_PUBLIC_` for accessing this public key in React components.
     - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
@@ -22,6 +23,7 @@ from the creators of Next.js.
       be seen during network requests!
     - TOMTOM_API_KEY -> https://developer.tomtom.com/search-api/documentation/search-service/nearby-search
     - SUPABASE - https://supabase.com/docs/guides/auth/auth-helpers/nextjs
+    - ECONDB - https://www.econdb.com/api/series/?page=1
 
 # References
 
