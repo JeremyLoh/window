@@ -1,9 +1,9 @@
 "use client"
 
 import React, { FC, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
-import { useRouter } from "next/navigation"
 import { getClientSession } from "../../lib/db/supabaseClient"
 import { signUpUsingEmail } from "../../lib/db/auth"
 import { getWarningToast } from "../alert/warning"
