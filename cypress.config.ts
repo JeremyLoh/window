@@ -17,6 +17,7 @@ export default defineConfig({
   },
 
   component: {
+    port: 8081,
     devServer: {
       framework: "next",
       bundler: "webpack",
