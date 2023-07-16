@@ -18,6 +18,10 @@ describe("Bug Tracker Sign Up Form", function () {
     return cy.getByTestId("sign-up-email-input")
   }
 
+  function getPasswordInput(): Cypress.Chainable {
+    return cy.getByTestId("sign-up-password-input")
+  }
+
   context("username input", () => {
     it("should have min of 1 character", () => {
       getUsernameInput().should("be.visible").clear()
@@ -78,6 +82,30 @@ describe("Bug Tracker Sign Up Form", function () {
       getEmailInput().should("be.visible").type("a@b")
       cy.clickOutside()
       getEmailInput().next().should("contain", "")
+    })
+  })
+
+  context("password input", () => {
+    it("should not allow less than 8 character password", () => {
+      const expectedErrorMessage: string = "min length of 8 characters"
+      getPasswordInput().should("be.visible").type("1234567")
+      cy.clickOutside()
+      cy.assertInputErrorValidation(getPasswordInput(), expectedErrorMessage)
+    })
+
+    it("should not allow 8 character password that do not meet complexity requirements", () => {
+      const expectedErrorMessage: string =
+        "please create a stronger password: Min 8 chars, 1" +
+        " uppercase letter, 1 lowercase letter, 1 numeric digit"
+      getPasswordInput().should("be.visible").type("12345678")
+      cy.clickOutside()
+      cy.assertInputErrorValidation(getPasswordInput(), expectedErrorMessage)
+    })
+
+    it("should allow 8 character password that meet complexity requirements", () => {
+      getPasswordInput().should("be.visible").type("Aa345678")
+      cy.clickOutside()
+      getPasswordInput().next().should("contain", "")
     })
   })
 })
