@@ -86,6 +86,7 @@ const SignUpForm: FC<any> = () => {
         Username
       </label>
       <input
+        data-test="sign-up-username-input"
         className={`${defaultStyle} ${
           errors.username && touched.username
             ? "border-red-600 text-red-800"
@@ -108,6 +109,7 @@ const SignUpForm: FC<any> = () => {
         Email
       </label>
       <input
+        data-test="sign-up-email-input"
         className={`${defaultStyle} ${
           errors.email && touched.email ? "border-red-600 text-red-800" : ""
         }`}
@@ -128,6 +130,7 @@ const SignUpForm: FC<any> = () => {
         Password
       </label>
       <input
+        data-test="sign-up-password-input"
         className={`${defaultStyle} ${
           errors.password && touched.password
             ? "border-red-600 text-red-800"
@@ -150,6 +153,7 @@ const SignUpForm: FC<any> = () => {
         Confirm Password
       </label>
       <input
+        data-test="sign-up-confirm-password-input"
         className={`${defaultStyle} ${
           errors.confirmPassword && touched.confirmPassword
             ? "border-red-600 text-red-800"

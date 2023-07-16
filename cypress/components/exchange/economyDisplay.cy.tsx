@@ -1,5 +1,7 @@
-import { enablePatches, enableMapSet } from "immer"
-import EconomyDisplay, { Country } from "../../../components/exchange/economyDisplay"
+import { enableMapSet, enablePatches } from "immer"
+import EconomyDisplay, {
+  Country,
+} from "../../../components/exchange/economyDisplay"
 
 describe("EconomyDisplay", () => {
   before(() => {
@@ -8,22 +10,32 @@ describe("EconomyDisplay", () => {
   })
 
   function mockSingaporeCountrySeriesApi() {
-    cy.intercept("GET", "https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta", {
-      fixture: "/econdb/singaporeSeries.json"
-    }).as("singaporeSeriesSearchFirstPage")
+    // https://www.econdb.com/api/series/?search=Singapore&format=json&expand=meta&token=?????
+    cy.intercept(
+      "GET",
+      "http://localhost:8081/api/exchange/economy/country?country=Singapore",
+      {
+        fixture: "/econdb/singaporeSeries.json",
+      }
+    ).as("singaporeSeriesSearchFirstPage")
 
-    cy.intercept("GET",
-      "https://www.econdb.com/api/series/?expand=meta&format=json&page=2&search=Singapore", {
-      fixture: "/econdb/singaporeSeries2.json"
-    }).as("singaporeSeriesSearchLastPage")
+    // https://www.econdb.com/api/series/Y10YDSG/?format=json&token=????
+    cy.intercept(
+      "GET",
+      "http://localhost:8081/api/exchange/economy/series?series=Y10YDSG",
+      {
+        fixture: "/econdb/series/singapore/Y10YDSG.json",
+      }
+    ).as("singaporeLongTermYield")
 
-    cy.intercept("GET", "https://www.econdb.com/api/series/Y10YDSG/?format=json", {
-      fixture: "/econdb/series/singapore/Y10YDSG.json"
-    }).as("singaporeLongTermYield")
-
-    cy.intercept("GET", "https://www.econdb.com/api/series/RPUCSG/?format=json", {
-      fixture: "/econdb/series/singapore/RPUCSG.json"
-    }).as("singaporeRealPublicConsumption")
+    // https://www.econdb.com/api/series/RPUCSG/?format=json&token=????
+    cy.intercept(
+      "GET",
+      "http://localhost:8081/api/exchange/economy/series?series=RPUCSG",
+      {
+        fixture: "/econdb/series/singapore/RPUCSG.json",
+      }
+    ).as("singaporeRealPublicConsumption")
   }
 
   function getSingaporeDetails(): Country {
@@ -86,7 +98,8 @@ describe("EconomyDisplay", () => {
   it("should show default choice for country choice", () => {
     const countries: Map<string, Country> = new Map()
     cy.mount(<EconomyDisplay countries={countries} />)
-    getCountryDropdown().find("option:selected")
+    getCountryDropdown()
+      .find("option:selected")
       .should("have.text", "-- select a country --")
   })
 
@@ -97,10 +110,10 @@ describe("EconomyDisplay", () => {
     cy.mount(<EconomyDisplay countries={countries} />)
     mockSingaporeCountrySeriesApi()
     getCountryDropdown().select("Singapore")
-    getCountryDropdown().find("option:selected")
+    getCountryDropdown()
+      .find("option:selected")
       .should("have.text", "Singapore")
     cy.wait("@singaporeSeriesSearchFirstPage")
-    cy.wait("@singaporeSeriesSearchLastPage")
 
     getCountrySeriesDropdown().type("Singapore - Long term yield{enter}")
     getSubmitButton().click()
@@ -116,10 +129,11 @@ describe("EconomyDisplay", () => {
     mockSingaporeCountrySeriesApi()
     getCountryDropdown().select("Singapore")
     cy.wait("@singaporeSeriesSearchFirstPage")
-    cy.wait("@singaporeSeriesSearchLastPage")
 
     getCountrySeriesDropdown().type("Singapore - Long term yield{enter}")
-    getCountrySeriesDropdown().type("Singapore - Real public consumption{enter}")
+    getCountrySeriesDropdown().type(
+      "Singapore - Real public consumption{enter}"
+    )
     getSubmitButton().click()
     cy.wait("@singaporeLongTermYield")
     cy.wait("@singaporeRealPublicConsumption")
@@ -137,9 +151,7 @@ describe("EconomyDisplay", () => {
       ["United States of America", getUnitedStatesDetails()],
     ])
     cy.mount(<EconomyDisplay countries={countries} />)
-    getCountryDropdown().find("option")
-      .contains("Singapore")
-    getCountryDropdown().find("option")
-      .contains("United States of America")
+    getCountryDropdown().find("option").contains("Singapore")
+    getCountryDropdown().find("option").contains("United States of America")
   })
 })

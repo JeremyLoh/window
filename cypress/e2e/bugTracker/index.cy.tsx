@@ -84,23 +84,13 @@ describe("Bug Tracker", () => {
         cy.getByTestId("bugTracker-sign-up-form").find("button").click()
       }
 
-      function assertErrorValidationIsPresent(
-        element: Cypress.Chainable<JQuery<HTMLElement>>,
-        message: string
-      ) {
-        element
-          .next()
-          .contains(new RegExp("^" + message + "$"))
-          .should("be.visible")
-      }
-
       it("should not submit for invalid email", () => {
         getUsernameInput().type(validUsername)
         getEmailInput().type(invalidEmail)
         getPasswordInput().type(validPassword)
         getConfirmPasswordInput().type(validPassword)
         clickSubmit()
-        assertErrorValidationIsPresent(
+        cy.assertInputErrorValidation(
           getEmailInput(),
           "please enter a valid email"
         )
@@ -112,7 +102,7 @@ describe("Bug Tracker", () => {
         getPasswordInput().type(validPassword)
         getConfirmPasswordInput().type(validPassword)
         clickSubmit()
-        assertErrorValidationIsPresent(getUsernameInput(), "Required")
+        cy.assertInputErrorValidation(getUsernameInput(), "Required")
       })
 
       it("should not submit for invalid username that is too long", () => {
@@ -122,7 +112,7 @@ describe("Bug Tracker", () => {
         getPasswordInput().type(validPassword)
         getConfirmPasswordInput().type(validPassword)
         clickSubmit()
-        assertErrorValidationIsPresent(
+        cy.assertInputErrorValidation(
           getUsernameInput(),
           "max is 40 characters"
         )
@@ -134,7 +124,7 @@ describe("Bug Tracker", () => {
         getPasswordInput().type(validPassword)
         getConfirmPasswordInput().type(validPassword + "A")
         clickSubmit()
-        assertErrorValidationIsPresent(
+        cy.assertInputErrorValidation(
           getConfirmPasswordInput(),
           "passwords must match"
         )

@@ -14,9 +14,15 @@ export default defineConfig({
     experimentalRunAllSpecs: true,
     downloadsFolder: "cypress/downloads",
     trashAssetsBeforeRuns: true,
+    excludeSpecPattern: [
+      // Ignore built-in test files
+      "**/1-getting-started/**",
+      "**/2-advanced-examples/**",
+    ],
   },
 
   component: {
+    port: 8081,
     devServer: {
       framework: "next",
       bundler: "webpack",

@@ -1,8 +1,4 @@
 describe("Exchange Page", () => {
-  beforeEach(() => {
-    cy.visit("/exchange")
-  })
-
   function getConversionAmountInput() {
     return cy.getByTestId("conversion-amount")
   }
@@ -20,10 +16,12 @@ describe("Exchange Page", () => {
   }
 
   it("should show navbar", () => {
+    cy.visit("/exchange")
     cy.getByTestId("navbar").should("be.visible")
   })
 
   it("should show amount to convert input", () => {
+    cy.visit("/exchange")
     getConversionAmountInput().should("be.visible")
     getConversionAmountInput().invoke("attr", "type").should("eq", "number")
     getConversionAmountInput().invoke("attr", "min").should("eq", "0.01")
@@ -38,6 +36,7 @@ describe("Exchange Page", () => {
     }
 
     it("should show 'from' currency dropdown with default value", () => {
+      cy.visit("/exchange")
       getFromCurrencyDropdown()
         .should("be.visible")
         .should("have.attr", "required")
@@ -45,6 +44,7 @@ describe("Exchange Page", () => {
     })
 
     it("should allow user to select 'from' currency", () => {
+      cy.visit("/exchange")
       assertFromCurrencyText("-- select an option --")
       getFromCurrencyDropdown().select("SGD")
       assertFromCurrencyText("SGD - Singapore Dollar")
@@ -59,6 +59,7 @@ describe("Exchange Page", () => {
     }
 
     it("should show 'to' currency dropdown", () => {
+      cy.visit("/exchange")
       getToCurrencyDropdown()
         .should("be.visible")
         .should("have.attr", "required")
@@ -66,6 +67,7 @@ describe("Exchange Page", () => {
     })
 
     it("should allow user to select 'to' currency", () => {
+      cy.visit("/exchange")
       assertToCurrencyText("-- select an option --")
       getToCurrencyDropdown().select("USD")
       assertToCurrencyText("USD - United States Dollar")
@@ -109,6 +111,7 @@ describe("Exchange Page", () => {
     }
 
     it("should submit valid exchange request", () => {
+      cy.visit("/exchange")
       mockExchangeRate("exchangeRate")
       convertCurrency("0.01", "SGD", "USD")
       cy.wait("@exchangeRate")
@@ -122,18 +125,21 @@ describe("Exchange Page", () => {
     })
 
     it("should not submit exchange request for invalid zero amount", () => {
+      cy.visit("/exchange")
       mockExchangeRate("exchangeRate")
       convertCurrency("0.00", "SGD", "USD")
       assertRouteCalled("exchangeRate", 0)
     })
 
     it("should not submit exchange request for negative amount", () => {
+      cy.visit("/exchange")
       mockExchangeRate("exchangeRate")
       convertCurrency("-0.01", "SGD", "USD")
       assertRouteCalled("exchangeRate", 0)
     })
 
     it("should not submit exchange request for same currency conversion", () => {
+      cy.visit("/exchange")
       mockExchangeRate("exchangeRate")
       convertCurrency("0.01", "USD", "USD")
       assertRouteCalled("exchangeRate", 0)
