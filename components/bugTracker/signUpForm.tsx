@@ -109,6 +109,7 @@ const SignUpForm: FC<any> = () => {
         Email
       </label>
       <input
+        data-test="sign-up-email-input"
         className={`${defaultStyle} ${
           errors.email && touched.email ? "border-red-600 text-red-800" : ""
         }`}

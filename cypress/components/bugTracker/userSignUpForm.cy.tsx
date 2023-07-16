@@ -10,8 +10,12 @@ describe("Bug Tracker Sign Up Form", function () {
     )
   })
 
-  function getUsernameInput() {
+  function getUsernameInput(): Cypress.Chainable {
     return cy.getByTestId("sign-up-username-input")
+  }
+
+  function getEmailInput(): Cypress.Chainable {
+    return cy.getByTestId("sign-up-email-input")
   }
 
   context("username input", () => {
@@ -26,7 +30,7 @@ describe("Bug Tracker Sign Up Form", function () {
 
     it("should allow max of 40 characters", () => {
       const username: string = "a".repeat(40)
-      getUsernameInput().should("be.visible").type(username)
+      getUsernameInput().should("be.visible").type(username, { delay: 0 })
       cy.clickOutside()
       getUsernameInput().next().should("contain", "")
     })
@@ -34,7 +38,7 @@ describe("Bug Tracker Sign Up Form", function () {
     it("should not allow 41 characters", () => {
       const expectedErrorMessage: string = "max is 40 characters"
       const username: string = "<".repeat(41)
-      getUsernameInput().should("be.visible").type(username)
+      getUsernameInput().should("be.visible").type(username, { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getUsernameInput(), expectedErrorMessage)
     })
@@ -58,6 +62,22 @@ describe("Bug Tracker Sign Up Form", function () {
       getUsernameInput().should("be.visible").type("spaceAtEndOfUsername ")
       cy.clickOutside()
       cy.assertInputErrorValidation(getUsernameInput(), expectedErrorMessage)
+    })
+  })
+
+  //  Cannot type spaces in email input #1327 https://github.com/cypress-io/cypress/issues/1327
+  context("email input", () => {
+    it("should not allow 2 character email input", () => {
+      const expectedErrorMessage: string = "email must be at least 3 characters"
+      getEmailInput().should("be.visible").type("@.")
+      cy.clickOutside()
+      cy.assertInputErrorValidation(getEmailInput(), expectedErrorMessage)
+    })
+
+    it("should allow 3 character email input with @", () => {
+      getEmailInput().should("be.visible").type("a@b")
+      cy.clickOutside()
+      getEmailInput().next().should("contain", "")
     })
   })
 })
