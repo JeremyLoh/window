@@ -22,6 +22,10 @@ describe("Bug Tracker Sign Up Form", function () {
     return cy.getByTestId("sign-up-password-input")
   }
 
+  function getConfirmPasswordInput(): Cypress.Chainable {
+    return cy.getByTestId("sign-up-confirm-password-input")
+  }
+
   context("username input", () => {
     it("should have min of 1 character", () => {
       getUsernameInput().should("be.visible").clear()
@@ -49,21 +53,27 @@ describe("Bug Tracker Sign Up Form", function () {
 
     it("should not allow whitespace at start of username input", () => {
       const expectedErrorMessage: string = "whitespace is not allowed"
-      getUsernameInput().should("be.visible").type(" spaceAtStartOfUsername")
+      getUsernameInput()
+        .should("be.visible")
+        .type(" spaceAtStartOfUsername", { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getUsernameInput(), expectedErrorMessage)
     })
 
     it("should not allow whitespace in middle of username input", () => {
       const expectedErrorMessage: string = "whitespace is not allowed"
-      getUsernameInput().should("be.visible").type("space between username")
+      getUsernameInput()
+        .should("be.visible")
+        .type("space between username", { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getUsernameInput(), expectedErrorMessage)
     })
 
     it("should not allow whitespace at end of username input", () => {
       const expectedErrorMessage: string = "whitespace is not allowed"
-      getUsernameInput().should("be.visible").type("spaceAtEndOfUsername ")
+      getUsernameInput()
+        .should("be.visible")
+        .type("spaceAtEndOfUsername ", { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getUsernameInput(), expectedErrorMessage)
     })
@@ -73,13 +83,13 @@ describe("Bug Tracker Sign Up Form", function () {
   context("email input", () => {
     it("should not allow 2 character email input", () => {
       const expectedErrorMessage: string = "email must be at least 3 characters"
-      getEmailInput().should("be.visible").type("@.")
+      getEmailInput().should("be.visible").type("@.", { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getEmailInput(), expectedErrorMessage)
     })
 
     it("should allow 3 character email input with @", () => {
-      getEmailInput().should("be.visible").type("a@b")
+      getEmailInput().should("be.visible").type("a@b", { delay: 0 })
       cy.clickOutside()
       getEmailInput().next().should("contain", "")
     })
@@ -88,7 +98,7 @@ describe("Bug Tracker Sign Up Form", function () {
   context("password input", () => {
     it("should not allow less than 8 character password", () => {
       const expectedErrorMessage: string = "min length of 8 characters"
-      getPasswordInput().should("be.visible").type("1234567")
+      getPasswordInput().should("be.visible").type("1234567", { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getPasswordInput(), expectedErrorMessage)
     })
@@ -97,15 +107,37 @@ describe("Bug Tracker Sign Up Form", function () {
       const expectedErrorMessage: string =
         "please create a stronger password: Min 8 chars, 1" +
         " uppercase letter, 1 lowercase letter, 1 numeric digit"
-      getPasswordInput().should("be.visible").type("12345678")
+      getPasswordInput().should("be.visible").type("12345678", { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getPasswordInput(), expectedErrorMessage)
     })
 
     it("should allow 8 character password that meet complexity requirements", () => {
-      getPasswordInput().should("be.visible").type("Aa345678")
+      getPasswordInput().should("be.visible").type("Aa345678", { delay: 0 })
       cy.clickOutside()
       getPasswordInput().next().should("contain", "")
+    })
+  })
+
+  context("confirm password input", () => {
+    it("should not allow confirm password that does not match password", () => {
+      const expectedErrorMessage: string = "passwords must match"
+      getConfirmPasswordInput().should("be.visible").type("abc", { delay: 0 })
+      cy.clickOutside()
+      cy.assertInputErrorValidation(
+        getConfirmPasswordInput(),
+        expectedErrorMessage
+      )
+    })
+
+    it("should allow confirm password that matches password", () => {
+      getPasswordInput().should("be.visible").type("Aa345678", { delay: 0 })
+      getConfirmPasswordInput()
+        .should("be.visible")
+        .type("Aa345678", { delay: 0 })
+      cy.clickOutside()
+      getPasswordInput().next().should("contain", "")
+      getConfirmPasswordInput().next().should("contain", "")
     })
   })
 })
