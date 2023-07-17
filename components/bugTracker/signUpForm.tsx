@@ -4,9 +4,9 @@ import React, { FC, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
-import { getClientSession } from "../../lib/db/supabaseClient"
 import { signUpUsingEmail } from "../../lib/db/auth"
 import { getWarningToast } from "../alert/warning"
+import useSession from "../../lib/hooks/useSession"
 
 type SignUpFormValues = {
   username: string
@@ -17,14 +17,13 @@ type SignUpFormValues = {
 
 const SignUpForm: FC<any> = () => {
   const router = useRouter()
+  const session = useSession()
 
   useEffect(() => {
-    getClientSession().then(async (session) => {
-      if (session) {
-        router.push("/bugTracker/dashboard")
-      }
-    })
-  }, [])
+    if (session) {
+      router.push("/bugTracker/dashboard")
+    }
+  }, [session, router])
 
   async function handleSignUp(
     values: SignUpFormValues,
