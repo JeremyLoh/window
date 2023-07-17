@@ -44,6 +44,7 @@ async function getData(projectId: string): Promise<Issue[]> {
   return response.data.map((issue) => {
     return {
       id: issue.id,
+      project_id: projectId,
       created_at: new Date(issue.created_at),
       name: issue.name,
       description: issue.description,

@@ -1,6 +1,7 @@
 "use client"
 
 // Contains column definitions of table
+import Link from "next/link"
 import { ColumnDef } from "@tanstack/react-table"
 import {
   DropdownMenu,
@@ -17,6 +18,7 @@ import { IssuePriority, IssueStatus } from "../../../../lib/db/issue"
 
 export type Issue = {
   id: string
+  project_id: string
   issue_number: string
   created_at: Date
   name: string
@@ -83,10 +85,6 @@ export const columns: ColumnDef<Issue>[] = [
     cell: ({ row }) => {
       const issue = row.original
 
-      async function handleViewIssue(issue: Issue) {
-        // todo open detailed page about issue, with comments section
-      }
-
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -99,8 +97,12 @@ export const columns: ColumnDef<Issue>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleViewIssue(issue)}>
-                View Issue
+              <DropdownMenuItem>
+                <Link
+                  href={`/bugTracker/project/${issue.project_id}/issue/${issue.issue_number}`}
+                >
+                  View Issue
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
