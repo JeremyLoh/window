@@ -77,6 +77,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
           </div>
           <div className="pt-2">
             <h3 className="mb-2 text-xl">About</h3>
+            <h3>Description</h3>
             <h3 className="indent-4 text-lg">{project.description}</h3>
             <div className="flex items-stretch">
               <ClockIcon className="mr-2 h-6 w-6" />

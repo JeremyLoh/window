@@ -17,17 +17,15 @@ export default async function ProjectIdPage({
   const data = await getData(projectId)
 
   return (
-    <div className="flex h-screen w-full flex-col items-start justify-start gap-y-2">
+    <div className="flex h-screen w-full flex-col items-start justify-start gap-y-3">
       <ProjectInfo projectId={projectId} />
       <div className="mx-auto w-full lg:px-40">
+        <h2 className="lg:text-lg">Issues</h2>
         <Link href={`/bugTracker/project/${projectId}/issue/create`}>
           <Button className="mb-2 bg-green-600 hover:bg-green-500">
             New Issue
           </Button>
         </Link>
-        <h2 className="w-fit border-[1px] border-b-0 px-2 lg:text-lg">
-          Issues
-        </h2>
         <div className="h-full">
           <DataTable columns={columns} data={data} />
         </div>
