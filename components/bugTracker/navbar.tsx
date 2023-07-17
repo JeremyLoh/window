@@ -40,6 +40,7 @@ const Navbar: FC<any> = () => {
     } else {
       setSession(null)
       router.push("/bugTracker")
+      window.location.reload()
     }
   }
 
