@@ -1,13 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Session } from "@supabase/supabase-js"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
-import { getClientSession } from "../../../../lib/db/supabaseClient"
 import {
   createIssue,
   IssuePriority,
@@ -16,6 +13,7 @@ import {
 import { getWarningToast } from "../../../alert/warning"
 import { InvalidDataToast } from "../../../alert/error"
 import { getSuccessToast } from "../../../alert/success"
+import useSession from "../../../../lib/hooks/useSession"
 
 type CreateIssueFormValues = {
   name: string
@@ -31,15 +29,7 @@ type CreateIssueFormProps = {
 export default function CreateIssueForm(props: CreateIssueFormProps) {
   const { projectId } = props
   const router = useRouter()
-  const [session, setSession] = useState<Session | null>()
-
-  useEffect(() => {
-    getClientSession().then((session) => {
-      if (session) {
-        setSession(session)
-      }
-    })
-  }, [])
+  const session = useSession()
 
   const {
     values,

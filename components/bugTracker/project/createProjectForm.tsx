@@ -1,14 +1,13 @@
 "use client"
 
+import React from "react"
+import { useRouter } from "next/navigation"
 import { FormikHelpers, useFormik } from "formik"
 import CreateProjectSchema from "./formSchema/createProjectSchema"
-import React, { useEffect, useState } from "react"
-import { Session } from "@supabase/supabase-js"
-import { getClientSession } from "../../../lib/db/supabaseClient"
 import { getWarningToast } from "../../alert/warning"
 import { InvalidDataToast } from "../../alert/error"
 import { createProject, getProjectCount } from "../../../lib/db/project"
-import { useRouter } from "next/navigation"
+import useSession from "../../../lib/hooks/useSession"
 
 type CreateProjectFormValues = {
   name: string
@@ -17,15 +16,7 @@ type CreateProjectFormValues = {
 
 export default function CreateProjectForm() {
   const router = useRouter()
-  const [session, setSession] = useState<Session | null>(null)
-
-  useEffect(() => {
-    getClientSession().then(async (session) => {
-      if (session) {
-        setSession(session)
-      }
-    })
-  }, [])
+  const session = useSession()
 
   async function isNewProjectName(name: string): Promise<boolean> {
     const response = await getProjectCount(name)
