@@ -50,6 +50,18 @@ export async function getAllIssues(projectId: string) {
     .returns<GetIssueResponseData[]>()
 }
 
+export async function getIssue(projectId: string, issueNumber: string) {
+  const supabase = await getServer()
+  return supabase
+    .from("issue")
+    .select(
+      "id, created_at, name, description, issue_number, issue_priority(priority), user(username)," +
+        "issue_status(status)"
+    )
+    .match({ project_id: projectId, issue_number: issueNumber })
+    .returns<GetIssueResponseData[]>()
+}
+
 export type Issue = {
   name: string
   description: string
