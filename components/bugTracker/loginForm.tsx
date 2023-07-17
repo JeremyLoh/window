@@ -7,7 +7,7 @@ import { FormikHelpers, useFormik } from "formik"
 import EmailLoginSchema from "./formSchema/emailLoginSchema"
 import { getWarningToast } from "../alert/warning"
 import { resendSignUpConfirmEmail, signInWithEmail } from "../../lib/db/auth"
-import { getClientSession } from "../../lib/db/supabaseClient"
+import useSession from "../../lib/hooks/useSession"
 
 type LoginFormValues = {
   email: string
@@ -16,18 +16,17 @@ type LoginFormValues = {
 
 const LoginForm: FC<any> = () => {
   const router = useRouter()
+  const session = useSession()
 
   useEffect(() => {
-    getClientSession().then(async (session) => {
-      if (session) {
-        router.push("/bugTracker/dashboard")
-      }
-    })
-  }, [])
+    if (session) {
+      router.push("/bugTracker/dashboard")
+    }
+  }, [session, router])
 
   async function handleLogin(
     values: LoginFormValues,
-    actions: FormikHelpers<LoginFormValues>,
+    actions: FormikHelpers<LoginFormValues>
   ) {
     actions.resetForm()
     const response = await signInWithEmail(values.email, values.password)
@@ -38,7 +37,7 @@ const LoginForm: FC<any> = () => {
     if (isInvalidLoginCredentials(response)) {
       await getWarningToast(
         "Invalid login credentials",
-        "Please try again",
+        "Please try again"
       ).fire()
       return
     }
@@ -49,7 +48,7 @@ const LoginForm: FC<any> = () => {
   async function showConfirmEmailWarning(email: string) {
     const result = await getWarningToast(
       "Confirm email to login",
-      "Please confirm your email before login",
+      "Please confirm your email before login"
     ).fire({
       showCancelButton: true,
       confirmButtonText: "Resend Email",

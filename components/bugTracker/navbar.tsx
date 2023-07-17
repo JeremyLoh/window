@@ -40,6 +40,7 @@ const Navbar: FC<any> = () => {
     } else {
       setSession(null)
       router.push("/bugTracker")
+      window.location.reload()
     }
   }
 
@@ -65,15 +66,15 @@ const Navbar: FC<any> = () => {
         <div className="flew-row ml-auto mr-2 flex items-center gap-x-2">
           <Link href="/bugTracker/dashboard" passHref className="flex">
             <button data-test="bug-tracker-dashboard-btn" className="">
-              <HomeIcon className="w-5 h-5 md:h-6 md:w-6 transition-colors hover:text-gray-500" />
+              <HomeIcon className="h-5 w-5 transition-colors hover:text-gray-500 md:h-6 md:w-6" />
             </button>
           </Link>
           <UserCircleIcon
-            className="w-5 h-5 md:h-6 md:w-6 transition-colors hover:text-gray-500 hover:cursor-pointer"
+            className="h-5 w-5 transition-colors hover:cursor-pointer hover:text-gray-500 md:h-6 md:w-6"
             onClick={handleNavigateToProfile}
           />
           <ArrowRightCircleIcon
-            className="w-5 h-5 md:h-6 md:w-6 transition-colors hover:text-gray-500 hover:cursor-pointer"
+            className="h-5 w-5 transition-colors hover:cursor-pointer hover:text-gray-500 md:h-6 md:w-6"
             onClick={handleSignOut}
           />
         </div>
@@ -82,18 +83,18 @@ const Navbar: FC<any> = () => {
           <Link href="/bugTracker/login" passHref>
             <button
               data-test="bug-tracker-login-btn"
-              className="flex border-2 rounded-lg p-1 border-teal-700 hover:bg-teal-700 transition-colors"
+              className="flex rounded-lg border-2 border-teal-700 p-1 transition-colors hover:bg-teal-700"
             >
-              <UserCircleIconOutline className="hidden md:block h-5 w-5 transition-colors mr-1" />
+              <UserCircleIconOutline className="mr-1 hidden h-5 w-5 transition-colors md:block" />
               <p className="text-xs md:py-1">Login</p>
             </button>
           </Link>
           <Link href="/bugTracker/signUp" passHref>
             <button
               data-test="bug-tracker-sign-up-btn"
-              className="flex border-2 rounded-lg p-1 border-pink-800 hover:bg-pink-800 transition-colors"
+              className="flex rounded-lg border-2 border-pink-800 p-1 transition-colors hover:bg-pink-800"
             >
-              <UserPlusIconOutline className="hidden md:block h-5 w-5 transition-colors mr-1" />
+              <UserPlusIconOutline className="mr-1 hidden h-5 w-5 transition-colors md:block" />
               <p className="text-xs md:py-1">Sign Up</p>
             </button>
           </Link>

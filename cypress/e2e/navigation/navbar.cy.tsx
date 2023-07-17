@@ -31,13 +31,13 @@ describe("navbar", () => {
   })
 
   describe("bug tracker page", () => {
-    it("should navigate to homepage when navbar app name is clicked", () => {
+    it("should navigate to bug tracker when navbar app name is clicked", () => {
       cy.visit(bugTrackerUrl)
       const navbar = getNavbar()
       navbar.should("be.visible")
       cy.url().should("include", bugTrackerUrl)
-      navbar.contains("Window").click()
-      cy.url().should("eq", homepageUrl)
+      navbar.contains("Bug Tracker").click()
+      cy.url().should("include", bugTrackerUrl)
     })
   })
 })

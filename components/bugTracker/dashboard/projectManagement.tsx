@@ -1,12 +1,11 @@
 "use client"
 
 import React, { FC, useEffect, useState } from "react"
-import { Session } from "@supabase/supabase-js"
-import { getClientSession } from "../../../lib/db/supabaseClient"
 import { useRouter } from "next/navigation"
 import { getCreatedProjects } from "../../../lib/db/project"
 import { InvalidDataToast } from "../../alert/error"
 import ProjectCard from "../project/projectCard"
+import useSession from "../../../lib/hooks/useSession"
 
 export type Project = {
   id: string
@@ -22,17 +21,13 @@ type User = {
 
 const ProjectManagement: FC<any> = () => {
   const router = useRouter()
-  const [session, setSession] = useState<Session | null>(null)
   const [projects, setProjects] = useState<Array<Project> | null>(null)
+  const session = useSession()
 
   useEffect(() => {
-    getClientSession().then(async (session) => {
-      if (!session) {
-        return
-      }
-      setSession(session)
+    async function setupUserProjects(): Promise<void> {
       const response = await getCreatedProjects()
-      if (response.data && response.data.length > 0) {
+      if (response.data && response.data.length >= 0) {
         // @ts-ignore
         setProjects(response.data)
       } else {
@@ -40,8 +35,12 @@ const ProjectManagement: FC<any> = () => {
           title: "Could not find your project(s)! Please try again later",
         })
       }
-    })
-  }, [])
+    }
+
+    if (session) {
+      void setupUserProjects()
+    }
+  }, [session])
 
   function handleCreateProject(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()

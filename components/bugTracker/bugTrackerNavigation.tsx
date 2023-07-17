@@ -1,21 +1,12 @@
 "use client"
 
-import React, { FC, useEffect, useState } from "react"
+import React, { FC } from "react"
 import Link from "next/link"
 import { HomeIcon } from "@heroicons/react/24/solid"
-import { Session } from "@supabase/supabase-js"
-import { getClientSession } from "../../lib/db/supabaseClient"
+import useSession from "../../lib/hooks/useSession"
 
 const BugTrackerNavigation: FC<any> = () => {
-  const [session, setSession] = useState<Session | null>(null)
-
-  useEffect(() => {
-    getClientSession().then((session) => {
-      if (session) {
-        setSession(session)
-      }
-    })
-  }, [])
+  const session = useSession()
 
   return (
     <div>
