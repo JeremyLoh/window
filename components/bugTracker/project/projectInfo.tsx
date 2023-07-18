@@ -18,6 +18,7 @@ type Project = {
   name: string
   description: string
   created_at: string
+  user_id: string
   user: { username: string }
 }
 
@@ -69,6 +70,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
             <h1 className="break-all pr-8 text-lg md:text-xl">
               {project.user.username} / {project.name}
             </h1>
+            {/* TODO delete button should only show if the user is the creator of project */}
             <TrashIcon
               data-test="delete-project-btn"
               className="ml-auto h-6 w-6 text-gray-300 hover:cursor-pointer hover:text-red-400 md:h-8 md:w-8"

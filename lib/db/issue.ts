@@ -50,16 +50,36 @@ export async function getAllIssues(projectId: string) {
     .returns<GetIssueResponseData[]>()
 }
 
+type GetSingleIssueResponseData = {
+  id: string
+  created_at: string
+  name: string
+  description: string
+  issue_number: string
+  issue_priority: {
+    priority: (typeof IssuePriority)[number]
+  }
+  user: {
+    username: string
+  }
+  issue_status: {
+    status: (typeof IssueStatus)[number]
+  }
+  project: {
+    name: string
+  }
+}
+
 export async function getIssue(projectId: string, issueNumber: string) {
   const supabase = await getServer()
   return supabase
     .from("issue")
     .select(
       "id, created_at, name, description, issue_number, issue_priority(priority), user(username)," +
-        "issue_status(status)"
+        "issue_status(status), project(name)"
     )
     .match({ project_id: projectId, issue_number: issueNumber })
-    .returns<GetIssueResponseData[]>()
+    .returns<GetSingleIssueResponseData[]>()
 }
 
 export type Issue = {
