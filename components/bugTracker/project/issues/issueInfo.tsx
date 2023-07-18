@@ -56,34 +56,27 @@ export type Issue = {
   status: (typeof IssueStatus)[number]
 }
 
+const statusIcons = new Map<string, JSX.Element>([
+  ["None", <QuestionMarkCircleIcon key="None" className="mr-0.5 h-4 w-4" />],
+  ["New", <PlusCircleIcon key="New" className="mr-0.5 h-4 w-4" />],
+  [
+    "Backlog",
+    <ClipboardDocumentListIcon key="Backlog" className="mr-0.5 h-4 w-4" />,
+  ],
+  ["Ready", <ComputerDesktopIcon key="Ready" className="mr-0.5 h-4 w-4" />],
+  [
+    "In Progress",
+    <CursorArrowRaysIcon key="In Progress" className="mr-0.5 h-4 w-4" />,
+  ],
+  ["In Review", <EyeIcon key="In Review" className="mr-0.5 h-4 w-4" />],
+  ["Done", <CheckCircleIcon key="Done" className="mr-0.5 h-4 w-4" />],
+  ["Closed", <NoSymbolIcon key="Closed" className="mr-0.5 h-4 w-4" />],
+])
+
 function getIssueBadge(status: string) {
-  let icon = <QuestionMarkCircleIcon className="mr-0.5 h-4 w-4" />
-  switch (status) {
-    case "None":
-      icon = <QuestionMarkCircleIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "New":
-      icon = <PlusCircleIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "Backlog":
-      icon = <ClipboardDocumentListIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "Ready":
-      icon = <ComputerDesktopIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "In Progress":
-      icon = <CursorArrowRaysIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "In Review":
-      icon = <EyeIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "Done":
-      icon = <CheckCircleIcon className="mr-0.5 h-4 w-4" />
-      break
-    case "Closed":
-      icon = <NoSymbolIcon className="mr-0.5 h-4 w-4" />
-      break
-  }
+  const icon = statusIcons.get(status) || (
+    <QuestionMarkCircleIcon className="mr-0.5 h-4 w-4" />
+  )
   return (
     <Badge className="w-fit bg-green-700 hover:bg-green-700">
       {icon}
