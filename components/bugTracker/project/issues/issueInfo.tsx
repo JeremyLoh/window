@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -31,7 +32,15 @@ export default function IssueInfo(props: IssueProps) {
     <div className="flex flex-col p-2 md:mx-auto md:w-4/5">
       <BackToProject projectId={projectId} />
       <Separator />
-      <div className="my-2">
+      <div className="my-2 w-fit">
+        <Link
+          href={`/bugTracker/project/${projectId}`}
+          className="w-fit text-lg text-blue-500 hover:underline hover:underline-offset-8"
+        >
+          <h1>{issue.project.name}</h1>
+        </Link>
+      </div>
+      <div>
         <p className="text-lg">
           {issue.name}{" "}
           <span className="text-sm text-gray-300">#{issue.issue_number}</span>
