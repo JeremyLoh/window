@@ -14,7 +14,7 @@ const BackToProject: FC<BackToProjectProps> = (props) => {
       className="mt-2 w-fit"
     >
       <Button className="bg-slate-600 hover:bg-slate-500">
-        <ArrowLeftCircleIcon className="mr-1 h-6 w-6" />
+        <ArrowLeftCircleIcon className="mr-1 h-5 w-5" />
         <p className="pt-1 align-text-bottom text-sm">Back to Project</p>
       </Button>
     </Link>
