@@ -60,6 +60,7 @@ type GetSingleIssueResponseData = {
     priority: (typeof IssuePriority)[number]
   }
   user: {
+    id: string
     username: string
   }
   issue_status: {
@@ -75,8 +76,8 @@ export async function getIssue(projectId: string, issueNumber: string) {
   return supabase
     .from("issue")
     .select(
-      "id, created_at, name, description, issue_number, issue_priority(priority), user(username)," +
-        "issue_status(status), project(name)"
+      "id, created_at, name, description, issue_number, issue_priority(priority)," +
+        " user(id, username), issue_status(status), project(name)"
     )
     .match({ project_id: projectId, issue_number: issueNumber })
     .returns<GetSingleIssueResponseData[]>()

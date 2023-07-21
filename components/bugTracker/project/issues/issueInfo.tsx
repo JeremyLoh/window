@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import {
   Bars2Icon,
@@ -17,8 +20,8 @@ import {
   PlusCircleIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/20/solid"
-import BackToProject from "../backToProject"
 import { IssuePriority, IssueStatus } from "../../../../lib/db/issue"
+import useSession from "../../../../lib/hooks/useSession"
 
 type IssueProps = {
   projectId: string
@@ -27,20 +30,35 @@ type IssueProps = {
 
 export default function IssueInfo(props: IssueProps) {
   const { projectId, issue } = props
+  const session = useSession()
+
+  function isEditable(): boolean {
+    if (!session) {
+      return false
+    }
+    return session.user.id === issue.user.id
+  }
 
   return (
     <div className="flex flex-col p-2 md:mx-auto md:w-4/5">
-      <BackToProject projectId={projectId} />
-      <Separator />
-      <div className="my-2 w-fit">
+      <div className="my-2 flex items-end justify-between">
         <Link
           href={`/bugTracker/project/${projectId}`}
           className="w-fit text-lg text-blue-500 hover:underline hover:underline-offset-8"
         >
           <h1>{issue.project.name}</h1>
         </Link>
+        {isEditable() && (
+          <Button
+            variant="default"
+            className="bg-green-700 text-white hover:bg-green-600 hover:text-white"
+          >
+            Edit Issue
+          </Button>
+        )}
       </div>
-      <div>
+      <Separator />
+      <div className="mt-2">
         <p className="text-lg">
           {issue.name}{" "}
           <span className="text-sm text-gray-300">#{issue.issue_number}</span>
@@ -73,6 +91,7 @@ export type Issue = {
     name: string
   }
   user: {
+    id: string
     username: string
   }
   issue_number: string
