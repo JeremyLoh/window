@@ -20,8 +20,8 @@ import {
   PlusCircleIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/20/solid"
-import { IssuePriority, IssueStatus } from "../../../../lib/db/issue"
 import useSession from "../../../../lib/hooks/useSession"
+import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
 type IssueProps = {
   projectId: string

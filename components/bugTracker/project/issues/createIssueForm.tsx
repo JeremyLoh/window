@@ -5,15 +5,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
-import {
-  createIssue,
-  IssuePriority,
-  IssueStatus,
-} from "../../../../lib/db/issue"
+import { createIssue } from "../../../../lib/db/issue"
 import { getWarningToast } from "../../../alert/warning"
 import { InvalidDataToast } from "../../../alert/error"
 import { getSuccessToast } from "../../../alert/success"
 import useSession from "../../../../lib/hooks/useSession"
+import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
 type CreateIssueFormValues = {
   name: string

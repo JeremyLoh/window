@@ -4,7 +4,7 @@ describe("Bug Tracker Edit Issue Form", () => {
   const issue = {
     name: "Issue Name",
     description: "Issue Description",
-    priority: "Lowest",
+    priority: "Medium",
     status: "In Review",
   }
 
@@ -71,10 +71,25 @@ describe("Bug Tracker Edit Issue Form", () => {
     })
   })
 
-  // context("priority input", () => {
-  //   it("should show list of priority options", () => {
-  //     cy.mount(<EditIssueForm issue={issue} />)
-  //     getPrioritySelectInput().should("have.value", issue.priority)
-  //   })
-  // })
+  context("priority input", () => {
+    function assertPrioritySelectValue(value: string) {
+      getPrioritySelectInput().select(value)
+      getPrioritySelectInput().should("have.value", value)
+    }
+
+    it("should show list of priority options", () => {
+      cy.mount(<EditIssueForm issue={issue} />)
+      assertPrioritySelectValue("None")
+      assertPrioritySelectValue("Lowest")
+      assertPrioritySelectValue("Low")
+      assertPrioritySelectValue("Medium")
+      assertPrioritySelectValue("High")
+      assertPrioritySelectValue("Highest")
+    })
+
+    it("should select by default given priority", () => {
+      cy.mount(<EditIssueForm issue={issue} />)
+      getPrioritySelectInput().should("have.value", issue.priority)
+    })
+  })
 })

@@ -4,6 +4,7 @@ import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { IssuePriority } from "../../../../lib/db/model/issue"
 
 type EditIssueFormValues = {
   name: string
@@ -86,6 +87,7 @@ export default function EditIssueForm(props: EditIssueFormProps) {
       </label>
       <select
         data-test="edit-issue-priority-input"
+        className="font-mono text-black"
         name="priority"
         value={values.priority}
         onChange={handleChange}
@@ -94,13 +96,15 @@ export default function EditIssueForm(props: EditIssueFormProps) {
         <option value="" label="Select a priority" disabled>
           Select a priority
         </option>
-        {/* TODO refactor IssueStatus and IssuePriority to own file, to test*/}
-        {/*{IssueStatus.map((s) => (*/}
-        {/*  <option value={s} key={s}>*/}
-        {/*    {s}*/}
-        {/*  </option>*/}
-        {/*))}*/}
+        {IssuePriority.map((p) => (
+          <option value={p} key={p}>
+            {p}
+          </option>
+        ))}
       </select>
+      {errors.priority && touched.priority && (
+        <p className="text-red-500">{errors.priority}</p>
+      )}
     </form>
   )
 }

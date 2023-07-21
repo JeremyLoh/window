@@ -1,42 +1,6 @@
 import { getClient } from "./supabaseClient"
 import { getServer } from "./supabaseServer"
-
-export const IssuePriority = [
-  "None",
-  "Lowest",
-  "Low",
-  "Medium",
-  "High",
-  "Highest",
-] as const
-
-export const IssueStatus = [
-  "None",
-  "New",
-  "Backlog",
-  "Ready",
-  "In Progress",
-  "In Review",
-  "Done",
-  "Closed",
-] as const
-
-type GetIssueResponseData = {
-  id: string
-  created_at: string
-  name: string
-  description: string
-  issue_number: string
-  issue_priority: {
-    priority: (typeof IssuePriority)[number]
-  }
-  user: {
-    username: string
-  }
-  issue_status: {
-    status: (typeof IssueStatus)[number]
-  }
-}
+import { GetIssueResponseData, GetSingleIssueResponseData } from "./model/issue"
 
 export async function getAllIssues(projectId: string) {
   const supabase = await getServer()
@@ -48,27 +12,6 @@ export async function getAllIssues(projectId: string) {
     )
     .eq("project_id", projectId)
     .returns<GetIssueResponseData[]>()
-}
-
-type GetSingleIssueResponseData = {
-  id: string
-  created_at: string
-  name: string
-  description: string
-  issue_number: string
-  issue_priority: {
-    priority: (typeof IssuePriority)[number]
-  }
-  user: {
-    id: string
-    username: string
-  }
-  issue_status: {
-    status: (typeof IssueStatus)[number]
-  }
-  project: {
-    name: string
-  }
 }
 
 export async function getIssue(projectId: string, issueNumber: string) {

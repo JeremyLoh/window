@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { formatTableDate } from "../../../../lib/date"
-import { IssuePriority, IssueStatus } from "../../../../lib/db/issue"
+import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
 export type Issue = {
   id: string
