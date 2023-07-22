@@ -8,6 +8,7 @@ import { getWarningToast } from "../../alert/warning"
 import { InvalidDataToast } from "../../alert/error"
 import { getSuccessToast } from "../../alert/success"
 import { formatDate } from "../../../lib/date"
+import useSession from "../../../lib/hooks/useSession"
 
 type ProjectInfoProps = {
   projectId: string
@@ -24,8 +25,9 @@ type Project = {
 
 const ProjectInfo: FC<ProjectInfoProps> = (props) => {
   const { projectId } = props
-  const router = useRouter()
   const [project, setProject] = useState<Project | null>(null)
+  const router = useRouter()
+  const session = useSession()
 
   useEffect(() => {
     getProject(projectId).then((project) => {
@@ -38,26 +40,30 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
   }, [projectId])
 
   async function handleDelete() {
-    if (!project) {
-      return
-    }
     const result = await getWarningToast(
       "Confirm delete project?",
       "Are you sure you want to delete the project? It cannot be undone!"
     ).fire()
     if (result.isConfirmed) {
-      const isDeleted = await deleteProject(project.id)
-      if (!isDeleted) {
-        await InvalidDataToast.fire({ title: "Could not delete project" })
-        return
-      }
-      const deleteToastResponse = await getSuccessToast(
-        "Deleted project",
-        ""
-      ).fire()
-      if (deleteToastResponse.isConfirmed) {
-        router.push("/bugTracker/dashboard")
-      }
+      await tryDeleteProject()
+    }
+  }
+
+  async function tryDeleteProject() {
+    if (!project) {
+      return
+    }
+    const isDeleted = await deleteProject(project.id)
+    if (!isDeleted) {
+      await InvalidDataToast.fire({ title: "Could not delete project" })
+      return
+    }
+    const deleteToastResponse = await getSuccessToast(
+      "Deleted project",
+      ""
+    ).fire()
+    if (deleteToastResponse.isConfirmed) {
+      router.push("/bugTracker/dashboard")
     }
   }
 
@@ -70,12 +76,13 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
             <h1 className="break-all pr-8 text-lg md:text-xl">
               {project.user.username} / {project.name}
             </h1>
-            {/* TODO delete button should only show if the user is the creator of project */}
-            <TrashIcon
-              data-test="delete-project-btn"
-              className="ml-auto h-6 w-6 text-gray-300 hover:cursor-pointer hover:text-red-400 md:h-8 md:w-8"
-              onClick={handleDelete}
-            />
+            {session && session.user.id === project.user_id && (
+              <TrashIcon
+                data-test="delete-project-btn"
+                className="ml-auto h-6 w-6 text-gray-300 hover:cursor-pointer hover:text-red-400 md:h-8 md:w-8"
+                onClick={handleDelete}
+              />
+            )}
           </div>
           <div className="pt-2">
             <h3 className="mb-2 text-xl">About</h3>
