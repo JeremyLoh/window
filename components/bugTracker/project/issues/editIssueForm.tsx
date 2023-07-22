@@ -4,6 +4,7 @@ import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
 import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
 type EditIssueFormValues = {
@@ -18,28 +19,37 @@ type EditIssueFormProps = {
 }
 
 export default function EditIssueForm(props: EditIssueFormProps) {
-  const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
-    useFormik({
-      initialValues: {
-        name: props.issue.name,
-        description: props.issue.description,
-        priority: props.issue.priority,
-        status: props.issue.status,
-      },
-      validationSchema: CreateIssueSchema,
-      onSubmit: handleEditIssue,
-    })
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      name: props.issue.name,
+      description: props.issue.description,
+      priority: props.issue.priority,
+      status: props.issue.status,
+    },
+    validationSchema: CreateIssueSchema,
+    onSubmit: handleEditIssue,
+  })
 
   async function handleEditIssue(
     values: EditIssueFormValues,
     actions: FormikHelpers<EditIssueFormValues>
-  ) {}
+  ) {
+    // todo if there are no changes from original values, do not make db request
+  }
 
   return (
     <form
       onSubmit={handleSubmit}
       method="post"
-      className="flex h-full w-full flex-col gap-y-1 rounded bg-slate-600 px-4 py-3 md:mx-auto md:w-4/5"
+      className="flex h-full w-full flex-col gap-y-1 rounded bg-gray-700 px-4 py-3 md:mx-auto md:w-4/5"
     >
       <label htmlFor="name" className="mr-2 md:text-lg">
         Name
@@ -133,6 +143,15 @@ export default function EditIssueForm(props: EditIssueFormProps) {
       {errors.status && touched.status && (
         <p className="text-red-500">{errors.status}</p>
       )}
+
+      <Button
+        data-test="edit-issue-submit-btn"
+        className="mt-2 bg-indigo-500 font-bold hover:bg-indigo-400 disabled:opacity-40"
+        type="submit"
+        disabled={isSubmitting}
+      >
+        Submit
+      </Button>
     </form>
   )
 }

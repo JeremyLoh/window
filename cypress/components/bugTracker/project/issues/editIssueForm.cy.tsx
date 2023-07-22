@@ -28,6 +28,10 @@ describe("Bug Tracker Edit Issue Form", () => {
     return cy.getByTestId("edit-issue-status-input")
   }
 
+  function getSubmitButton(): Cypress.Chainable {
+    return cy.getByTestId("edit-issue-submit-btn")
+  }
+
   it("should show edit form with given initial values", () => {
     getNameInput().should("be.visible").and("have.value", "Issue Name")
     getDescriptionInput()
@@ -35,7 +39,7 @@ describe("Bug Tracker Edit Issue Form", () => {
       .and("have.value", "Issue Description")
     getPrioritySelectInput().should("be.visible").and("have.value", "Medium")
     getStatusSelectInput().should("be.visible").and("have.value", "In Review")
-    // todo check submit button
+    getSubmitButton().should("be.visible")
   })
 
   context("name input", () => {
