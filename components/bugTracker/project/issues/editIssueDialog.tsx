@@ -10,6 +10,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import EditIssueForm, { EditIssueFormValues } from "./editIssueForm"
+import { updateIssue } from "../../../../lib/db/issue"
+import { useRouter } from "next/navigation"
+import { getWarningToast } from "../../../alert/warning"
 
 type EditIssueDialogProps = {
   id: string
@@ -17,16 +20,23 @@ type EditIssueDialogProps = {
 }
 
 export default function EditIssueDialog(props: EditIssueDialogProps) {
-  const { issue } = props
+  const { id, issue } = props
   const [open, setOpen] = useState<boolean>(false)
+  const router = useRouter()
 
   async function handleSubmit(editedIssue: EditIssueFormValues) {
     if (isNotEdited(issue, editedIssue)) {
-      // todo show alert that issue is not changed. keep dialog open
+      await getWarningToast("Issue was not edited", "").fire({
+        timer: 3000,
+        timerProgressBar: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+      })
       return
     }
-    // todo update issue in db
+    await updateIssue(id, editedIssue)
     setOpen(false)
+    router.refresh()
   }
 
   return (

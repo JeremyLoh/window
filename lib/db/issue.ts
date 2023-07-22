@@ -26,7 +26,7 @@ export async function getIssue(projectId: string, issueNumber: string) {
     .returns<GetSingleIssueResponseData[]>()
 }
 
-export type Issue = {
+type Issue = {
   name: string
   description: string
   priority: string
@@ -58,4 +58,18 @@ export async function createIssue(
       issue_number: issueNumber,
     })
     .select()
+}
+
+// Require Row Level Security (RLS) for "issue" table, to update own record!
+export async function updateIssue(id: string, issue: Issue) {
+  const supabase = getClient()
+  return supabase
+    .from("issue")
+    .update({
+      name: issue.name,
+      description: issue.description,
+      priority: issue.priority,
+      status: issue.status,
+    })
+    .eq("id", id)
 }
