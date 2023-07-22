@@ -1,33 +1,25 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { Textarea } from "@/components/ui/textarea"
-import { Input } from "@/components/ui/input"
 import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
-import { createIssue } from "../../../../lib/db/issue"
-import { getWarningToast } from "../../../alert/warning"
-import { InvalidDataToast } from "../../../alert/error"
-import { getSuccessToast } from "../../../alert/success"
-import useSession from "../../../../lib/hooks/useSession"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
 import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
-type CreateIssueFormValues = {
+export type EditIssueFormValues = {
   name: string
   description: string
   priority: string
   status: string
 }
 
-type CreateIssueFormProps = {
-  projectId: string
+type EditIssueFormProps = {
+  issue: EditIssueFormValues
+  handleSubmit: (issue: EditIssueFormValues) => void
 }
 
-export default function CreateIssueForm(props: CreateIssueFormProps) {
-  const { projectId } = props
-  const router = useRouter()
-  const session = useSession()
-
+export default function EditIssueForm(props: EditIssueFormProps) {
   const {
     values,
     errors,
@@ -38,100 +30,79 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
     isSubmitting,
   } = useFormik({
     initialValues: {
-      name: "",
-      description: "",
-      priority: "",
-      status: "",
+      name: props.issue.name,
+      description: props.issue.description,
+      priority: props.issue.priority,
+      status: props.issue.status,
     },
     validationSchema: CreateIssueSchema,
-    onSubmit: handleCreateIssue,
+    onSubmit: handleEditIssue,
   })
 
-  async function handleCreateIssue(
-    values: CreateIssueFormValues,
-    actions: FormikHelpers<CreateIssueFormValues>
+  async function handleEditIssue(
+    values: EditIssueFormValues,
+    actions: FormikHelpers<EditIssueFormValues>
   ) {
-    if (!session) {
-      await getWarningToast("Please Login to Create an Issue", "").fire()
-      return
-    }
     actions.resetForm()
-    const response = await createIssue(projectId, session.user.id, values)
-    if (response.error) {
-      await InvalidDataToast.fire({
-        title: "Could not create issue",
-        text: response.statusText,
-      })
-      return
-    }
-    await handleOptionalNavigation()
-  }
-
-  async function handleOptionalNavigation() {
-    const result = await getSuccessToast(
-      "Created Issue",
-      "Navigate back to project issues?"
-    ).fire({
-      showCancelButton: true,
-      confirmButtonText: "Back to issues",
-    })
-    if (result.isConfirmed) {
-      router.push(`/bugTracker/project/${projectId}`)
-      router.refresh()
-    }
+    props.handleSubmit(values)
   }
 
   return (
     <form
       onSubmit={handleSubmit}
       method="post"
-      className="flex h-full w-full flex-col gap-y-1 rounded bg-slate-600 px-8 py-4 md:mx-auto md:w-4/5"
+      className="flex h-full w-full flex-col gap-y-1 rounded bg-gray-700"
     >
       <label htmlFor="name" className="mr-2 md:text-lg">
         Name
       </label>
       <Input
-        data-test="create-issue-name-input"
+        data-test="edit-issue-name-input"
         className={`${
           errors.name && touched.name ? "border-red-600 text-red-800" : ""
         }`}
         type="text"
         id="name"
         name="name"
-        placeholder="Enter issue name"
+        placeholder="Edit issue name"
         value={values.name}
         onChange={handleChange}
         onBlur={handleBlur}
         required
       />
       {errors.name && touched.name && (
-        <p className="text-red-500">{errors.name}</p>
+        <p data-test="edit-issue-name-error" className="text-red-500">
+          {errors.name}
+        </p>
       )}
 
       <label htmlFor="description" className="mr-2 md:text-lg">
         Description
       </label>
       <Textarea
-        data-test="create-issue-description-input"
+        data-test="edit-issue-description-input"
         className={`${
           errors.description && touched.description
             ? "border-red-600 text-red-800"
             : ""
         }`}
         id="description"
-        placeholder="Issue description"
+        placeholder="Edit issue description"
         value={values.description}
         onChange={handleChange}
         onBlur={handleBlur}
       />
       {errors.description && touched.description && (
-        <p className="text-red-500">{errors.description}</p>
+        <p data-test="edit-issue-description-error" className="text-red-500">
+          {errors.description}
+        </p>
       )}
 
       <label htmlFor="priority" className="mr-2 md:text-lg">
         Priority
       </label>
       <select
+        data-test="edit-issue-priority-input"
         className="font-mono text-black"
         name="priority"
         value={values.priority}
@@ -155,6 +126,7 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
         Status
       </label>
       <select
+        data-test="edit-issue-status-input"
         className="font-mono text-black"
         name="status"
         value={values.status}
@@ -174,15 +146,14 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
         <p className="text-red-500">{errors.status}</p>
       )}
 
-      <button
-        data-test="create-issue-submit-btn"
-        className="rounded border-b-4 border-indigo-700 bg-indigo-500 px-4 py-2 font-bold text-white
-                     hover:border-indigo-500 hover:bg-indigo-400 disabled:opacity-40"
+      <Button
+        data-test="edit-issue-submit-btn"
+        className="mt-2 bg-indigo-500 font-bold hover:bg-indigo-400 disabled:opacity-40"
         type="submit"
         disabled={isSubmitting}
       >
         Submit
-      </button>
+      </Button>
     </form>
   )
 }
