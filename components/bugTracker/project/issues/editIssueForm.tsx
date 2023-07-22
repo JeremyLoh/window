@@ -4,7 +4,7 @@ import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { IssuePriority } from "../../../../lib/db/model/issue"
+import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
 type EditIssueFormValues = {
   name: string
@@ -36,7 +36,11 @@ export default function EditIssueForm(props: EditIssueFormProps) {
   ) {}
 
   return (
-    <form onSubmit={handleSubmit} method="post">
+    <form
+      onSubmit={handleSubmit}
+      method="post"
+      className="flex h-full w-full flex-col gap-y-1 rounded bg-slate-600 px-4 py-3 md:mx-auto md:w-4/5"
+    >
       <label htmlFor="name" className="mr-2 md:text-lg">
         Name
       </label>
@@ -104,6 +108,30 @@ export default function EditIssueForm(props: EditIssueFormProps) {
       </select>
       {errors.priority && touched.priority && (
         <p className="text-red-500">{errors.priority}</p>
+      )}
+
+      <label htmlFor="status" className="mr-2 md:text-lg">
+        Status
+      </label>
+      <select
+        data-test="edit-issue-status-input"
+        className="font-mono text-black"
+        name="status"
+        value={values.status}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      >
+        <option value="" label="Select a status" disabled>
+          Select a status
+        </option>
+        {IssueStatus.map((s) => (
+          <option value={s} key={s}>
+            {s}
+          </option>
+        ))}
+      </select>
+      {errors.status && touched.status && (
+        <p className="text-red-500">{errors.status}</p>
       )}
     </form>
   )

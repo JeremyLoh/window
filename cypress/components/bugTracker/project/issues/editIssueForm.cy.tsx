@@ -8,6 +8,10 @@ describe("Bug Tracker Edit Issue Form", () => {
     status: "In Review",
   }
 
+  beforeEach(() => {
+    cy.mount(<EditIssueForm issue={issue} />)
+  })
+
   function getNameInput(): Cypress.Chainable {
     return cy.getByTestId("edit-issue-name-input")
   }
@@ -20,19 +24,23 @@ describe("Bug Tracker Edit Issue Form", () => {
     return cy.getByTestId("edit-issue-priority-input")
   }
 
+  function getStatusSelectInput(): Cypress.Chainable {
+    return cy.getByTestId("edit-issue-status-input")
+  }
+
   it("should show edit form with given initial values", () => {
-    cy.mount(<EditIssueForm issue={issue} />)
     getNameInput().should("be.visible").and("have.value", "Issue Name")
     getDescriptionInput()
       .should("be.visible")
       .and("have.value", "Issue Description")
-    // todo check priority, status select input, submit button
+    getPrioritySelectInput().should("be.visible").and("have.value", "Medium")
+    getStatusSelectInput().should("be.visible").and("have.value", "In Review")
+    // todo check submit button
   })
 
   context("name input", () => {
     it("should show error for empty name input", () => {
       const expectedErrorMessage: string = "Required"
-      cy.mount(<EditIssueForm issue={issue} />)
       getNameInput().clear()
       cy.clickOutside()
       cy.assertInputErrorValidation(getNameInput(), expectedErrorMessage)
@@ -40,14 +48,12 @@ describe("Bug Tracker Edit Issue Form", () => {
 
     it("should show error for too long name input", () => {
       const expectedErrorMessage: string = "max is 200 characters"
-      cy.mount(<EditIssueForm issue={issue} />)
       getNameInput().clear().type("a".repeat(201), { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getNameInput(), expectedErrorMessage)
     })
 
     it("should not show error for valid name input", () => {
-      cy.mount(<EditIssueForm issue={issue} />)
       getNameInput().clear().type("a".repeat(200), { delay: 0 })
       cy.clickOutside()
       cy.getByTestId("edit-issue-name-error").should("not.exist")
@@ -56,7 +62,6 @@ describe("Bug Tracker Edit Issue Form", () => {
 
   context("description input", () => {
     it("should not show error for empty description input", () => {
-      cy.mount(<EditIssueForm issue={issue} />)
       getDescriptionInput().clear()
       cy.clickOutside()
       cy.getByTestId("edit-issue-description-error").should("not.exist")
@@ -64,7 +69,6 @@ describe("Bug Tracker Edit Issue Form", () => {
 
     it("should show error for too long description input", () => {
       const expectedErrorMessage: string = "max is 1000 characters"
-      cy.mount(<EditIssueForm issue={issue} />)
       getDescriptionInput().clear().type("a".repeat(1001), { delay: 0 })
       cy.clickOutside()
       cy.assertInputErrorValidation(getDescriptionInput(), expectedErrorMessage)
@@ -77,8 +81,7 @@ describe("Bug Tracker Edit Issue Form", () => {
       getPrioritySelectInput().should("have.value", value)
     }
 
-    it("should show list of priority options", () => {
-      cy.mount(<EditIssueForm issue={issue} />)
+    it("should show list of priority options and allow selection", () => {
       assertPrioritySelectValue("None")
       assertPrioritySelectValue("Lowest")
       assertPrioritySelectValue("Low")
@@ -88,8 +91,31 @@ describe("Bug Tracker Edit Issue Form", () => {
     })
 
     it("should select by default given priority", () => {
-      cy.mount(<EditIssueForm issue={issue} />)
       getPrioritySelectInput().should("have.value", issue.priority)
+    })
+  })
+
+  context("status input", () => {
+    function assertStatusSelectValue(value: string) {
+      getStatusSelectInput().select(value)
+      getStatusSelectInput().should("have.value", value)
+    }
+
+    it("should show list of status options and allow selection", () => {
+      assertStatusSelectValue("None")
+      assertStatusSelectValue("New")
+      assertStatusSelectValue("Backlog")
+      assertStatusSelectValue("Ready")
+      assertStatusSelectValue("In Progress")
+      assertStatusSelectValue("In Review")
+      assertStatusSelectValue("Done")
+      assertStatusSelectValue("Closed")
+    })
+
+    it("should select by default given status", () => {
+      getStatusSelectInput()
+        .should("be.visible")
+        .and("have.value", issue.status)
     })
   })
 })
