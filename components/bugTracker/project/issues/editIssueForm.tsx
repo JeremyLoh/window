@@ -16,6 +16,7 @@ export type EditIssueFormValues = {
 
 type EditIssueFormProps = {
   issue: EditIssueFormValues
+  handleSubmit: (issue: EditIssueFormValues) => void
 }
 
 export default function EditIssueForm(props: EditIssueFormProps) {
@@ -42,7 +43,8 @@ export default function EditIssueForm(props: EditIssueFormProps) {
     values: EditIssueFormValues,
     actions: FormikHelpers<EditIssueFormValues>
   ) {
-    // todo if there are no changes from original values, do not make db request
+    actions.resetForm()
+    props.handleSubmit(values)
   }
 
   return (

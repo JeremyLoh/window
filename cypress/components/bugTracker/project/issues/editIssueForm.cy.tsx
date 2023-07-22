@@ -9,7 +9,8 @@ describe("Bug Tracker Edit Issue Form", () => {
   }
 
   beforeEach(() => {
-    cy.mount(<EditIssueForm issue={issue} />)
+    const handleSubmitSpy = cy.spy().as("handleSubmitSpy")
+    cy.mount(<EditIssueForm issue={issue} handleSubmit={handleSubmitSpy} />)
   })
 
   function getNameInput(): Cypress.Chainable {
@@ -39,7 +40,8 @@ describe("Bug Tracker Edit Issue Form", () => {
       .and("have.value", "Issue Description")
     getPrioritySelectInput().should("be.visible").and("have.value", "Medium")
     getStatusSelectInput().should("be.visible").and("have.value", "In Review")
-    getSubmitButton().should("be.visible")
+    getSubmitButton().should("be.visible").click()
+    cy.get("@handleSubmitSpy").should("have.been.calledOnce")
   })
 
   context("name input", () => {

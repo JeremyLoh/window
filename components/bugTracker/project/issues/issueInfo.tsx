@@ -48,7 +48,7 @@ export default function IssueInfo(props: IssueProps) {
         >
           <h1>{issue.project.name}</h1>
         </Link>
-        {isEditable() && <EditIssueDialog issue={issue} />}
+        {isEditable() && <EditIssueDialog id={issue.id} issue={issue} />}
       </div>
       <Separator />
       <div className="mt-2">
