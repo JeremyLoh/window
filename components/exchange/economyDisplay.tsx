@@ -3,7 +3,7 @@ import pLimit from "p-limit"
 import { EconomySeries } from "../../lib/exchange/economy/indicators"
 import LineChart from "../chart/lineChart"
 import EconomyCountryForm from "./economyCountryForm"
-import { InvalidDataToast } from "../alert/error"
+import { errorToast } from "../alert/error"
 import Carousel from "../carousel"
 import { HttpRequest } from "../../lib/request"
 
@@ -35,7 +35,7 @@ const EconomyDisplay: FC<EconomyDisplayProps> = (props) => {
       const result = await Promise.all(promises)
       setData(result)
     } catch (error) {
-      await InvalidDataToast.fire({
+      await errorToast.fire({
         title: "Could not obtain data for selected country",
       })
     }

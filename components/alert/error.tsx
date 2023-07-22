@@ -1,6 +1,6 @@
 import Swal from "sweetalert2"
 
-export const InvalidDataToast: typeof Swal = Swal.mixin({
+export const errorToast: typeof Swal = Swal.mixin({
   icon: "info",
   toast: true,
   position: "top",

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { FormikHelpers, useFormik } from "formik"
 import CreateProjectSchema from "./formSchema/createProjectSchema"
 import { getWarningToast } from "../../alert/warning"
-import { InvalidDataToast } from "../../alert/error"
+import { errorToast } from "../../alert/error"
 import { createProject, getProjectCount } from "../../../lib/db/project"
 import useSession from "../../../lib/hooks/useSession"
 
@@ -52,7 +52,7 @@ export default function CreateProjectForm() {
     }
     const response = await createProject(session, values)
     if (response.error) {
-      await InvalidDataToast.fire({
+      await errorToast.fire({
         title: "Could not create project, please try again later",
       })
       return

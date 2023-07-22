@@ -5,7 +5,7 @@ import CurrencyConvertForm from "./currencyConvertForm"
 import Currency from "../currency"
 import { Symbol } from "../../lib/exchange/currency/symbols"
 import { CurrencyConvertResponse, RequestData } from "../../pages/api/exchange"
-import { InvalidDataToast } from "../alert/error"
+import { errorToast } from "../alert/error"
 import { HttpRequest, HttpResponse } from "../../lib/request"
 
 type ExchangeRateDisplayProps = {
@@ -36,7 +36,7 @@ const ExchangeRateDisplay: FC<ExchangeRateDisplayProps> = (props) => {
     const response: HttpResponse = await HttpRequest.post("/api/exchange", body)
     const { rate, result }: CurrencyConvertResponse = response.data
     if (rate == null || result == null) {
-      await InvalidDataToast.fire({
+      await errorToast.fire({
         title: "Currency conversion data unavailable",
       })
       return

@@ -3,7 +3,7 @@
 import React, { FC, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getCreatedProjects } from "../../../lib/db/project"
-import { InvalidDataToast } from "../../alert/error"
+import { errorToast } from "../../alert/error"
 import ProjectCard from "../project/projectCard"
 import useSession from "../../../lib/hooks/useSession"
 
@@ -31,7 +31,7 @@ const ProjectManagement: FC<any> = () => {
         // @ts-ignore
         setProjects(response.data)
       } else {
-        await InvalidDataToast.fire({
+        await errorToast.fire({
           title: "Could not find your project(s)! Please try again later",
         })
       }
