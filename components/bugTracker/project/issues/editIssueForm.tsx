@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
 
-type EditIssueFormValues = {
+export type EditIssueFormValues = {
   name: string
   description: string
   priority: string
@@ -49,7 +49,7 @@ export default function EditIssueForm(props: EditIssueFormProps) {
     <form
       onSubmit={handleSubmit}
       method="post"
-      className="flex h-full w-full flex-col gap-y-1 rounded bg-gray-700 px-4 py-3 md:mx-auto md:w-4/5"
+      className="flex h-full w-full flex-col gap-y-1 rounded bg-gray-700"
     >
       <label htmlFor="name" className="mr-2 md:text-lg">
         Name

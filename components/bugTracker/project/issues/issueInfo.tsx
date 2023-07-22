@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import {
   Bars2Icon,
@@ -22,6 +21,7 @@ import {
 } from "@heroicons/react/20/solid"
 import useSession from "../../../../lib/hooks/useSession"
 import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
+import EditIssueDialog from "./editIssueDialog"
 
 type IssueProps = {
   projectId: string
@@ -48,14 +48,7 @@ export default function IssueInfo(props: IssueProps) {
         >
           <h1>{issue.project.name}</h1>
         </Link>
-        {isEditable() && (
-          <Button
-            variant="default"
-            className="bg-green-700 text-white hover:bg-green-600 hover:text-white"
-          >
-            Edit Issue
-          </Button>
-        )}
+        {isEditable() && <EditIssueDialog issue={issue} />}
       </div>
       <Separator />
       <div className="mt-2">
