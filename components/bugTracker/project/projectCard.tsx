@@ -16,14 +16,14 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
       <div className="bg-slate-700 p-2">
         <div className="flex items-stretch">
           <UserIcon className="mr-2 h-6 w-6 text-sky-400" />
-          <p className="break-words text-xl">{project.user.username}</p>
+          <p className="break-all md:text-xl">{project.user.username}</p>
         </div>
         <Link
           href={`/bugTracker/project/${project.id}`}
           className="mt-2 flex items-stretch hover:text-blue-400"
         >
           <DocumentIcon className="mr-2 h-6 w-6" />
-          <p className="break-words text-xl">{project.name}</p>
+          <p className="break-words md:text-xl">{project.name}</p>
         </Link>
       </div>
       {project.description && (
