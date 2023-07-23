@@ -7,7 +7,7 @@ import { FormikHelpers, useFormik } from "formik"
 import CreateIssueSchema from "../formSchema/createIssueSchema"
 import { createIssue } from "../../../../lib/db/issue"
 import { getWarningToast } from "../../../alert/warning"
-import { InvalidDataToast } from "../../../alert/error"
+import { errorToast } from "../../../alert/error"
 import { getSuccessToast } from "../../../alert/success"
 import useSession from "../../../../lib/hooks/useSession"
 import { IssuePriority, IssueStatus } from "../../../../lib/db/model/issue"
@@ -58,7 +58,7 @@ export default function CreateIssueForm(props: CreateIssueFormProps) {
     actions.resetForm()
     const response = await createIssue(projectId, session.user.id, values)
     if (response.error) {
-      await InvalidDataToast.fire({
+      await errorToast.fire({
         title: "Could not create issue",
         text: response.statusText,
       })

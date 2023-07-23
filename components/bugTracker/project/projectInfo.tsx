@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { ClockIcon, DocumentIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { deleteProject, getProject } from "../../../lib/db/project"
 import { getWarningToast } from "../../alert/warning"
-import { InvalidDataToast } from "../../alert/error"
+import { errorToast } from "../../alert/error"
 import { getSuccessToast } from "../../alert/success"
 import { formatDate } from "../../../lib/date"
 import useSession from "../../../lib/hooks/useSession"
@@ -55,7 +55,7 @@ const ProjectInfo: FC<ProjectInfoProps> = (props) => {
     }
     const isDeleted = await deleteProject(project.id)
     if (!isDeleted) {
-      await InvalidDataToast.fire({ title: "Could not delete project" })
+      await errorToast.fire({ title: "Could not delete project" })
       return
     }
     const deleteToastResponse = await getSuccessToast(

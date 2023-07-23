@@ -11,10 +11,9 @@ describe("navbar", () => {
   describe("exchange page", () => {
     it("should navigate to homepage when navbar app name is clicked", () => {
       cy.visit(exchangeUrl)
-      const navbar = getNavbar()
-      navbar.should("be.visible")
+      getNavbar().should("be.visible")
       cy.url().should("include", exchangeUrl)
-      navbar.contains("Window").click()
+      getNavbar().contains("Window").click()
       cy.url().should("eq", homepageUrl)
     })
   })
@@ -22,10 +21,9 @@ describe("navbar", () => {
   describe("life page", () => {
     it("should navigate to homepage when navbar app name is clicked", () => {
       cy.visit(lifeUrl)
-      const navbar = getNavbar()
-      navbar.should("be.visible")
+      getNavbar().should("be.visible")
       cy.url().should("include", lifeUrl)
-      navbar.contains("Window").click()
+      getNavbar().contains("Window").click()
       cy.url().should("eq", homepageUrl)
     })
   })
@@ -33,10 +31,9 @@ describe("navbar", () => {
   describe("bug tracker page", () => {
     it("should navigate to bug tracker when navbar app name is clicked", () => {
       cy.visit(bugTrackerUrl)
-      const navbar = getNavbar()
-      navbar.should("be.visible")
+      getNavbar().should("be.visible")
       cy.url().should("include", bugTrackerUrl)
-      navbar.contains("Bug Tracker").click()
+      getNavbar().contains("Bug Tracker").click()
       cy.url().should("include", bugTrackerUrl)
     })
   })
