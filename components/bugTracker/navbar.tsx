@@ -1,6 +1,7 @@
 "use client"
 
 import { FC, useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import {
@@ -104,4 +105,4 @@ const Navbar: FC<any> = () => {
   )
 }
 
-export default Navbar
+export default dynamic(() => Promise.resolve(Navbar), { ssr: false })
