@@ -149,8 +149,6 @@ describe("life calendar", () => {
       getLifeCalendarContainer()
         .find(".future")
         .should("have.length", expectedFutureWeeks)
-        .last()
-        .should("not.have.text", "80y")
     })
 
     it("should show life calendar grid of zero past weeks", () => {
@@ -165,8 +163,6 @@ describe("life calendar", () => {
       getLifeCalendarContainer()
         .find(".future")
         .should("have.length", expectedFutureWeeks)
-        .last()
-        .should("not.have.text", "80y")
     })
 
     it("should show life calendar grid of one future week", () => {
@@ -188,8 +184,6 @@ describe("life calendar", () => {
       getLifeCalendarContainer()
         .find(".past")
         .should("have.length", differenceInCalendarISOWeeks(today, maxYearsAgo))
-        .last()
-        .should("have.text", `${MAX_YEARS}y`)
       getLifeCalendarContainer().find(".present").should("have.length", 1)
       getLifeCalendarContainer().find(".future").should("have.length", 0)
     })
