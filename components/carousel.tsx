@@ -1,7 +1,8 @@
 import React, { FC } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper"
-import "swiper/swiper.min.css"
+import { Navigation } from "swiper/modules"
+
+import "swiper/css"
 import "swiper/css/navigation"
 
 export type CarouselProps = {
@@ -12,7 +13,7 @@ export type CarouselProps = {
 const Carousel: FC<CarouselProps> = (props) => {
   const swiperStyle: Object = {
     "--swiper-navigation-size": "2rem",
-    "--swiper-navigation-top-offset": "3%",
+    "--swiper-navigation-top-offset": "6%",
     "--swiper-navigation-sides-offset": "5rem",
   }
   return (
