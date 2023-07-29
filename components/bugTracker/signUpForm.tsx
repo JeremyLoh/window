@@ -4,9 +4,10 @@ import React, { FC, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { FormikHelpers, useFormik } from "formik"
 import SignUpSchema from "./formSchema/signUpSchema"
-import { signUpUsingEmail } from "../../lib/db/auth"
-import { getWarningToast } from "../alert/warning"
 import useSession from "../../lib/hooks/useSession"
+import { signUpUsingEmail } from "../../lib/db/auth"
+import { isUsernameTaken } from "../../lib/db/user"
+import { getWarningToast } from "../alert/warning"
 
 type SignUpFormValues = {
   username: string
@@ -29,26 +30,32 @@ const SignUpForm: FC<any> = () => {
     values: SignUpFormValues,
     actions: FormikHelpers<SignUpFormValues>
   ) {
+    const isInvalidUsername = await isUsernameTaken(values.username)
+    if (isInvalidUsername) {
+      await getWarningToast("Username already exists", "Please try another username").fire()
+      return
+    }
     actions.resetForm()
-    // we need to get the location.origin in client component
-    const redirectUrl: string = `${location.origin}/auth/callback`
-    const response = await signUpUsingEmail(
-      {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-      },
-      redirectUrl
-    )
+    const response = await createNewUser(values)
     if (response.error) {
-      await getWarningToast(
-        "Could not create an account",
-        "Please try again later"
-      ).fire()
+      await getWarningToast("Could not create an account", "Please try again later").fire()
       return
     }
     router.refresh()
     router.push("/bugTracker/login")
+  }
+
+  async function createNewUser(values: SignUpFormValues) {
+    // we need to get the location.origin in client component
+    const redirectUrl: string = `${location.origin}/auth/callback`
+    return await signUpUsingEmail(
+      {
+        username: values.username,
+        email: values.email,
+        password: values.password
+      },
+      redirectUrl
+    )
   }
 
   const {
