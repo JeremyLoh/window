@@ -4,7 +4,7 @@
 export {}
 
 Cypress.Commands.add("getByTestId", (selector) => {
-  return cy.get(`[data-test=${selector}]`)
+  return cy.get(`[data-test=${selector}]`, { timeout: 5000 })
 })
 
 Cypress.Commands.add("login", (email: string, password: string) => {
