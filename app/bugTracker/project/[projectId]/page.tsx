@@ -17,7 +17,7 @@ export default async function ProjectIdPage({
   const data = await getData(projectId)
 
   return (
-    <div className="flex h-screen w-full flex-col items-start justify-start gap-y-3">
+    <div className="flex h-screen w-full flex-col items-start justify-start gap-y-3 px-2">
       <ProjectInfo projectId={projectId} />
       <div className="mx-auto w-full lg:px-40">
         <h2 className="lg:text-lg">Issues</h2>
